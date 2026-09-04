@@ -52,7 +52,7 @@ def page(title, body):
 <title>{html.escape(title)}</title><link rel="icon" href="icon-48.png"><style>{CSS}</style></head>
 <body><header><div class="in"><img src="icon-128.png" alt=""><a href="index.html">Case Changer</a>{NAV}</div></header>
 <main>{body}</main>
-<footer>Case Changer is a free add-on for Google Docs. Google Docs and Google Workspace are trademarks of Google LLC. Contact: <a href="mailto:ikhwancardiac@gmail.com">ikhwancardiac@gmail.com</a></footer>
+<footer>Case Changer is a free add-on for Google Docs. Google Docs and Google Workspace are trademarks of Google LLC. Contact: <a href="mailto:workingwithkwan@gmail.com">workingwithkwan@gmail.com</a></footer>
 </body></html>
 """
 
