@@ -16,6 +16,7 @@ Styles: UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, i
 | `assets/` | Official logo (Option A, two-tone Aa): icons 32/48/96/128/512, 220x140 card banner, `logo.svg` source. `assets/logo/` keeps the unused Option B |
 | `guide/PUBLISHING_GUIDE.md` | Step-by-step: run it today (Part A) and publish to the Marketplace (Part B) |
 | `guide/LISTING.md` | Copy for the store listing |
+| `guide/VERIFICATION.md` | OAuth verification checklist, demo video script and scope justifications |
 | `guide/PRIVACY_POLICY.md`, `guide/TERMS_OF_SERVICE.md`, `guide/SUPPORT.md` | Source text for the policy pages |
 | `docs/` | The public website (GitHub Pages): home, privacy policy, terms, support. Rebuild with `python3 guide/build_site.py` |
 
