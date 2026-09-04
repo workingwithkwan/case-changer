@@ -2,7 +2,7 @@
 
 Effective date: 3 September 2026
 
-These terms apply to the Case Changer add-on for Google Docs ("the add-on"), provided by [Your Name] ("we", "us"). By installing or using the add-on you agree to these terms.
+These terms apply to the Case Changer add-on for Google Docs ("the add-on"), provided by Ikhwan Ariff ("we", "us"). By installing or using the add-on you agree to these terms.
 
 ## 1. What the add-on does
 

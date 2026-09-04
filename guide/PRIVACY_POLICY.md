@@ -2,7 +2,7 @@
 
 Effective date: 3 September 2026
 
-Case Changer is a Google Docs add-on made by [Your Name] ("we", "us"). It changes the case of text you select in a Google Docs document, for example to UPPERCASE, lowercase, Title Case or Sentence case.
+Case Changer is a Google Docs add-on made by Ikhwan Ariff ("we", "us"). It changes the case of text you select in a Google Docs document, for example to UPPERCASE, lowercase, Title Case or Sentence case.
 
 ## What the add-on can access
 

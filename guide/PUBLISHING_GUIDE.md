@@ -67,7 +67,7 @@ That is the whole add-on working. Everything after this point is only for publis
 1. Go to https://sites.google.com/new and click the **+** (blank site).
 2. Name the site **Case Changer**. Set the home page title to "Case Changer".
 3. On the home page, paste the short description from `LISTING.md` and a line saying who you are.
-4. Use **Pages** (right panel) to add three pages: **Privacy Policy**, **Terms of Service**, **Support**. Paste the matching text from the `docs` folder into each. Replace `[Your Name]` with your name.
+4. Use **Pages** (right panel) to add three pages: **Privacy Policy**, **Terms of Service**, **Support**. Paste the matching text from the `docs` folder into each. Replace `Ikhwan Ariff` with your name.
 5. Click **Publish** (top right). Choose a web address such as `case-changer`. Click **Publish**.
 6. Your URLs will look like:
    - Home: `https://sites.google.com/view/case-changer`
