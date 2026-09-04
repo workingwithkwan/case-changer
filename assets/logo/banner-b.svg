@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 140" width="220" height="140">
+  <rect width="220" height="140" fill="#0b57d0"/>
+  <path d="M0 0 H120 L84 140 H0 Z" fill="#ffffff"/>
+  <text x="46" y="98" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="84" fill="#0b57d0">a</text>
+  <text x="150" y="98" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="84" fill="#ffffff">A</text>
+</svg>
