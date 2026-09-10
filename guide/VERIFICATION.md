@@ -16,7 +16,9 @@ Google classes `script.container.ui` (the menu-and-sidebar permission) as a sens
 - Done: demo video recorded (2 min 53 s, no audio, browser chrome cropped out) and saved as `assets/casechanger-demo.mp4`. Published on YouTube as Unlisted: https://youtu.be/U-UfWDBC3MM
 - Done: Store Listing saved with all four icons, the card banner, the 1280x800 screenshot, pricing (Free of charge), category (Office Applications) and all support links.
 - Done: app logo (icon-128.png) added on the Branding page and **Verify branding** started (Google checks the name, logo, home page and policy links automatically, up to 5 minutes). The Verification Center will not accept a data-access request until branding is verified.
-- Next: Verification Center > Prepare for verification (video link + the justifications below), then Marketplace SDK > Store Listing > **Submit for review**.
+- Branding check failed three times with "The website of your home page URL ... is not registered to you". Google checks the authorized domain (site root), and GitHub Pages only allowed a sub-folder property. Fix: new repo `workingwithkwan/workingwithkwan.github.io` (redirect page + the same Google verification file), and https://workingwithkwan.github.io/ verified in Search Console. The automated check still failed, so the appeal route was used.
+- Done (10 September 2026, evening): **Submitted for verification.** Scope justification and video link saved on the Data Access page, appeal reason "The finding is incorrect" with an explanation of the Search Console verifications, questionnaire answered (not personal, internal, testing-only or SMTP plugin), both acknowledgements ticked. Verification Center now says "Your branding and data access are currently under review." Google says the Third Party Data Safety Team review takes 2 to 3 business days; watch workingwithkwan@gmail.com and ikhwancardiac@gmail.com for their email.
+- Next: after Google approves, Marketplace SDK > Store Listing > **Submit for review**. Submitting the listing before OAuth verification is complete usually gets a "verification incomplete" rejection, so wait for the email first.
 
 ## Still needed from Ikhwan
 
