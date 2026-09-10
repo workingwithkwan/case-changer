@@ -13,8 +13,9 @@ Google classes `script.container.ui` (the menu-and-sidebar permission) as a sens
 ## Progress (10 September 2026)
 
 - Done: consent screen pushed to **In production** (Audience page shows "Your app requires verification").
-- Done: demo video recorded (2 min 53 s, no audio) and saved as `assets/casechanger-demo.mp4`. Uploaded to YouTube as an Unlisted draft; the link goes into the Verification Center form.
+- Done: demo video recorded (2 min 53 s, no audio, browser chrome cropped out) and saved as `assets/casechanger-demo.mp4`. Published on YouTube as Unlisted: https://youtu.be/U-UfWDBC3MM
 - Done: Store Listing saved with all four icons, the card banner, the 1280x800 screenshot, pricing (Free of charge), category (Office Applications) and all support links.
+- Done: app logo (icon-128.png) added on the Branding page and **Verify branding** started (Google checks the name, logo, home page and policy links automatically, up to 5 minutes). The Verification Center will not accept a data-access request until branding is verified.
 - Next: Verification Center > Prepare for verification (video link + the justifications below), then Marketplace SDK > Store Listing > **Submit for review**.
 
 ## Still needed from Ikhwan
