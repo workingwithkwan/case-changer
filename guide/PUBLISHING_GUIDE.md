@@ -155,11 +155,11 @@ Still in the Marketplace SDK, open the **Store Listing** tab. Copy the wording f
 - Application name: **Case Changer** (names may not contain "Google" or "Docs")
 - Short description: from `LISTING.md`
 - Detailed description: from `LISTING.md`
-- Category: **Productivity** (or Utilities)
+- Category: **Office Applications** (there is no "Productivity" option)
 - Graphic assets: upload `assets/icon-32.png`, `assets/icon-128.png`, `assets/card-banner-220x140.png`, and your screenshot(s)
-- Terms of service URL, Privacy policy URL, Support URL: your three Google Sites pages
+- Terms of service URL, Privacy policy URL, Support URL: your three site pages. Post Install Tip is also required (one sentence telling people to select text and open Extensions > Case Changer)
 - Pricing: **Free**
-- Regions: leave all selected
+- Regions: tick **All Regions**
 - Click **Save**, then **Publish**.
 
 ### B9. Wait for review

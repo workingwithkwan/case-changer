@@ -10,6 +10,13 @@ Google classes `script.container.ui` (the menu-and-sidebar permission) as a sens
 - Authorised domain: workingwithkwan.github.io
 - Scopes on the consent screen: documents.currentonly, script.container.ui
 
+## Progress (10 September 2026)
+
+- Done: consent screen pushed to **In production** (Audience page shows "Your app requires verification").
+- Done: demo video recorded (2 min 53 s, no audio) and saved as `assets/casechanger-demo.mp4`. Uploaded to YouTube as an Unlisted draft; the link goes into the Verification Center form.
+- Done: Store Listing saved with all four icons, the card banner, the 1280x800 screenshot, pricing (Free of charge), category (Office Applications) and all support links.
+- Next: Verification Center > Prepare for verification (video link + the justifications below), then Marketplace SDK > Store Listing > **Submit for review**.
+
 ## Still needed from Ikhwan
 
 1. Click **Publish app** on the consent screen's Audience page (Cloud console > Google Auth Platform > Audience).

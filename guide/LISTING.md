@@ -38,7 +38,11 @@ Currently supports Google Docs.
 
 ## Category
 
-Productivity
+Office Applications
+
+## Post install tip (required)
+
+Highlight some text, then open Extensions > Case Changer and pick a style.
 
 ## Pricing
 
@@ -51,7 +55,7 @@ Free
 | Application icon | icon-32.png | 32x32 |
 | Application icon | icon-128.png | 128x128 |
 | Card banner | card-banner-220x140.png | 220x140 |
-| Screenshot 1 | screenshot-1.png (you take this) | 1280x800 |
+| Screenshot 1 | screenshot-1.png (taken 10 September 2026) | 1280x800 |
 
 ## Support links
 

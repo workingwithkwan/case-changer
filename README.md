@@ -31,6 +31,11 @@ Every transform in `CaseLib.gs` maps one character to exactly one character, so 
 
 The Cloud console classes `script.container.ui` as sensitive, so a public Marketplace listing needs Google OAuth verification (verified homepage domain, policy pages, demo video). Confirmed 4 September 2026.
 
+## Status
+
+10 September 2026: consent screen in production, Store Listing complete, demo video recorded (`assets/casechanger-demo.mp4`, kept out of git). Waiting on OAuth verification and Marketplace review. See `guide/VERIFICATION.md`.
+
 ## Version
 
-1.0.0 (3 September 2026)
+1.0.1 (10 September 2026): sidebar buttons no longer clip their labels (Google's add-on stylesheet forces a fixed button height); heading in sentence case.
+1.0.0 (3 September 2026): first release.
