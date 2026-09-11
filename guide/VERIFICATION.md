@@ -36,9 +36,9 @@ Email "[Action Needed] OAuth Verification Request Acknowledgement" from the Thir
 
 Added a "How your data is protected" section: processing inside Google Apps Script only, no storage or retention, HTTPS/TLS in transit, least-privilege scopes, access control, no third parties, open source, revocation, and a security contact. Live on the site.
 
-### Reply to send to Google once both fixes are live
+### Reply sent to Google (12 September 2026, 1:03am, from ikhwancardiac@gmail.com)
 
-Reply to the acknowledgement email (keep the subject) with:
+Sent as a reply on the acknowledgement thread:
 
 > Hello,
 >
