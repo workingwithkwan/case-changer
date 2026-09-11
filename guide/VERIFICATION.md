@@ -26,9 +26,9 @@ Email "[Action Needed] OAuth Verification Request Acknowledgement" from the Thir
 1. Home page and privacy policy must be on a domain we own. A github.io address is a "third-party hosting platform" and is not accepted.
 2. The privacy policy must describe data protection mechanisms for sensitive data.
 
-### Fix 1: own domain (in progress)
+### Fix 1: own domain (done 12 September 2026)
 
-- Chosen name: **case-changer.app** (casechanger.app is taken). Ikhwan buys it; everything else is done for him.
+- **case-changer.app** bought at Cloudflare on 11 September 2026 (casechanger.app was taken). DNS at Cloudflare: four A records to GitHub Pages (185.199.108-111.153, DNS only), CNAME www -> workingwithkwan.github.io, TXT google-site-verification for Search Console. `docs/CNAME` added; GitHub Pages custom domain with Enforce HTTPS on. Search Console **Domain** property case-changer.app verified (DNS). Cloud console Branding: home page, privacy and terms URLs switched to case-changer.app and case-changer.app added as a second authorized domain (saved with the 'update your verification request' confirmation). Marketplace Store Listing: ToS, privacy, support and help URLs switched; draft saved. Old github.io URLs redirect to the new domain.
 - After purchase: DNS records at the registrar (A records 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153 for the root; CNAME `www` to `workingwithkwan.github.io`), `docs/CNAME` containing `case-changer.app`, GitHub repo Settings > Pages > custom domain + Enforce HTTPS, Search Console **Domain** property verified with the DNS TXT record, then update the home page / privacy / terms URLs and the authorized domain on the Cloud console Branding page, and the same URLs in the Marketplace Store Listing.
 - New URLs will be https://case-changer.app/ , https://case-changer.app/privacy-policy.html , https://case-changer.app/terms-of-service.html , https://case-changer.app/support.html
 

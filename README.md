@@ -18,7 +18,7 @@ Styles: UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, i
 | `guide/LISTING.md` | Copy for the store listing |
 | `guide/VERIFICATION.md` | OAuth verification checklist, demo video script and scope justifications |
 | `guide/PRIVACY_POLICY.md`, `guide/TERMS_OF_SERVICE.md`, `guide/SUPPORT.md` | Source text for the policy pages |
-| `docs/` | The public website (GitHub Pages): home, privacy policy, terms, support. Rebuild with `python3 guide/build_site.py` |
+| `docs/` | The public website at https://case-changer.app (GitHub Pages, custom domain via `docs/CNAME`): home, privacy policy, terms, support. Rebuild with `python3 guide/build_site.py` |
 
 ## How the formatting is preserved
 
