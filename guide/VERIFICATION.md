@@ -19,6 +19,39 @@ Google classes `script.container.ui` (the menu-and-sidebar permission) as a sens
 - Branding check failed three times with "The website of your home page URL ... is not registered to you". Google checks the authorized domain (site root), and GitHub Pages only allowed a sub-folder property. Fix: new repo `workingwithkwan/workingwithkwan.github.io` (redirect page + the same Google verification file), and https://workingwithkwan.github.io/ verified in Search Console. The automated check still failed, so the appeal route was used.
 - Done (10 September 2026, evening): **Submitted for verification.** Scope justification and video link saved on the Data Access page, appeal reason "The finding is incorrect" with an explanation of the Search Console verifications, questionnaire answered (not personal, internal, testing-only or SMTP plugin), both acknowledgements ticked. Verification Center now says "Your branding and data access are currently under review." Google says the Third Party Data Safety Team review takes 2 to 3 business days; watch workingwithkwan@gmail.com and ikhwancardiac@gmail.com for their email.
 - Done (later the same evening): app logo (icon-128.png) saved on the Branding page. Google warned that saving updates the pending verification request; accepted, since the review had only just started.
+## Google's reply (11 September 2026, 1:19pm)
+
+Email "[Action Needed] OAuth Verification Request Acknowledgement" from the Third Party Data Safety Team. Two items to fix, then **reply to that email** to continue:
+
+1. Home page and privacy policy must be on a domain we own. A github.io address is a "third-party hosting platform" and is not accepted.
+2. The privacy policy must describe data protection mechanisms for sensitive data.
+
+### Fix 1: own domain (in progress)
+
+- Chosen name: **case-changer.app** (casechanger.app is taken). Ikhwan buys it; everything else is done for him.
+- After purchase: DNS records at the registrar (A records 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153 for the root; CNAME `www` to `workingwithkwan.github.io`), `docs/CNAME` containing `case-changer.app`, GitHub repo Settings > Pages > custom domain + Enforce HTTPS, Search Console **Domain** property verified with the DNS TXT record, then update the home page / privacy / terms URLs and the authorized domain on the Cloud console Branding page, and the same URLs in the Marketplace Store Listing.
+- New URLs will be https://case-changer.app/ , https://case-changer.app/privacy-policy.html , https://case-changer.app/terms-of-service.html , https://case-changer.app/support.html
+
+### Fix 2: privacy policy (done 11 September 2026)
+
+Added a "How your data is protected" section: processing inside Google Apps Script only, no storage or retention, HTTPS/TLS in transit, least-privilege scopes, access control, no third parties, open source, revocation, and a security contact. Live on the site.
+
+### Reply to send to Google once both fixes are live
+
+Reply to the acknowledgement email (keep the subject) with:
+
+> Hello,
+>
+> Both items have been addressed for project case-changer-507602 (Case Changer):
+>
+> 1. The home page and privacy policy are now hosted on a domain we own, case-changer.app, verified in Google Search Console as a Domain property. Home page: https://case-changer.app/ . Privacy policy: https://case-changer.app/privacy-policy.html . The Branding page in the Cloud console has been updated with these URLs and the authorized domain.
+> 2. The privacy policy now includes a "How your data is protected" section describing the data protection mechanisms (processing only inside Google Apps Script, no storage or retention, encryption in transit, least-privilege scopes, no third parties).
+>
+> The updated verification request has been saved in the Cloud console. Please continue the review.
+>
+> Thank you,
+> Ikhwan Ariff
+
 - Next: after Google approves, Marketplace SDK > Store Listing > **Submit for review**. Submitting the listing before OAuth verification is complete usually gets a "verification incomplete" rejection, so wait for the email first.
 
 ## Still needed from Ikhwan
