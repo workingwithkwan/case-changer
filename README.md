@@ -33,7 +33,7 @@ The Cloud console classes `script.container.ui` as sensitive, so a public Market
 
 ## Status
 
-10 September 2026: consent screen in production, Store Listing complete, demo video recorded (`assets/casechanger-demo.mp4`, kept out of git). OAuth verification submitted 10 September 2026 (under review). Marketplace listing to be submitted once verification is approved. See `guide/VERIFICATION.md`.
+10 September 2026: consent screen in production, Store Listing complete, demo video recorded (`assets/casechanger-demo.mp4`, kept out of git). OAuth verification approved 12 September 2026. Marketplace listing submitted for review the same evening; publishes automatically on approval. See `guide/VERIFICATION.md`.
 
 ## Version
 

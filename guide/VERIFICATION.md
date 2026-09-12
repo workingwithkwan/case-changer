@@ -53,7 +53,10 @@ Sent as a reply on the acknowledgement thread:
 > Ikhwan Ariff
 
 - 12 September 2026: support address set up. support@case-changer.app forwards to casechangersupport@gmail.com via Cloudflare Email Routing (destination verified, rule active, MX/SPF/DKIM records added by Cloudflare). The website, privacy policy, terms, support page and Marketplace listing now show support@case-changer.app. The consent screen's user support email stays ikhwancardiac@gmail.com (Google requires a project owner account there).
-- Next: after Google approves, Marketplace SDK > Store Listing > **Submit for review**. Submitting the listing before OAuth verification is complete usually gets a "verification incomplete" rejection, so wait for the email first.
+## Outcome
+
+- **12 September 2026, 7:31pm: OAuth verification APPROVED** for script.container.ui (email from the Third Party Data Safety Team). Verification Center shows branding and data access both verified. Reminder from Google: any change to the consent screen configuration, or any new scope, needs a new verification request, so leave Branding and Data Access alone unless it is worth a re-review.
+- **12 September 2026, ~7:45pm: Marketplace listing SUBMITTED FOR REVIEW.** The Store Listing is locked while in review ("The draft is in review and can't be edited"). If approved it publishes automatically at https://workspace.google.com/marketplace/app/case_changer/422980989821. Google's review emails go to the Developer Email, which is now support@case-changer.app (forwarded to casechangersupport@gmail.com). Submitting the listing before OAuth verification is complete usually gets a "verification incomplete" rejection, so wait for the email first.
 
 ## Still needed from Ikhwan
 
