@@ -37,13 +37,14 @@ def md_to_html(md):
     return '\n'.join(out)
 
 CSS = """
-:root{color-scheme:light}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#202124;background:#fff;line-height:1.6}
-header{background:#0b57d0;color:#fff}header .in{max-width:860px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:12px}
+:root{color-scheme:dark;--bg:#121417;--surface:#1b1e24;--border:#2c3038;--text:#e6e8eb;--muted:#9aa0a8;--accent:#8ab4f8;--header:#0b57d0}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);line-height:1.6}
+header{background:var(--header);color:#fff}header .in{max-width:860px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:12px}
 header img{width:36px;height:36px;border-radius:9px}header a{color:#fff;text-decoration:none;font-weight:600}header nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}header nav a{font-weight:400;opacity:.92}
-main{max-width:860px;margin:0 auto;padding:24px 20px 48px}h1{font-size:1.9rem;margin:.4em 0}h2{font-size:1.25rem;margin-top:1.6em}code{background:#f1f3f4;padding:1px 5px;border-radius:4px;font-size:.92em}
-a{color:#0b57d0}.hero{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin:16px 0 28px}.hero img{width:128px;height:128px;border-radius:28px}
-.styles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:16px 0}.styles div{border:1px solid #dadce0;border-radius:8px;padding:10px 12px}
-footer{max-width:860px;margin:0 auto;padding:16px 20px 32px;color:#5f6368;font-size:.9rem;border-top:1px solid #e8eaed}
+main{max-width:860px;margin:0 auto;padding:24px 20px 48px}h1{font-size:1.9rem;margin:.4em 0;color:#fff}h2{font-size:1.25rem;margin-top:1.6em;color:#fff}code{background:var(--surface);border:1px solid var(--border);padding:1px 5px;border-radius:4px;font-size:.92em}
+a{color:var(--accent)}strong{color:#fff}.hero{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin:16px 0 28px}.hero img{width:128px;height:128px;border-radius:28px}
+.styles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:16px 0}.styles div{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+footer{max-width:860px;margin:0 auto;padding:16px 20px 32px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border)}
 """
 NAV = '<nav><a href="index.html">Home</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms-of-service.html">Terms of Service</a><a href="support.html">Support</a></nav>'
 def page(title, body):
