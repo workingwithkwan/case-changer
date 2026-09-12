@@ -36,4 +36,4 @@ These terms are governed by the laws of Malaysia.
 
 ## Contact
 
-workingwithkwan@gmail.com
+support@case-changer.app

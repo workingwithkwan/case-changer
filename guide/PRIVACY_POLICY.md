@@ -33,7 +33,7 @@ We treat the content of your document as sensitive data, even though we never ke
 - **Open source.** The complete source code is public at https://github.com/workingwithkwan/case-changer, so anyone can confirm that it does what this policy says.
 - **Revocation.** You can remove the add-on's access at any time (see below). Because nothing is stored, revoking access ends all processing immediately and completely.
 
-If you believe there has been a security problem with Case Changer, email workingwithkwan@gmail.com and we will respond within 7 days.
+If you believe there has been a security problem with Case Changer, email support@case-changer.app and we will respond within 7 days.
 
 ## Google API Services User Data Policy
 
@@ -49,4 +49,4 @@ If this policy changes, the new version will be posted on this page with a new e
 
 ## Contact
 
-Questions about this policy can be sent to workingwithkwan@gmail.com.
+Questions about this policy can be sent to support@case-changer.app.

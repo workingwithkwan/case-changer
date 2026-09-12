@@ -29,4 +29,4 @@ No. The text is changed inside Google's own servers and written straight back in
 
 ## Contact
 
-Email workingwithkwan@gmail.com with "Case Changer" in the subject line. Please describe what you selected, which style you chose and what happened.
+Email support@case-changer.app with "Case Changer" in the subject line. Please describe what you selected, which style you chose and what happened.

@@ -52,6 +52,7 @@ Sent as a reply on the acknowledgement thread:
 > Thank you,
 > Ikhwan Ariff
 
+- 12 September 2026: support address set up. support@case-changer.app forwards to casechangersupport@gmail.com via Cloudflare Email Routing (destination verified, rule active, MX/SPF/DKIM records added by Cloudflare). The website, privacy policy, terms, support page and Marketplace listing now show support@case-changer.app. The consent screen's user support email stays ikhwancardiac@gmail.com (Google requires a project owner account there).
 - Next: after Google approves, Marketplace SDK > Store Listing > **Submit for review**. Submitting the listing before OAuth verification is complete usually gets a "verification incomplete" rejection, so wait for the email first.
 
 ## Still needed from Ikhwan
