@@ -80,6 +80,12 @@ eq('long caps word not acronym', C('the MINISTRY said', 'sentence', KA), 'The mi
 eq('mixed heading kept', C('NASA HQ visit report', 'title', KA), 'NASA HQ Visit Report');
 eq('acronym list treated as shouting', C('NASA KL UMNO', 'sentence', KA), 'Nasa kl umno');
 eq('two caps words not shouting', C('NASA KL', 'sentence', KA), 'NASA KL');
+eq('caps run with long word is shouting', C('MESYUARAT AGUNG TAHUNAN: cadangan dan keputusan', 'title', {language:'ms'}), 'Mesyuarat Agung Tahunan: Cadangan dan Keputusan');
+eq('caps run short words kept', C('visit NASA HQ soon', 'title', KA), 'Visit NASA HQ Soon');
+eq('caps run mixed keeps separate acronym', C('the ANNUAL REPORT by KL staff', 'sentence', KA), 'The annual report by KL staff');
+eq('caps run short total kept', C('see COVID HTML notes', 'sentence', KA), 'See COVID HTML notes');
+eq('caps run unesco kept', C('at UNESCO HQ today', 'sentence', KA), 'At UNESCO HQ today');
+eq('please note fixed', C('PLEASE NOTE the change', 'sentence', KA), 'Please note the change');
 eq('single cap letter not acronym', C('plan A failed', 'sentence', KA), 'Plan a failed');
 eq('acronym default on', C('the NASA team', 'sentence'), 'The NASA team');
 eq('upper unaffected by acronyms', C('the NASA team', 'upper', KA), 'THE NASA TEAM');

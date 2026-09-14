@@ -60,18 +60,34 @@ var CaseLib = (function () {
   }
   function restoreAcronyms(original, chars) {
     if (!current.keepAcronyms || isShouting(original)) return chars;
-    var re = /\p{L}[\p{L}\p{N}]*/gu, m;
+    // Collect words with their capitalisation, in order.
+    var re = /\p{L}[\p{L}\p{N}]*/gu, m, words = [];
     while ((m = re.exec(original)) !== null) {
-      var word = m[0], letters = 0, allCaps = true;
-      for (var i = 0; i < word.length; i++) {
-        var ch = word[i];
+      var letters = 0, allCaps = true;
+      for (var i = 0; i < m[0].length; i++) {
+        var ch = m[0][i];
         if (!isLetter(ch)) continue;
         letters++;
-        if (ch !== ch.toUpperCase() || ch === ch.toLowerCase()) { allCaps = false; break; }
+        if (ch !== ch.toUpperCase() || ch === ch.toLowerCase()) { allCaps = false; }
       }
-      if (allCaps && letters >= 2 && letters <= 6) {
-        for (var j = 0; j < word.length; j++) chars[m.index + j] = original[m.index + j];
-      }
+      words.push({ start: m.index, text: m[0], letters: letters, caps: allCaps && letters >= 2 });
+    }
+    // A run of two or more consecutive capitalised words is a shouted phrase,
+    // not a list of acronyms, when it contains a long word (7+ letters) or
+    // adds up to 10 or more letters: "MESYUARAT AGUNG TAHUNAN" and
+    // "ANNUAL REPORT" are fixed as a whole, "NASA HQ" and "COVID HTML" are kept.
+    var w = 0;
+    while (w < words.length) {
+      if (!words[w].caps) { w++; continue; }
+      var end = w, hasLong = false, total = 0;
+      while (end < words.length && words[end].caps) { if (words[end].letters > 6) hasLong = true; total += words[end].letters; end++; }
+      if (end - w >= 2 && (hasLong || total >= 10)) for (var k = w; k < end; k++) words[k].caps = false;
+      w = end;
+    }
+    for (var q = 0; q < words.length; q++) {
+      var word = words[q];
+      if (!word.caps || word.letters > 6) continue;
+      for (var j = 0; j < word.text.length; j++) chars[word.start + j] = original[word.start + j];
     }
     return chars;
   }
