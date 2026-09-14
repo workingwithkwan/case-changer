@@ -20,7 +20,7 @@ Status 16 September 2026: built, loaded into the Apps Script project and tested 
 | Docs | Nothing selected, menu: prompt with "document"; Yes converts the whole document incl. the email line | Pass |
 | Sheets | Blank cell selected, menu: prompt with "sheet"; Yes converts every text cell, number and date untouched | Pass |
 | Slides | Nothing selected, menu: prompt with "presentation"; Yes converts both slides | Pass |
-| Docs | Whole-document Sentence case with a URL and an email in the text | see note below |
+| Docs | Whole-document Sentence case with a URL and an email in the text | Pass: both addresses stay exactly as typed, "e.g." and "I" handled |
 | Sidebar | Settings section renders; toggles and whole-file button | Hand test by Ikhwan pending (frame not reachable by automation) |
 
 ## Store listing additions for 1.2
