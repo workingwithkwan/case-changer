@@ -20,6 +20,12 @@ Status 15 September 2026: code written, pasted into the Apps Script project and 
 | Slides | Whole text box: UPPERCASE, lowercase, Capitalize Each Word, iNVERSE cASE | Pass |
 | Slides | Bold word inside a text box | Bold kept after iNVERSE cASE |
 | Slides | 2x2 table selected: Title Case | All cells pass |
+| Sheets | Multi-range selection (Cmd-click A1, B1, B2): UPPERCASE | Pass: both text cells changed |
+| Sheets | Date cell inside the selection | Untouched |
+| Docs | Regression after the host-aware refactor: whole document UPPERCASE and Title Case from the menu | Pass |
+| Docs | Title Case on a line with an email address and a web address | Both left intact, links kept |
+| Slides | Title box and table selected together: lowercase | Pass, both changed |
+| Engine | `tests/caselib_fuzz.js`: 5,989 checks incl. 400 random strings | 0 failures after two fixes (abbreviations in Sentence case; emails and URLs in Title Case) |
 | Both | Extensions menu and sidebar appear | Pass |
 | Both | Sidebar buttons | Pass (hand-tested by Ikhwan, 15 September 2026) |
 | Slides | Highlighted word only (partial selection), via the sidebar | Pass: only the highlighted word changed. Note: the Extensions menu drops a text selection in Slides and converts the whole box instead, which is Slides behaviour, not a bug |
