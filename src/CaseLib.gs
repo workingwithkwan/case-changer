@@ -51,7 +51,7 @@ var CaseLib = (function () {
         letters++;
         if (ch !== ch.toUpperCase() || ch === ch.toLowerCase()) { allCaps = false; }
       }
-      words.push({ start: m.index, text: m[0], letters: letters, caps: allCaps && letters >= 2 });
+      words.push({ start: m.index, text: m[0], letters: letters, caps: allCaps });
     }
     // A run of two or more consecutive capitalised words is a shouted phrase,
     // not a list of acronyms, when it contains a long word (7+ letters) or
@@ -72,7 +72,7 @@ var CaseLib = (function () {
     if (totalWords >= 3 && capsLeft / totalWords >= 0.6) return chars;
     for (var q = 0; q < words.length; q++) {
       var word = words[q];
-      if (!word.caps || word.letters > 6) continue;
+      if (!word.caps || word.letters < 2 || word.letters > 6) continue;
       for (var j = 0; j < word.text.length; j++) chars[word.start + j] = original[word.start + j];
     }
     return chars;
