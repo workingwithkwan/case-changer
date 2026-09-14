@@ -86,6 +86,9 @@ eq('caps run mixed keeps separate acronym', C('the ANNUAL REPORT by KL staff', '
 eq('caps run short total kept', C('see COVID HTML notes', 'sentence', KA), 'See COVID HTML notes');
 eq('caps run unesco kept', C('at UNESCO HQ today', 'sentence', KA), 'At UNESCO HQ today');
 eq('please note fixed', C('PLEASE NOTE the change', 'sentence', KA), 'Please note the change');
+eq('run fixed but lone acronym kept (en)', C('MESYUARAT AGUNG TAHUNAN oleh jabatan DBP', 'title'), 'Mesyuarat Agung Tahunan Oleh Jabatan DBP');
+eq('run fixed but lone acronym kept (ms)', C('MESYUARAT AGUNG TAHUNAN oleh jabatan DBP', 'title', {language:'ms'}), 'Mesyuarat Agung Tahunan oleh Jabatan DBP');
+eq('mostly caps singles is shouting', C('ONE big TWO big SIX', 'sentence', KA), 'One big two big six');
 eq('single cap letter not acronym', C('plan A failed', 'sentence', KA), 'Plan a failed');
 eq('acronym default on', C('the NASA team', 'sentence'), 'The NASA team');
 eq('upper unaffected by acronyms', C('the NASA team', 'upper', KA), 'THE NASA TEAM');

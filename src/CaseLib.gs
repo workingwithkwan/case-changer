@@ -39,27 +39,8 @@ var CaseLib = (function () {
   // Case and Capitalize Each Word. Skipped when the whole text is shouting
   // (mostly capitals and at least 12 letters), because then the capitals are
   // not acronyms, they are the thing the user wants to fix.
-  function isShouting(s) {
-    // Shouting = at least three words of two or more letters, and 60% or
-    // more of them written entirely in capitals. Counting words rather than
-    // letters keeps the result stable: converting never creates such words.
-    var re = /\p{L}[\p{L}\p{N}]*/gu, m, words = 0, caps = 0;
-    while ((m = re.exec(s)) !== null) {
-      var letters = 0, allCaps = true;
-      for (var i = 0; i < m[0].length; i++) {
-        var ch = m[0][i];
-        if (!isLetter(ch)) continue;
-        letters++;
-        if (ch !== ch.toUpperCase() || ch === ch.toLowerCase()) allCaps = false;
-      }
-      if (letters < 2) continue;
-      words++;
-      if (allCaps) caps++;
-    }
-    return words >= 3 && caps / words >= 0.6;
-  }
   function restoreAcronyms(original, chars) {
-    if (!current.keepAcronyms || isShouting(original)) return chars;
+    if (!current.keepAcronyms) return chars;
     // Collect words with their capitalisation, in order.
     var re = /\p{L}[\p{L}\p{N}]*/gu, m, words = [];
     while ((m = re.exec(original)) !== null) {
@@ -84,6 +65,11 @@ var CaseLib = (function () {
       if (end - w >= 2 && (hasLong || total >= 10)) for (var k = w; k < end; k++) words[k].caps = false;
       w = end;
     }
+    // If most of the text is still capitalised words after that, the whole
+    // thing is shouting and nothing is an acronym.
+    var totalWords = 0, capsLeft = 0;
+    for (var c = 0; c < words.length; c++) { if (words[c].letters >= 2) { totalWords++; if (words[c].caps) capsLeft++; } }
+    if (totalWords >= 3 && capsLeft / totalWords >= 0.6) return chars;
     for (var q = 0; q < words.length; q++) {
       var word = words[q];
       if (!word.caps || word.letters > 6) continue;
