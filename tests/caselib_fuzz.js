@@ -19,6 +19,14 @@ eq('sentence initials', C('meet j. k. rowling. she wrote', 'sentence'), 'Meet j.
 eq('sentence U.S.', C('THE U.S. TEAM WON. GREAT', 'sentence'), 'The u.s. team won. Great');
 eq('sentence i pronoun still', C('what i said. i meant it', 'sentence'), 'What I said. I meant it');
 eq('sentence i at end', C('so did i', 'sentence'), 'So did I');
+eq('sentence url intact', C('visit www.case-changer.app today. thanks', 'sentence'), 'Visit www.case-changer.app today. Thanks');
+eq('sentence email intact', C('MAIL SUPPORT@CASE-CHANGER.APP NOW. OK', 'sentence'), 'Mail SUPPORT@CASE-CHANGER.APP now. Ok');
+eq('sentence decimal', C('it costs 3.5 dollars. cheap', 'sentence'), 'It costs 3.5 dollars. Cheap');
+eq('sentence version', C('use v1.2 now. done', 'sentence'), 'Use v1.2 now. Done');
+eq('sentence question inside token', C('why?not. next', 'sentence'), 'Why?not. Next');
+eq('sentence still ends at space', C('end here. next one', 'sentence'), 'End here. Next one');
+eq('sentence ends before quote', C('he said "go." then left', 'sentence'), 'He said "go." Then left');
+eq('sentence ends at newline', C('line one\nline two', 'sentence'), 'Line one\nLine two');
 eq('title url', C('visit https://Example.com/Path now', 'title'), 'Visit https://Example.com/Path Now');
 eq('title www', C('see www.case-changer.app for help', 'title'), 'See www.case-changer.app for Help');
 eq('title domain', C('go to case-changer.app today', 'title'), 'Go to case-changer.app Today');

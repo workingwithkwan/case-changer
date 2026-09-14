@@ -19,6 +19,11 @@ var SheetsCase = (function () {
       if (single) ranges = [single];
     }
     if (!ranges.length) throw noSelectionError('Select the cells you want to change first.');
+    // Sheets always has a selected cell. A single blank cell counts as
+    // "nothing selected" so the caller can offer the whole sheet instead.
+    if (ranges.length === 1 && ranges[0].getNumRows() === 1 && ranges[0].getNumColumns() === 1 && ranges[0].isBlank()) {
+      throw noSelectionError('Nothing is selected.');
+    }
 
     var changed = 0;
     for (var i = 0; i < ranges.length; i++) changed += convertRange(ranges[i], mode, opts);

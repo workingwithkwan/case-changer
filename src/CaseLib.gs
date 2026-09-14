@@ -185,7 +185,10 @@ var CaseLib = (function () {
         // A full stop right after a one-letter word is an abbreviation or an
         // initial (e.g., i.e., U.S., J. K.), not the end of a sentence.
         var abbrev = ch === '.' && i >= 1 && isLetter(chars[i - 1]) && (i === 1 || !isWordChar(chars[i - 2]));
-        if (!abbrev) needCap = true;
+        // Punctuation followed directly by a word character is inside a token
+        // (case-changer.app, 3.5, v1.2, why?not), not the end of a sentence.
+        var inToken = ch !== '\n' && ch !== '\r' && i + 1 < chars.length && isWordChar(chars[i + 1]);
+        if (!abbrev && !inToken) needCap = true;
       } else if (/\p{N}/u.test(ch)) {
         needCap = false; // "3 apples were left." - the number starts the sentence
       }
@@ -198,7 +201,7 @@ var CaseLib = (function () {
         if (prevOk && nextOk) chars[i] = 'I';
       }
     }
-    return restoreAcronyms(s, chars).join('');
+    return restoreAcronyms(s, restoreProtected(s, chars)).join('');
   }
 
   var MODES = {
