@@ -1,6 +1,6 @@
 # Case Changer 1.1.0: Google Sheets™ and Google Slides™ support
 
-Status 15 September 2026: code written, pasted into the Apps Script project and tested through the test deployment. Not yet released. Do not publish until the current Marketplace review of 1.0.1 has finished.
+Status 15 September 2026: code written, pasted into the Apps Script project and tested through the test deployment. Full bug-test round completed the same day (see table); the Apps Script project holds the fixed CaseLib.gs and SlidesCase.gs. Not yet released. Do not publish until the current Marketplace review of 1.0.1 has finished.
 
 ## What changed in the code
 
@@ -27,6 +27,7 @@ Status 15 September 2026: code written, pasted into the Apps Script project and 
 | Slides | Title box and table selected together: lowercase | Pass, both changed |
 | Slides | Two table cells selected (one column): Sentence case | Pass: only those cells changed |
 | Slides | Caret inside a cell with nothing highlighted | Nothing changes, no error (expected) |
+| Slides | Bulleted body placeholder, three paragraphs: Sentence case | Pass: bullets and paragraph breaks kept, each line sentence-cased |
 | Engine | `tests/caselib_fuzz.js`: 5,989 checks incl. 400 random strings | 0 failures after two fixes (abbreviations in Sentence case; emails and URLs in Title Case) |
 | Both | Extensions menu and sidebar appear | Pass |
 | Both | Sidebar buttons | Pass (hand-tested by Ikhwan, 15 September 2026) |
