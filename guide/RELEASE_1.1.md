@@ -21,8 +21,8 @@ Status 15 September 2026: code written, pasted into the Apps Script project and 
 | Slides | Bold word inside a text box | Bold kept after iNVERSE cASE |
 | Slides | 2x2 table selected: Title Case | All cells pass |
 | Both | Extensions menu and sidebar appear | Pass |
-| Both | Sidebar buttons | Not testable by automation (cross-origin frame); test by hand |
-| Slides | Highlighted words only (partial selection) | Test by hand from the sidebar; the menu drops the text selection |
+| Both | Sidebar buttons | Pass (hand-tested by Ikhwan, 15 September 2026) |
+| Slides | Highlighted word only (partial selection), via the sidebar | Pass: only the highlighted word changed. Note: the Extensions menu drops a text selection in Slides and converts the whole box instead, which is Slides behaviour, not a bug |
 
 ## Release steps (after the 1.0.1 review is approved)
 
