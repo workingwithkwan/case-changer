@@ -8,11 +8,11 @@ Case Changer
 
 ## Short description (max 200 characters)
 
-Change selected text to UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, iNVERSE or aLtErNaTiNg cAsE, without losing bold, links or colours.
+Change selected text in Google Docs™ to UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, iNVERSE or aLtErNaTiNg cAsE, keeping bold, links and colours.
 
 ## Detailed description (max 16,000 characters)
 
-Case Changer fixes the case of any text in your document in one click.
+Case Changer fixes the case of any text in your Google Docs™ document in one click.
 
 Highlight the text, then pick a style from the Extensions menu or the sidebar:
 
@@ -34,7 +34,9 @@ What makes it different:
 
 Tip: made a mistake? Press Cmd+Z or Ctrl+Z to undo, just like any other edit.
 
-Currently supports Google Docs.
+Currently supports Google Docs™.
+
+Google Docs™ and Google Workspace™ are trademarks of Google LLC.
 
 ## Category
 
