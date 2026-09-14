@@ -93,3 +93,4 @@ Case Changer is a free Google Docs add-on that changes the case of selected text
 ## After verification is granted
 
 Cloud console > Marketplace SDK > Store Listing > **Submit for review**. Google's Marketplace team reviews public listings, usually within a few days.
+- **14 September 2026, 8:05pm: Marketplace review started** (email from the GWM Reviews Team to support@case-changer.app). Replied the same evening from casechangersupport@gmail.com: no test credentials needed, nothing to allowlist, demo video link, OAuth approval on 12 September, and how to test.
