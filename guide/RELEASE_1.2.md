@@ -15,7 +15,8 @@ Status 16 September 2026: built, loaded into the Apps Script project and tested 
 
 | Where | Test | Result |
 |---|---|---|
-| Engine | `tests/caselib_fuzz.js`, now 5,171 checks incl. acronyms, presets, extra words, shouting, URLs and decimals | 0 failures |
+| Engine | `tests/caselib_fuzz.js`, now 5,177 checks incl. acronyms, presets, extra words, shouting, URLs and decimals | 0 failures |
+| Engine | `tests/language_words.js`, 1.89 million checks: every English dictionary word in all seven styles, 516 Malay and Indonesian words with the presets, accented and non-Latin words | 0 failures after one refinement: a run of two or more capital words with a long word or 10+ letters in total is treated as shouting ("MESYUARAT AGUNG TAHUNAN", "ANNUAL REPORT" get fixed; "NASA HQ", "COVID HTML" are kept) |
 | Slides | "the NASA and KL teams met UMNO at HQ" to Sentence case | "The NASA and KL teams met UMNO at HQ" |
 | Docs | Nothing selected, menu: prompt with "document"; Yes converts the whole document incl. the email line | Pass |
 | Sheets | Blank cell selected, menu: prompt with "sheet"; Yes converts every text cell, number and date untouched | Pass |
