@@ -6,10 +6,12 @@
  *   - one or more shapes, tables or groups selected (PAGE_ELEMENT selection)
  *   - table cells selected (TABLE_CELL selection)
  *
- * The whole selected string is converted at once (so Sentence case and
- * Title Case see complete sentences), then written back run by run so that
- * each run keeps its own style. Runs are addressed by their own relative
- * offsets, which avoids any ambiguity about absolute indices.
+ * The selected string is converted in one go (so Sentence case and Title
+ * Case see complete sentences), then written back one style run at a time so
+ * each run keeps its own style. Every write is addressed by absolute
+ * position in the containing shape's full text and applied from the end
+ * backwards, because sub-ranges derived from runs proved unreliable to write
+ * through.
  */
 var SlidesCase = (function () {
   'use strict';
@@ -21,10 +23,10 @@ var SlidesCase = (function () {
     var changed = 0;
 
     if (type === T.TEXT) {
-      changed = convertTextRange(selection.getTextRange(), mode);
+      changed = convertSelectedText(selection, mode);
     } else if (type === T.TABLE_CELL) {
       var cells = selection.getTableCellRange().getTableCells();
-      for (var i = 0; i < cells.length; i++) changed += convertTextRange(cells[i].getText(), mode);
+      for (var i = 0; i < cells.length; i++) changed += convertWhole(cells[i].getText(), mode);
     } else if (type === T.PAGE_ELEMENT) {
       var elements = selection.getPageElementRange().getPageElements();
       for (var j = 0; j < elements.length; j++) changed += convertPageElement(elements[j], mode);
@@ -34,10 +36,48 @@ var SlidesCase = (function () {
     return changed;
   }
 
+  /** Text highlighted inside a shape or a table cell. */
+  function convertSelectedText(selection, mode) {
+    var sel = selection.getTextRange();
+    if (!sel) return 0;
+    var selText = sel.asString();
+    if (!selText) return 0;
+
+    // Find the full text range of the container (shape or table cell).
+    var full = null;
+    var cellRange = selection.getTableCellRange();
+    if (cellRange) {
+      var cells = cellRange.getTableCells();
+      if (cells.length) full = cells[0].getText();
+    }
+    if (!full) {
+      var per = selection.getPageElementRange();
+      var els = per ? per.getPageElements() : [];
+      if (els.length && els[0].getPageElementType() === SlidesApp.PageElementType.SHAPE) {
+        full = els[0].asShape().getText();
+      }
+    }
+    if (!full) {
+      // Unknown container: convert the selection as one range.
+      return convertWhole(sel, mode);
+    }
+
+    var fullText = full.asString();
+    var start = sel.getStartIndex();
+    var end = sel.getEndIndex();
+    // Sanity check the indices against the text; fall back to a search.
+    if (fullText.substring(start, end) !== selText) {
+      var at = fullText.indexOf(selText);
+      if (at < 0 || fullText.indexOf(selText, at + 1) >= 0) return convertWhole(sel, mode);
+      start = at; end = at + selText.length;
+    }
+    return convertSpan(full, start, end, mode);
+  }
+
   function convertPageElement(el, mode) {
     var PT = SlidesApp.PageElementType;
     var kind = el.getPageElementType();
-    if (kind === PT.SHAPE) return convertTextRange(el.asShape().getText(), mode);
+    if (kind === PT.SHAPE) return convertWhole(el.asShape().getText(), mode);
     if (kind === PT.TABLE) {
       var table = el.asTable(), n = 0;
       for (var r = 0; r < table.getNumRows(); r++) {
@@ -45,7 +85,7 @@ var SlidesCase = (function () {
           var cell = table.getCell(r, c);
           // Merged cells report the head cell; skip the covered ones.
           if (cell.getMergeState() === SlidesApp.CellMergeState.MERGED) continue;
-          n += convertTextRange(cell.getText(), mode);
+          n += convertWhole(cell.getText(), mode);
         }
       }
       return n;
@@ -58,52 +98,55 @@ var SlidesCase = (function () {
     return 0; // images, lines, videos, etc.
   }
 
-  /** Converts one TextRange, keeping every run's style. Returns characters changed. */
-  function convertTextRange(textRange, mode) {
-    if (!textRange) return 0;
-    var full = textRange.asString();
+  /** Converts all of a container's text. */
+  function convertWhole(full, mode) {
     if (!full) return 0;
-    var converted = CaseLib.convert(full, mode);
-    if (converted === full) return 0;
+    var text = full.asString();
+    return text ? convertSpan(full, 0, text.length, mode) : 0;
+  }
 
-    var runs = textRange.getRuns();
-    var pos = 0, changed = 0, runsCover = true;
-    var pieces = [];
+  /**
+   * Converts full[start, end) keeping every style run. `full` must be the
+   * complete text range of a shape or table cell so that run indices and
+   * getRange() offsets share one coordinate system.
+   */
+  function convertSpan(full, start, end, mode) {
+    var fullText = full.asString();
+    if (start < 0) start = 0;
+    if (end > fullText.length) end = fullText.length;
+    if (end <= start) return 0;
+
+    var original = fullText.substring(start, end);
+    var converted = CaseLib.convert(original, mode);
+    if (converted === original) return 0;
+
+    var runs = full.getRuns();
+    var edits = [];
     for (var i = 0; i < runs.length; i++) {
-      var runText = runs[i].asString();
-      pieces.push({ run: runs[i], text: runText, start: pos });
-      pos += runText.length;
+      var a = Math.max(runs[i].getStartIndex(), start);
+      var b = Math.min(runs[i].getEndIndex(), end);
+      if (b <= a) continue;
+      var oldText = fullText.substring(a, b);
+      var newText = converted.substr(a - start, b - a);
+      // Never rewrite a paragraph break: it carries list and paragraph formatting.
+      if (oldText.charAt(oldText.length - 1) === '\n') {
+        b -= 1; oldText = oldText.slice(0, -1); newText = newText.slice(0, -1);
+      }
+      if (b <= a || oldText === newText) continue;
+      edits.push({ a: a, b: b, text: newText });
     }
-    if (pos !== full.length) runsCover = false;
+    if (!edits.length) {
+      // No runs reported (should not happen); write the span in one go.
+      full.getRange(start, end).setText(converted);
+      return end - start;
+    }
 
-    if (runsCover) {
-      for (var p = 0; p < pieces.length; p++) {
-        var piece = pieces[p];
-        var oldText = piece.text;
-        var newText = converted.substr(piece.start, oldText.length);
-        if (newText === oldText) continue;
-        // Never rewrite the paragraph break at the end of a run: it carries
-        // list and paragraph formatting. Replace the characters before it.
-        var end = oldText.length;
-        if (oldText.charAt(end - 1) === '\n') end -= 1;
-        if (end <= 0) continue;
-        var target = piece.run.getRange(0, end);
-        if (target) target.setText(newText.substring(0, end));
-        changed += end;
-      }
-    } else {
-      // Fallback: convert each run on its own (still keeps styles).
-      for (var q = 0; q < runs.length; q++) {
-        var t = runs[q].asString();
-        var end2 = t.length;
-        if (t.charAt(end2 - 1) === '\n') end2 -= 1;
-        if (end2 <= 0) continue;
-        var c2 = CaseLib.convert(t.substring(0, end2), mode);
-        if (c2 === t.substring(0, end2)) continue;
-        var target2 = runs[q].getRange(0, end2);
-        if (target2) target2.setText(c2);
-        changed += end2;
-      }
+    // Apply from the end so earlier edits cannot shift later positions.
+    edits.sort(function (x, y) { return y.a - x.a; });
+    var changed = 0;
+    for (var e = 0; e < edits.length; e++) {
+      full.getRange(edits[e].a, edits[e].b).setText(edits[e].text);
+      changed += edits[e].b - edits[e].a;
     }
     return changed;
   }
