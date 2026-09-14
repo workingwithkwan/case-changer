@@ -54,15 +54,33 @@ var CaseLib = (function () {
     });
   }
 
+  // Tokens that must not be re-cased by Title Case or Capitalize Each Word:
+  // email addresses, URLs and bare domain names. Returned as [start, end] pairs.
+  var PROTECTED = /^(?:[^\s@]+@[^\s@]+|[a-z][a-z0-9+.-]*:\/\/\S+|www\.\S+|[\w-]+(?:\.[\w-]+)*\.(?:com|net|org|io|app|my|co|edu|gov|dev|uk|info|biz)(?:\/\S*)?)$/i;
+  function protectedSpans(s) {
+    var spans = [], re = /\S+/g, m;
+    while ((m = re.exec(s)) !== null) {
+      if (PROTECTED.test(m[0])) spans.push([m.index, m.index + m[0].length]);
+    }
+    return spans;
+  }
+  function restoreProtected(original, chars) {
+    var spans = protectedSpans(original);
+    for (var k = 0; k < spans.length; k++) {
+      for (var i = spans[k][0]; i < spans[k][1]; i++) chars[i] = original[i];
+    }
+    return chars;
+  }
+
   // Capitalise the first letter of every word; everything else lowercase.
   function capitalizeEachWord(s) {
-    var out = '';
+    var out = [];
     for (var i = 0; i < s.length; i++) {
       var ch = s[i];
       var startOfWord = isLetter(ch) && (i === 0 || !isWordChar(s[i - 1]));
-      out += startOfWord ? up(ch) : low(ch);
+      out.push(startOfWord ? up(ch) : low(ch));
     }
-    return out;
+    return restoreProtected(s, out).join('');
   }
 
   // Smart title case: like capitalizeEachWord, but short function words stay
@@ -91,7 +109,7 @@ var CaseLib = (function () {
         if (isLetter(ch) && (i === word.start || chars[i - 1] === '-')) chars[i] = up(ch);
       }
     }
-    return chars.join('');
+    return restoreProtected(s, chars).join('');
   }
 
   // Sentence case: lowercase everything, capitalise the first letter of each
@@ -104,7 +122,10 @@ var CaseLib = (function () {
       if (isLetter(ch)) {
         if (needCap) { chars[i] = up(ch); needCap = false; }
       } else if (SENTENCE_END.test(ch)) {
-        needCap = true;
+        // A full stop right after a one-letter word is an abbreviation or an
+        // initial (e.g., i.e., U.S., J. K.), not the end of a sentence.
+        var abbrev = ch === '.' && i >= 1 && isLetter(chars[i - 1]) && (i === 1 || !isWordChar(chars[i - 2]));
+        if (!abbrev) needCap = true;
       } else if (/\p{N}/u.test(ch)) {
         needCap = false; // "3 apples were left." - the number starts the sentence
       }
@@ -112,6 +133,8 @@ var CaseLib = (function () {
         var prevOk = i === 0 || !isWordChar(chars[i - 1]);
         var next = chars[i + 1];
         var nextOk = next === undefined || !isWordChar(next) || next === "'" || next === '’';
+        // "i.e." is not the pronoun.
+        if (next === '.' && isLetter(chars[i + 2] || '')) nextOk = false;
         if (prevOk && nextOk) chars[i] = 'I';
       }
     }
