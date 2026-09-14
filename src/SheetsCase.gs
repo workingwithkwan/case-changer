@@ -10,7 +10,7 @@
 var SheetsCase = (function () {
   'use strict';
 
-  function apply(mode) {
+  function apply(mode, opts) {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var rangeList = ss.getActiveRangeList();
     var ranges = rangeList ? rangeList.getRanges() : [];
@@ -21,11 +21,18 @@ var SheetsCase = (function () {
     if (!ranges.length) throw noSelectionError('Select the cells you want to change first.');
 
     var changed = 0;
-    for (var i = 0; i < ranges.length; i++) changed += convertRange(ranges[i], mode);
+    for (var i = 0; i < ranges.length; i++) changed += convertRange(ranges[i], mode, opts);
     return changed;
   }
 
-  function convertRange(range, mode) {
+  /** Every text cell on the active sheet. */
+  function applyWhole(mode, opts) {
+    var sheet = SpreadsheetApp.getActiveSheet();
+    var range = sheet.getDataRange();
+    return range ? convertRange(range, mode, opts) : 0;
+  }
+
+  function convertRange(range, mode, opts) {
     var values = range.getValues();
     var formulas = range.getFormulas();
     var rich = range.getRichTextValues();
@@ -38,7 +45,7 @@ var SheetsCase = (function () {
         if (typeof v !== 'string' || !v) continue;           // numbers, dates, booleans, blanks
         var rt = rich[r][c];
         var text = rt ? rt.getText() : v;
-        var converted = CaseLib.convert(text, mode);
+        var converted = CaseLib.convert(text, mode, opts);
         if (converted === text) continue;
 
         var builder = SpreadsheetApp.newRichTextValue().setText(converted);
@@ -58,5 +65,5 @@ var SheetsCase = (function () {
     return changed;
   }
 
-  return { apply: apply };
+  return { apply: apply, applyWhole: applyWhole };
 })();

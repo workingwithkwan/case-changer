@@ -69,7 +69,56 @@ function menuAlternating() { runFromMenu('alternating'); }
 
 function runFromMenu(mode) {
   var result = applyCase(mode);
-  if (!result.ok) { var ui = getUi(); ui.alert(ADDON_TITLE, result.message, ui.ButtonSet.OK); }
+  if (result.ok) return;
+  var ui = getUi();
+  if (result.needWhole) {
+    var answer = ui.alert(ADDON_TITLE, 'Nothing is selected. Change the entire ' + fileNoun() + ' instead?', ui.ButtonSet.YES_NO);
+    if (answer === ui.Button.YES) {
+      var r2 = applyCaseWhole(mode);
+      if (!r2.ok) ui.alert(ADDON_TITLE, r2.message, ui.ButtonSet.OK);
+    }
+    return;
+  }
+  ui.alert(ADDON_TITLE, result.message, ui.ButtonSet.OK);
+}
+
+function fileNoun() {
+  var host = getHost();
+  return host === 'sheets' ? 'sheet' : host === 'slides' ? 'presentation' : 'document';
+}
+
+/* ---------- Settings (per user, stored by Apps Script, no extra permission) ---------- */
+
+var DEFAULT_SETTINGS = { keepAcronyms: true, language: 'en', extraSmallWords: '', lastMode: '' };
+
+function getSettings() {
+  var out = {};
+  for (var k in DEFAULT_SETTINGS) if (DEFAULT_SETTINGS.hasOwnProperty(k)) out[k] = DEFAULT_SETTINGS[k];
+  try {
+    var raw = PropertiesService.getUserProperties().getProperty('settings');
+    if (raw) {
+      var saved = JSON.parse(raw);
+      for (var key in saved) if (saved.hasOwnProperty(key) && out.hasOwnProperty(key)) out[key] = saved[key];
+    }
+  } catch (e) { /* fall back to defaults */ }
+  return out;
+}
+
+function saveSettings(patch) {
+  var current = getSettings();
+  patch = patch || {};
+  if (typeof patch.keepAcronyms === 'boolean') current.keepAcronyms = patch.keepAcronyms;
+  if (typeof patch.language === 'string' && CaseLib.PRESETS.hasOwnProperty(patch.language)) current.language = patch.language;
+  if (typeof patch.extraSmallWords === 'string') current.extraSmallWords = patch.extraSmallWords.slice(0, 500);
+  if (typeof patch.lastMode === 'string' && CaseLib.MODES[patch.lastMode]) current.lastMode = patch.lastMode;
+  PropertiesService.getUserProperties().setProperty('settings', JSON.stringify(current));
+  return current;
+}
+
+/** The CaseLib options derived from the saved settings. */
+function caseOptions() {
+  var st = getSettings();
+  return { keepAcronyms: st.keepAcronyms, language: st.language, extraSmallWords: st.extraSmallWords };
 }
 
 /** Opens the sidebar with one button per case style. */
@@ -100,17 +149,47 @@ function showHelp() {
 function applyCase(mode) {
   if (!CaseLib.MODES[mode]) return { ok: false, message: 'Unknown case style.', changed: 0 };
   var host = getHost();
+  var opts = caseOptions();
   var changed;
   try {
-    if (host === 'sheets') changed = SheetsCase.apply(mode);
-    else if (host === 'slides') changed = SlidesCase.apply(mode);
-    else if (host === 'docs') changed = applyCaseDocs(mode);
+    if (host === 'sheets') changed = SheetsCase.apply(mode, opts);
+    else if (host === 'slides') changed = SlidesCase.apply(mode, opts);
+    else if (host === 'docs') changed = applyCaseDocs(mode, opts);
     else return { ok: false, message: 'Open this add-on from Google Docs, Sheets or Slides.', changed: 0 };
   } catch (err) {
-    if (err && err.noSelection) return { ok: false, message: err.message, changed: 0 };
+    if (err && err.noSelection) {
+      return { ok: false, needWhole: true, message: 'Nothing is selected.', changed: 0, noun: fileNoun() };
+    }
     throw err;
   }
+  rememberMode(mode);
   return finish(changed, mode);
+}
+
+/** Converts the whole document, the active sheet, or every slide. */
+function applyCaseWhole(mode) {
+  if (!CaseLib.MODES[mode]) return { ok: false, message: 'Unknown case style.', changed: 0 };
+  var host = getHost();
+  var opts = caseOptions();
+  var changed = 0;
+  if (host === 'sheets') {
+    changed = SheetsCase.applyWhole(mode, opts);
+  } else if (host === 'slides') {
+    changed = SlidesCase.applyWhole(mode, opts);
+  } else if (host === 'docs') {
+    var doc = DocumentApp.getActiveDocument();
+    changed += convertElement(doc.getBody(), mode, opts);
+    var header = doc.getHeader(); if (header) changed += convertElement(header, mode, opts);
+    var footer = doc.getFooter(); if (footer) changed += convertElement(footer, mode, opts);
+  } else {
+    return { ok: false, message: 'Open this add-on from Google Docs, Sheets or Slides.', changed: 0 };
+  }
+  rememberMode(mode);
+  return finish(changed, mode);
+}
+
+function rememberMode(mode) {
+  try { saveSettings({ lastMode: mode }); } catch (e) { /* not important */ }
 }
 
 function finish(changed, mode) {
@@ -129,7 +208,7 @@ function noSelectionError(message) {
 }
 
 /** Google Docs: convert the current selection. Returns characters changed. */
-function applyCaseDocs(mode) {
+function applyCaseDocs(mode, opts) {
   var doc = DocumentApp.getActiveDocument();
   var selection = doc.getSelection();
   if (!selection) throw noSelectionError('Select the text you want to change first.');
@@ -141,29 +220,29 @@ function applyCaseDocs(mode) {
     var el = re.getElement();
     if (re.isPartial()) {
       // A partial range is always a Text element with character offsets.
-      changed += convertTextRange(el.asText(), re.getStartOffset(), re.getEndOffsetInclusive(), mode);
+      changed += convertTextRange(el.asText(), re.getStartOffset(), re.getEndOffsetInclusive(), mode, opts);
     } else {
-      changed += convertElement(el, mode);
+      changed += convertElement(el, mode, opts);
     }
   }
   return changed;
 }
 
 /** Converts a fully selected element, recursing into tables and cells. */
-function convertElement(el, mode) {
+function convertElement(el, mode, opts) {
   var T = DocumentApp.ElementType;
   var type = el.getType();
 
   if (type === T.TEXT) {
     var text = el.asText();
     var len = text.getText().length;
-    return len ? convertTextRange(text, 0, len - 1, mode) : 0;
+    return len ? convertTextRange(text, 0, len - 1, mode, opts) : 0;
   }
 
   if (type === T.PARAGRAPH || type === T.LIST_ITEM) {
     var t = el.editAsText();
     var n = t.getText().length;
-    return n ? convertTextRange(t, 0, n - 1, mode) : 0;
+    return n ? convertTextRange(t, 0, n - 1, mode, opts) : 0;
   }
 
   // Containers: tables, rows, cells, body, footnotes, etc.
@@ -171,7 +250,7 @@ function convertElement(el, mode) {
   if (typeof el.getNumChildren === 'function') {
     var count = el.getNumChildren();
     for (var i = 0; i < count; i++) {
-      changed += convertElement(el.getChild(i), mode);
+      changed += convertElement(el.getChild(i), mode, opts);
     }
   }
   return changed;
@@ -181,12 +260,12 @@ function convertElement(el, mode) {
  * Replaces text[start..endInclusive] with its converted form while keeping
  * every formatting run exactly where it was.
  */
-function convertTextRange(text, start, endInclusive, mode) {
+function convertTextRange(text, start, endInclusive, mode, opts) {
   var full = text.getText();
   if (start > endInclusive || start < 0 || endInclusive >= full.length) return 0;
 
   var original = full.substring(start, endInclusive + 1);
-  var converted = CaseLib.convert(original, mode);
+  var converted = CaseLib.convert(original, mode, opts);
   if (converted === original) return 0;
 
   // Snapshot the formatting runs that overlap the range.

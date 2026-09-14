@@ -16,28 +16,39 @@
 var SlidesCase = (function () {
   'use strict';
 
-  function apply(mode) {
+  function apply(mode, opts) {
     var selection = SlidesApp.getActivePresentation().getSelection();
     var T = SlidesApp.SelectionType;
     var type = selection.getSelectionType();
     var changed = 0;
 
     if (type === T.TEXT) {
-      changed = convertSelectedText(selection, mode);
+      changed = convertSelectedText(selection, mode, opts);
     } else if (type === T.TABLE_CELL) {
       var cells = selection.getTableCellRange().getTableCells();
-      for (var i = 0; i < cells.length; i++) changed += convertWhole(cells[i].getText(), mode);
+      for (var i = 0; i < cells.length; i++) changed += convertWhole(cells[i].getText(), mode, opts);
     } else if (type === T.PAGE_ELEMENT) {
       var elements = selection.getPageElementRange().getPageElements();
-      for (var j = 0; j < elements.length; j++) changed += convertPageElement(elements[j], mode);
+      for (var j = 0; j < elements.length; j++) changed += convertPageElement(elements[j], mode, opts);
     } else {
       throw noSelectionError('Highlight some text, or select a text box, table or shape first.');
     }
     return changed;
   }
 
+  /** Every text element on every slide (speaker notes are left alone). */
+  function applyWhole(mode, opts) {
+    var slides = SlidesApp.getActivePresentation().getSlides();
+    var changed = 0;
+    for (var s = 0; s < slides.length; s++) {
+      var elements = slides[s].getPageElements();
+      for (var e = 0; e < elements.length; e++) changed += convertPageElement(elements[e], mode, opts);
+    }
+    return changed;
+  }
+
   /** Text highlighted inside a shape or a table cell. */
-  function convertSelectedText(selection, mode) {
+  function convertSelectedText(selection, mode, opts) {
     var sel = selection.getTextRange();
     if (!sel) return 0;
     var selText = sel.asString();
@@ -59,7 +70,7 @@ var SlidesCase = (function () {
     }
     if (!full) {
       // Unknown container: convert the selection as one range.
-      return convertWhole(sel, mode);
+      return convertWhole(sel, mode, opts);
     }
 
     var fullText = full.asString();
@@ -68,16 +79,16 @@ var SlidesCase = (function () {
     // Sanity check the indices against the text; fall back to a search.
     if (fullText.substring(start, end) !== selText) {
       var at = fullText.indexOf(selText);
-      if (at < 0 || fullText.indexOf(selText, at + 1) >= 0) return convertWhole(sel, mode);
+      if (at < 0 || fullText.indexOf(selText, at + 1) >= 0) return convertWhole(sel, mode, opts);
       start = at; end = at + selText.length;
     }
-    return convertSpan(full, start, end, mode);
+    return convertSpan(full, start, end, mode, opts);
   }
 
-  function convertPageElement(el, mode) {
+  function convertPageElement(el, mode, opts) {
     var PT = SlidesApp.PageElementType;
     var kind = el.getPageElementType();
-    if (kind === PT.SHAPE) return convertWhole(el.asShape().getText(), mode);
+    if (kind === PT.SHAPE) return convertWhole(el.asShape().getText(), mode, opts);
     if (kind === PT.TABLE) {
       var table = el.asTable(), n = 0;
       for (var r = 0; r < table.getNumRows(); r++) {
@@ -85,24 +96,24 @@ var SlidesCase = (function () {
           var cell = table.getCell(r, c);
           // Merged cells report the head cell; skip the covered ones.
           if (cell.getMergeState() === SlidesApp.CellMergeState.MERGED) continue;
-          n += convertWhole(cell.getText(), mode);
+          n += convertWhole(cell.getText(), mode, opts);
         }
       }
       return n;
     }
     if (kind === PT.GROUP) {
       var children = el.asGroup().getChildren(), m = 0;
-      for (var k = 0; k < children.length; k++) m += convertPageElement(children[k], mode);
+      for (var k = 0; k < children.length; k++) m += convertPageElement(children[k], mode, opts);
       return m;
     }
     return 0; // images, lines, videos, etc.
   }
 
   /** Converts all of a container's text. */
-  function convertWhole(full, mode) {
+  function convertWhole(full, mode, opts) {
     if (!full) return 0;
     var text = full.asString();
-    return text ? convertSpan(full, 0, text.length, mode) : 0;
+    return text ? convertSpan(full, 0, text.length, mode, opts) : 0;
   }
 
   /**
@@ -110,14 +121,14 @@ var SlidesCase = (function () {
    * complete text range of a shape or table cell so that run indices and
    * getRange() offsets share one coordinate system.
    */
-  function convertSpan(full, start, end, mode) {
+  function convertSpan(full, start, end, mode, opts) {
     var fullText = full.asString();
     if (start < 0) start = 0;
     if (end > fullText.length) end = fullText.length;
     if (end <= start) return 0;
 
     var original = fullText.substring(start, end);
-    var converted = CaseLib.convert(original, mode);
+    var converted = CaseLib.convert(original, mode, opts);
     if (converted === original) return 0;
 
     var runs = full.getRuns();
@@ -151,5 +162,5 @@ var SlidesCase = (function () {
     return changed;
   }
 
-  return { apply: apply };
+  return { apply: apply, applyWhole: applyWhole };
 })();

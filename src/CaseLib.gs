@@ -11,10 +11,70 @@ var CaseLib = (function () {
   'use strict';
 
   // Words that stay lowercase in Title Case (unless first/last or after a colon etc.)
-  var SMALL_WORDS = {
-    a: 1, an: 1, and: 1, as: 1, at: 1, but: 1, by: 1, en: 1, 'for': 1, 'if': 1,
-    'in': 1, nor: 1, of: 1, on: 1, or: 1, per: 1, the: 1, to: 1, v: 1, vs: 1, via: 1
+  var SMALL_WORD_PRESETS = {
+    en: 'a an and as at but by en for if in nor of on or per the to v vs via',
+    ms: 'dan atau di ke dari pada untuk yang dengan oleh bagi serta tentang demi',
+    id: 'dan atau di ke dari pada untuk yang dengan oleh bagi serta tentang demi'
   };
+  function wordSet(list) {
+    var set = {};
+    String(list || '').toLowerCase().split(/[\s,;]+/).forEach(function (w) { if (w) set[w] = 1; });
+    return set;
+  }
+  var SMALL_WORDS = wordSet(SMALL_WORD_PRESETS.en);
+
+  // Options accepted by convert(): { keepAcronyms: true, language: 'en'|'ms'|'id', extraSmallWords: 'dan di ke' }
+  var current = { keepAcronyms: true, smallWords: SMALL_WORDS };
+  function applyOptions(opts) {
+    opts = opts || {};
+    var lang = SMALL_WORD_PRESETS.hasOwnProperty(opts.language) ? opts.language : 'en';
+    var set = wordSet(SMALL_WORD_PRESETS[lang]);
+    var extra = wordSet(opts.extraSmallWords);
+    for (var k in extra) if (extra.hasOwnProperty(k)) set[k] = 1;
+    current = { keepAcronyms: opts.keepAcronyms !== false, smallWords: set };
+  }
+
+  // Acronym protection: words of 2 to 6 letters written entirely in capitals
+  // (NASA, KL, UMNO, HTML, COVID) keep their capitals in Sentence case, Title
+  // Case and Capitalize Each Word. Skipped when the whole text is shouting
+  // (mostly capitals and at least 12 letters), because then the capitals are
+  // not acronyms, they are the thing the user wants to fix.
+  function isShouting(s) {
+    // Shouting = at least three words of two or more letters, and 60% or
+    // more of them written entirely in capitals. Counting words rather than
+    // letters keeps the result stable: converting never creates such words.
+    var re = /\p{L}[\p{L}\p{N}]*/gu, m, words = 0, caps = 0;
+    while ((m = re.exec(s)) !== null) {
+      var letters = 0, allCaps = true;
+      for (var i = 0; i < m[0].length; i++) {
+        var ch = m[0][i];
+        if (!isLetter(ch)) continue;
+        letters++;
+        if (ch !== ch.toUpperCase() || ch === ch.toLowerCase()) allCaps = false;
+      }
+      if (letters < 2) continue;
+      words++;
+      if (allCaps) caps++;
+    }
+    return words >= 3 && caps / words >= 0.6;
+  }
+  function restoreAcronyms(original, chars) {
+    if (!current.keepAcronyms || isShouting(original)) return chars;
+    var re = /\p{L}[\p{L}\p{N}]*/gu, m;
+    while ((m = re.exec(original)) !== null) {
+      var word = m[0], letters = 0, allCaps = true;
+      for (var i = 0; i < word.length; i++) {
+        var ch = word[i];
+        if (!isLetter(ch)) continue;
+        letters++;
+        if (ch !== ch.toUpperCase() || ch === ch.toLowerCase()) { allCaps = false; break; }
+      }
+      if (allCaps && letters >= 2 && letters <= 6) {
+        for (var j = 0; j < word.length; j++) chars[m.index + j] = original[m.index + j];
+      }
+    }
+    return chars;
+  }
 
   var LETTER = /\p{L}/u;
   var WORD_CHAR = /[\p{L}\p{N}'’]/u;      // characters that belong to a word
@@ -80,7 +140,7 @@ var CaseLib = (function () {
       var startOfWord = isLetter(ch) && (i === 0 || !isWordChar(s[i - 1]));
       out.push(startOfWord ? up(ch) : low(ch));
     }
-    return restoreProtected(s, out).join('');
+    return restoreAcronyms(s, restoreProtected(s, out)).join('');
   }
 
   // Smart title case: like capitalizeEachWord, but short function words stay
@@ -102,14 +162,14 @@ var CaseLib = (function () {
       var p = word.start - 1;
       while (p >= 0 && /[ \t]/.test(lowered[p])) p--;
       var afterBreak = p < 0 || /[:.!?—–\-(\[{"“‘'\n\r]/.test(lowered[p]);
-      var small = SMALL_WORDS.hasOwnProperty(word.text);
+      var small = current.smallWords.hasOwnProperty(word.text);
       if (small && !isFirst && !isLast && !afterBreak) continue;
       for (var i = word.start; i <= word.end; i++) {
         var ch = chars[i];
         if (isLetter(ch) && (i === word.start || chars[i - 1] === '-')) chars[i] = up(ch);
       }
     }
-    return restoreProtected(s, chars).join('');
+    return restoreAcronyms(s, restoreProtected(s, chars)).join('');
   }
 
   // Sentence case: lowercase everything, capitalise the first letter of each
@@ -138,7 +198,7 @@ var CaseLib = (function () {
         if (prevOk && nextOk) chars[i] = 'I';
       }
     }
-    return chars.join('');
+    return restoreAcronyms(s, chars).join('');
   }
 
   var MODES = {
@@ -151,13 +211,14 @@ var CaseLib = (function () {
     alternating: { label: 'aLtErNaTiNg cAsE', fn: alternating }
   };
 
-  function convert(text, mode) {
+  function convert(text, mode, options) {
     var m = MODES[mode];
     if (!m) throw new Error('Unknown case mode: ' + mode);
+    applyOptions(options);
     var out = m.fn(String(text));
     if (out.length !== text.length) throw new Error('Internal error: length changed');
     return out;
   }
 
-  return { convert: convert, MODES: MODES };
+  return { convert: convert, MODES: MODES, PRESETS: SMALL_WORD_PRESETS };
 })();

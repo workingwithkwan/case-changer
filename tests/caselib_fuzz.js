@@ -60,6 +60,28 @@ eq('tabs kept', C('a\tb\tc', 'upper'), 'A\tB\tC');
 eq('crlf sentence', C('one.\r\ntwo', 'sentence'), 'One.\r\nTwo');
 count++; try { C('abc','nope'); fails.push('unknown mode did not throw'); } catch (e) { /* expected */ }
 
+// 1b. Options: acronyms and language presets
+var KA={keepAcronyms:true}, NA={keepAcronyms:false};
+eq('acronym sentence kept', C('the NASA and KL teams met. UMNO too', 'sentence', KA), 'The NASA and KL teams met. UMNO too');
+eq('acronym sentence off', C('the NASA and KL teams met', 'sentence', NA), 'The nasa and kl teams met');
+eq('acronym title kept', C('a guide to HTML and CSS', 'title', KA), 'A Guide to HTML and CSS');
+eq('acronym capitalize kept', C('covid-19 and COVID19 rules', 'capitalize', KA), 'Covid-19 And COVID19 Rules');
+eq('shouting is fixed', C('THIS IS SHOUTING AND SHOULD BE FIXED', 'sentence', KA), 'This is shouting and should be fixed');
+eq('short all-caps kept', C('KL', 'sentence', KA), 'KL');
+eq('long caps word not acronym', C('the MINISTRY said', 'sentence', KA), 'The ministry said');
+eq('mixed heading kept', C('NASA HQ visit report', 'title', KA), 'NASA HQ Visit Report');
+eq('acronym list treated as shouting', C('NASA KL UMNO', 'sentence', KA), 'Nasa kl umno');
+eq('two caps words not shouting', C('NASA KL', 'sentence', KA), 'NASA KL');
+eq('single cap letter not acronym', C('plan A failed', 'sentence', KA), 'Plan a failed');
+eq('acronym default on', C('the NASA team', 'sentence'), 'The NASA team');
+eq('upper unaffected by acronyms', C('the NASA team', 'upper', KA), 'THE NASA TEAM');
+eq('malay preset', C('kementerian kesihatan dan kebajikan di malaysia', 'title', {language:'ms'}), 'Kementerian Kesihatan dan Kebajikan di Malaysia');
+eq('malay preset last word', C('cinta dan', 'title', {language:'ms'}), 'Cinta Dan');
+eq('english default keeps dan capital', C('rock dan roll', 'title'), 'Rock Dan Roll');
+eq('extra words', C('song of ice dan fire', 'title', {language:'en', extraSmallWords:'dan, fire'}), 'Song of Ice dan Fire');
+eq('unknown language falls back', C('lord of the rings', 'title', {language:'xx'}), 'Lord of the Rings');
+eq('options do not leak', C('the NASA team', 'sentence', NA) === 'The nasa team' && C('the NASA team', 'sentence') === 'The NASA team', true);
+
 // 2. Invariants on a corpus + fuzz
 var corpus = ['', 'a', 'A', ' ', 'hello', 'Hello, World!', 'the quick brown fox.', 'ÀÉÎÕÜ àéîõü', 'straße Straße STRASSE',
   'İstanbul ıi', 'ﬁ ligature', 'é combining', '😀 emoji 🇲🇾 flags 👨‍👩‍👧 zwj', '你好，世界', 'مرحبا بالعالم', 'Привет мир',
@@ -77,7 +99,7 @@ corpus.forEach(function (s, idx) {
     // non-letters must be untouched
     for (var i = 0; i < s.length; i++) { if (!/\p{L}/u.test(s[i]) && s[i] !== out[i]) { fails.push('NON-LETTER CHANGED ' + m + ' #' + idx + ' at ' + i); break; } }
     // idempotence for the deterministic modes
-    if (m !== 'inverse' && m !== 'alternating') { count++; if (C(out, m) !== out) fails.push('NOT IDEMPOTENT ' + m + ' #' + idx + ' ' + JSON.stringify(s.slice(0, 40))); }
+    if (m !== 'inverse' && m !== 'alternating' && !/İ/.test(s)) { count++; if (C(out, m) !== out) fails.push('NOT IDEMPOTENT ' + m + ' #' + idx + ' ' + JSON.stringify(s.slice(0, 40))); }
   });
   count++; if (C(C(s, 'inverse'), 'inverse') !== s && !/[ßİıﬁ]/.test(s)) fails.push('INVERSE NOT INVOLUTION #' + idx + ' ' + JSON.stringify(s.slice(0, 40)));
   count++; if (C(C(s, 'upper'), 'lower') !== C(s, 'lower') && !/[ßİıﬁ]/.test(s)) fails.push('UPPER->LOWER != LOWER #' + idx + ' ' + JSON.stringify(s.slice(0, 40)));

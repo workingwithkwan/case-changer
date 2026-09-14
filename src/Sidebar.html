@@ -23,6 +23,17 @@
     #status.ok { color: #188038; }
     #status.err { color: #c5221f; }
     .footer { margin-top: 18px; font-size: 11px; color: #80868b; line-height: 1.4; }
+    .btn.last { border-color: #1a73e8; box-shadow: inset 3px 0 0 #1a73e8; }
+    #whole { display: none; margin-top: 8px; }
+    #whole button { width: 100%; padding: 8px; font-size: 13px; border: 1px solid #1a73e8; background: #e8f0fe; color: #174ea6; border-radius: 6px; cursor: pointer; }
+    details { margin-top: 16px; border-top: 1px solid #dadce0; padding-top: 10px; }
+    summary { cursor: pointer; font-size: 13px; color: #202124; }
+    .field { margin-top: 10px; font-size: 12px; }
+    .field label { display: block; margin-bottom: 4px; color: #5f6368; }
+    .field select, .field input[type=text] { width: 100%; box-sizing: border-box; font-size: 13px; padding: 5px 6px; border: 1px solid #dadce0; border-radius: 4px; }
+    .check { display: flex; gap: 6px; align-items: flex-start; font-size: 12px; margin-top: 10px; }
+    .check input { margin: 2px 0 0; }
+    #saved { font-size: 11px; color: #188038; min-height: 14px; margin-top: 4px; }
   </style>
 </head>
 <body>
@@ -40,14 +51,32 @@
   </div>
 
   <div id="status"></div>
+  <div id="whole"><button id="wholeBtn">Change the entire document</button></div>
+
+  <details>
+    <summary>Settings</summary>
+    <label class="check"><input type="checkbox" id="keepAcronyms"> <span>Keep acronyms as they are (NASA, KL, UMNO) in Sentence case and Title Case</span></label>
+    <div class="field"><label for="language">Title Case keeps these small words lowercase</label>
+      <select id="language">
+        <option value="en">English (of, the, and, to...)</option>
+        <option value="ms">Bahasa Malaysia (dan, di, ke, yang...)</option>
+        <option value="id">Bahasa Indonesia (dan, di, ke, yang...)</option>
+      </select></div>
+    <div class="field"><label for="extra">Also keep these words lowercase (separate with spaces)</label>
+      <input type="text" id="extra" placeholder="e.g. vs feat"></div>
+    <div id="saved"></div>
+  </details>
 
   <p class="footer">Tip: the same styles are in the Extensions &gt; Case Changer menu, so you can close this sidebar if you prefer.</p>
 
   <script>
     var status = document.getElementById('status');
+    var whole = document.getElementById('whole');
+    var wholeBtn = document.getElementById('wholeBtn');
     var buttons = Array.prototype.slice.call(document.querySelectorAll('.btn'));
+    var pendingMode = null;
 
-    function setBusy(busy) { buttons.forEach(function (b) { b.disabled = busy; }); }
+    function setBusy(busy) { buttons.forEach(function (b) { b.disabled = busy; }); wholeBtn.disabled = busy; }
 
     function show(msg, cls) {
       status.textContent = msg;
@@ -55,22 +84,68 @@
       if (cls === 'ok') setTimeout(function () { if (status.textContent === msg) status.textContent = ''; }, 2500);
     }
 
+    function markLast(mode) {
+      buttons.forEach(function (b) { b.classList.toggle('last', b.getAttribute('data-mode') === mode); });
+    }
+
+    function failed(e) { setBusy(false); show('Something went wrong: ' + e.message, 'err'); }
+
+    function done(r) {
+      setBusy(false);
+      if (r.needWhole) {
+        show(r.message, 'err');
+        wholeBtn.textContent = 'Change the entire ' + (r.noun || 'document');
+        whole.style.display = 'block';
+        return;
+      }
+      whole.style.display = 'none';
+      show(r.message, r.ok ? 'ok' : 'err');
+    }
+
     buttons.forEach(function (b) {
       b.addEventListener('click', function () {
+        pendingMode = b.getAttribute('data-mode');
+        markLast(pendingMode);
+        whole.style.display = 'none';
         setBusy(true);
         show('Working...', '');
-        google.script.run
-          .withSuccessHandler(function (r) {
-            setBusy(false);
-            show(r.message, r.ok ? 'ok' : 'err');
-          })
-          .withFailureHandler(function (e) {
-            setBusy(false);
-            show('Something went wrong: ' + e.message, 'err');
-          })
-          .applyCase(b.getAttribute('data-mode'));
+        google.script.run.withSuccessHandler(done).withFailureHandler(failed).applyCase(pendingMode);
       });
     });
+
+    wholeBtn.addEventListener('click', function () {
+      if (!pendingMode) return;
+      setBusy(true);
+      show('Working on the whole file...', '');
+      google.script.run.withSuccessHandler(done).withFailureHandler(failed).applyCaseWhole(pendingMode);
+    });
+
+    // Settings
+    var keep = document.getElementById('keepAcronyms');
+    var language = document.getElementById('language');
+    var extra = document.getElementById('extra');
+    var savedNote = document.getElementById('saved');
+    var saveTimer = null;
+
+    function loadSettings(st) {
+      keep.checked = !!st.keepAcronyms;
+      language.value = st.language || 'en';
+      extra.value = st.extraSmallWords || '';
+      if (st.lastMode) markLast(st.lastMode);
+    }
+    function save() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(function () {
+        google.script.run
+          .withSuccessHandler(function () { savedNote.textContent = 'Saved'; setTimeout(function () { savedNote.textContent = ''; }, 1500); })
+          .withFailureHandler(function (e) { savedNote.textContent = 'Could not save: ' + e.message; })
+          .saveSettings({ keepAcronyms: keep.checked, language: language.value, extraSmallWords: extra.value });
+      }, 400);
+    }
+    keep.addEventListener('change', save);
+    language.addEventListener('change', save);
+    extra.addEventListener('input', save);
+    google.script.run.withSuccessHandler(loadSettings).withFailureHandler(function () {}).getSettings();
   </script>
 </body>
 </html>
