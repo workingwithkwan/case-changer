@@ -32,3 +32,12 @@ Add to the detailed description bullet list:
 • Keeps acronyms such as NASA or KL when you switch to Sentence case or Title Case.
 • Title Case knows which small words to keep lowercase in English, Bahasa Malaysia and Bahasa Indonesia, and you can add your own.
 • Nothing selected? Change the whole document, sheet or presentation in one go.
+
+
+## Submission (15 September 2026, evening)
+
+- Apps Script deployment Version 2 ("v1.2.0 Sheets and Slides, acronyms, Title Case languages, whole-file mode").
+- Marketplace SDK App Configuration: Docs, Sheets and Slides add-on, version 2, scopes documents/spreadsheets/presentations.currentonly + script.container.ui.
+- Store Listing: 1.2 copy (see LISTING.md), three screenshots (Docs, Sheets, Slides). Submitted for review; console shows "The draft is in review and can't be edited". 1.0.1 stays live until approval.
+- Website updated: FAQ says Sheets and Slides are supported, Get It links the live listing, privacy policy lists the two new scopes and the settings stored in user properties.
+- Still to do by hand: add spreadsheets.currentonly and presentations.currentonly on Google Auth Platform > Data Access (Add or remove scopes > Manually add scopes > Add to table > Update > Save).
