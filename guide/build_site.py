@@ -73,12 +73,13 @@ def page(title, body, path='', description='', extra_head=''):
 pages = {'PRIVACY_POLICY.md': ('privacy-policy.html', 'Privacy Policy | Case Changer for Google Docs, Sheets and Slides', 'How Case Changer handles your data: nothing is collected, stored or shared. Text is converted inside Google Apps Script and written straight back to your document, spreadsheet or presentation.'),
          'TERMS_OF_SERVICE.md': ('terms-of-service.html', 'Terms of Service | Case Changer for Google Docs, Sheets and Slides', 'Terms of service for the free Case Changer add-on for Google Docs, Sheets and Slides.'),
          'SUPPORT.md': ('support.html', 'Support and FAQ | Case Changer for Google Docs, Sheets and Slides', 'Help for Case Changer: how to change text case in Google Docs, Sheets and Slides, undo a change, fix a missing menu, and contact support.')}
-for src, (dst, title, desc) in pages.items():
-    md = open(f'{SRC}/{src}').read()
-    open(f'{OUT}/{dst}', 'w').write(page(title, md_to_html(md), dst, desc))
 
 styles = [('UPPERCASE','MAKE EVERYTHING CAPITAL LETTERS'),('lowercase','make everything small letters'),('Sentence case','Capital letter at the start of each sentence'),('Title Case','Capitals On The Important Words, Small On "of" and "the"'),('Capitalize Each Word','A Capital Letter On Every Word'),('iNVERSE cASE','sWAPS eVERY lETTER'),('aLtErNaTiNg cAsE','uPpEr AnD lOwEr In TuRn')]
 faq = [
+ ('The menu says "Select the text you want to change first."',
+  'Nothing was highlighted. Click and drag over some text (or select cells in Sheets, or a text box in Slides), then run the command again. With nothing selected, the sidebar offers to change the whole file instead.'),
+ ('Case Changer is not in the Extensions menu.',
+  'Reload the page. If it is still missing, open Extensions > Add-ons > Manage add-ons and make sure Case Changer is turned on for this file.'),
  ('How do I change the case of text in Google Docs?',
   'Highlight the text, then open Extensions > Case Changer and choose a style such as UPPERCASE, lowercase, Sentence case or Title Case. The sidebar gives you the same styles as one-click buttons.'),
  ('Does Google Docs have a built-in change case option?',
@@ -90,7 +91,7 @@ faq = [
  ('Is my document safe?',
   'Case Changer only asks for access to the document it is open in, and it stores nothing. The text is converted inside Google\'s own servers by Google Apps Script and written straight back into your document. It never leaves Google.'),
  ('Can I undo a case change?',
-  'Yes. Press Cmd+Z on a Mac or Ctrl+Z on Windows straight after, the same as any other edit.'),
+  'Yes. Press Cmd+Z on a Mac or Ctrl+Z on Windows straight after, the same as any other edit, or use File > Version history.'),
  ('The old "Change Case" add-on stopped working. Is this a replacement?',
   'Yes. Case Changer was built as a modern replacement for abandoned change-case add-ons, with the same styles, formatting kept intact, and a privacy policy that promises no data collection.'),
  ('Does it work in Google Sheets or Slides?',
@@ -129,9 +130,8 @@ home = f"""
 <li><strong>Free.</strong> No account, no sign-up, no ads.</li></ul>
 <h2>Get It</h2>
 <p>Case Changer is free on the <a href="https://workspace.google.com/marketplace/app/case_changer/422980989821">Google Workspace Marketplace</a>. Install it there, or open <strong>Extensions &gt; Add-ons &gt; Get add-ons</strong> inside Google Docs, Sheets or Slides and search for "Case Changer".</p>
-<h2>Frequently Asked Questions</h2>
-{faq_html}
-<p>More help on the <a href="support.html">support page</a>, or email <a href="mailto:support@case-changer.app">support@case-changer.app</a>.</p>
+<h2>Questions?</h2>
+<p>Answers to common questions, including how it works in Sheets and Slides, are on the <a href="support.html#faq">support page</a>. Or email <a href="mailto:support@case-changer.app">support@case-changer.app</a>.</p>
 """
 import json
 ld = [{
@@ -142,11 +142,19 @@ ld = [{
  "image":SITE+"icon-512.png","screenshot":[SITE+"assets/screenshot-1.png", SITE+"assets/screenshot-2-sheets.png", SITE+"assets/screenshot-3-slides.png"],
  "author":{"@type":"Person","name":"Ikhwan Ariff"},
  "softwareVersion":"1.2.0","featureList":[n for n,_ in styles] + ["Works in Google Docs, Google Sheets and Google Slides", "Keeps bold, links and colours", "Keeps acronyms", "Whole-file mode"]
-},{
- "@context":"https://schema.org","@type":"FAQPage",
- "mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]
 }]
+faq_ld = {"@context":"https://schema.org","@type":"FAQPage",
+ "mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}
 extra = ''.join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in ld)
+faq_extra = f'<script type="application/ld+json">{json.dumps(faq_ld, ensure_ascii=False)}</script>\n'
+for src, (dst, title, desc) in pages.items():
+    md = open(f'{SRC}/{src}').read()
+    body = md_to_html(md)
+    head = ''
+    if '[[FAQ]]' in body:
+        body = body.replace('<p>[[FAQ]]</p>', '<h2 id="faq">Frequently Asked Questions</h2>' + faq_html)
+        head = faq_extra
+    open(f'{OUT}/{dst}', 'w').write(page(title, body, dst, desc, head))
 open(f'{OUT}/index.html','w').write(page('Case Changer: Change Text Case in Google Docs, Sheets and Slides (Free Add-on)', home, '',
     'Free Google Docs, Sheets and Slides add-on to change selected text to UPPERCASE, lowercase, Sentence case, Title Case and more in one click, keeping bold, links and colours.', extra))
 open(f'{OUT}/robots.txt','w').write('User-agent: *\nAllow: /\nSitemap: https://case-changer.app/sitemap.xml\n')
