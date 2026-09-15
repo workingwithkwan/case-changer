@@ -40,4 +40,4 @@ Add to the detailed description bullet list:
 - Marketplace SDK App Configuration: Docs, Sheets and Slides add-on, version 2, scopes documents/spreadsheets/presentations.currentonly + script.container.ui.
 - Store Listing: 1.2 copy (see LISTING.md), three screenshots (Docs, Sheets, Slides). Submitted for review; console shows "The draft is in review and can't be edited". 1.0.1 stays live until approval.
 - Website updated: FAQ says Sheets and Slides are supported, Get It links the live listing, privacy policy lists the two new scopes and the settings stored in user properties.
-- Still to do by hand: add spreadsheets.currentonly and presentations.currentonly on Google Auth Platform > Data Access (Add or remove scopes > Manually add scopes > Add to table > Update > Save).
+- Data Access page: spreadsheets.currentonly and presentations.currentonly added by hand the same evening; Verification Center still shows branding and data access verified.
