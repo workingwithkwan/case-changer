@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 140" width="220" height="140">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a73e8"/><stop offset="1" stop-color="#0b57d0"/></linearGradient></defs>
+  <rect width="220" height="140" fill="url(#bg)"/>
+  <text x="82" y="76" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="66" fill="#ffffff">A</text>
+  <text x="130" y="76" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="66" fill="#fbbc04">a</text>
+  <rect x="82" y="86" width="56" height="15" rx="7.5" fill="#ffffff"/>
+  <circle cx="95" cy="93.5" r="4.5" fill="#4285f4"/><circle cx="110" cy="93.5" r="4.5" fill="#34a853"/><circle cx="125" cy="93.5" r="4.5" fill="#fbbc04"/>
+  <text x="110" y="124" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="500" font-size="15" fill="#ffffff">Case Changer</text>
+</svg>

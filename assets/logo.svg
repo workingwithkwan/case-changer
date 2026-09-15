@@ -6,6 +6,10 @@
     </linearGradient>
   </defs>
   <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#bg)"/>
-  <text x="176" y="360" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="300" fill="#ffffff">A</text>
-  <text x="362" y="360" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="300" fill="#fbbc04">a</text>
+  <text x="170" y="318" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="272" fill="#ffffff">A</text>
+  <text x="344" y="318" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="700" font-size="272" fill="#fbbc04">a</text>
+  <rect x="112" y="372" width="288" height="72" rx="36" fill="#ffffff"/>
+  <circle cx="176" cy="408" r="24" fill="#4285f4"/>
+  <circle cx="256" cy="408" r="24" fill="#34a853"/>
+  <circle cx="336" cy="408" r="24" fill="#fbbc04"/>
 </svg>

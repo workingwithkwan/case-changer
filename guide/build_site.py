@@ -94,18 +94,30 @@ faq = [
   'Yes. Case Changer was built as a modern replacement for abandoned change-case add-ons, with the same styles, formatting kept intact, and a privacy policy that promises no data collection.'),
  ('Does it work in Google Sheets or Slides?',
   'Yes. Since version 1.2 Case Changer works in Google Docs, Google Sheets and Google Slides. In Sheets, select the cells you want to change. In Slides, highlight text inside a box or select the box itself.'),
+ ('How do I change case in Google Sheets without a formula?',
+  'Select the cells and pick a style from Extensions > Case Changer. The text is rewritten in the same cells, so there is no UPPER(), LOWER() or PROPER() formula to write, no helper column and no copy-and-paste-as-values step. Cells that hold formulas or numbers are skipped.'),
+ ('How do I change text to uppercase or lowercase in Google Slides?',
+  'Highlight the text, or click the text box, shape or table, then choose UPPERCASE, lowercase or another style from Extensions > Case Changer. Fonts, sizes, colours and links are kept. With nothing selected, the sidebar can change every slide.'),
+ ('Can I change the case of a whole document, sheet or presentation at once?',
+  'Yes. Click a style with nothing selected and the sidebar offers a button to change the entire document, the active sheet or every slide, after a confirmation.'),
 ]
 faq_html = ''.join(f'<h3>{html.escape(q)}</h3><p>{html.escape(a)}</p>' for q,a in faq)
 home = f"""
-<div class="hero"><img src="icon-512.png" alt="Case Changer logo, the letters Aa on a blue tile"><div><h1>Case Changer for Google Docs, Sheets and Slides</h1>
-<p>A free add-on that changes the case of selected text in one click: UPPERCASE, lowercase, Sentence case, Title Case and more. Bold, links and colours stay exactly where they were.</p></div></div>
+<div class="hero"><img src="icon-512.png" alt="Case Changer logo: the letters Aa on a blue tile above three dots in the colours of Docs, Sheets and Slides"><div><h1>Case Changer for Google Docs, Sheets and Slides</h1>
+<p>A free add-on that changes the case of selected text in one click: UPPERCASE, lowercase, Sentence case, Title Case and more, in a document, a spreadsheet or a presentation. Bold, links and colours stay exactly where they were.</p></div></div>
 <h2>Seven Case Styles</h2><div class="styles">{''.join(f'<div><strong>{html.escape(n)}</strong><br><span class="muted">{html.escape(d)}</span></div>' for n,d in styles)}</div>
 <h2>How To Change Case In Google Docs</h2>
 <ol><li>Highlight some text in your Google Doc.</li><li>Open <strong>Extensions &gt; Case Changer</strong> and pick a style, or choose <strong>Open sidebar</strong> for one-click buttons.</li><li>Done. Formatting stays exactly where it was. Press Cmd+Z or Ctrl+Z to undo.</li></ol>
+<h2>How To Change Case In Google Sheets</h2>
+<ol><li>Select the cells, a column, a row or the whole range you want to change. Formulas and numbers are left alone.</li><li>Open <strong>Extensions &gt; Case Changer</strong> and pick a style such as UPPERCASE, lowercase or Capitalize Each Word.</li><li>The text changes in place. No UPPER(), LOWER() or PROPER() formulas, no helper column and no paste-as-values step.</li></ol>
+<h2>How To Change Case In Google Slides</h2>
+<ol><li>Highlight text inside a text box, or click a text box, shape or table to change all of its text.</li><li>Open <strong>Extensions &gt; Case Changer</strong> and pick a style.</li><li>Fonts, sizes, colours and links stay where they were. With nothing selected, the sidebar offers to change the whole presentation.</li></ol>
 <h2>Why Case Changer</h2>
 <ul><li><strong>Keeps formatting.</strong> Only the letters change. Bold, italic, colours, fonts, links and comments are untouched.</li>
 <li><strong>Smart title case.</strong> Short words such as "of", "and" and "the" stay lowercase, the way editors write titles.</li>
-<li><strong>Works on any selection.</strong> A word, a sentence, a whole table, or the entire document.</li>
+<li><strong>Works on any selection.</strong> A word, a sentence, a whole table, a range of cells, a text box or the entire file.</li>
+<li><strong>One add-on for three editors.</strong> The same menu and sidebar in Google Docs, Google Sheets and Google Slides.</li>
+<li><strong>Keeps acronyms.</strong> Sentence case and Title Case leave NASA, KL or UMNO alone, and Title Case knows the small words of English, Bahasa Malaysia and Bahasa Indonesia.</li>
 <li><strong>Private by design.</strong> Access is limited to the open document and nothing is stored. Read the <a href="privacy-policy.html">privacy policy</a>.</li>
 <li><strong>Free.</strong> No account, no sign-up, no ads.</li></ul>
 <h2>Get It</h2>
@@ -120,15 +132,15 @@ ld = [{
  "applicationCategory":"BrowserApplication","applicationSubCategory":"Google Workspace add-on","operatingSystem":"Web",
  "description":"Free Google Docs, Sheets and Slides add-on that changes selected text to UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, iNVERSE cASE or aLtErNaTiNg cAsE while keeping bold, links and colours.",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
- "image":SITE+"icon-512.png","screenshot":SITE+"assets/screenshot-1.png",
+ "image":SITE+"icon-512.png","screenshot":[SITE+"assets/screenshot-1.png", SITE+"assets/screenshot-2-sheets.png", SITE+"assets/screenshot-3-slides.png"],
  "author":{"@type":"Person","name":"Ikhwan Ariff"},
- "softwareVersion":"1.0.1","featureList":[n for n,_ in styles]
+ "softwareVersion":"1.2.0","featureList":[n for n,_ in styles] + ["Works in Google Docs, Google Sheets and Google Slides", "Keeps bold, links and colours", "Keeps acronyms", "Whole-file mode"]
 },{
  "@context":"https://schema.org","@type":"FAQPage",
  "mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]
 }]
 extra = ''.join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in ld)
-open(f'{OUT}/index.html','w').write(page('Case Changer: Change Text Case in Google Docs (Free Add-on)', home, '',
+open(f'{OUT}/index.html','w').write(page('Case Changer: Change Text Case in Google Docs, Sheets and Slides (Free Add-on)', home, '',
     'Free Google Docs, Sheets and Slides add-on to change selected text to UPPERCASE, lowercase, Sentence case, Title Case and more in one click, keeping bold, links and colours.', extra))
 open(f'{OUT}/robots.txt','w').write('User-agent: *\nAllow: /\nSitemap: https://case-changer.app/sitemap.xml\n')
 import datetime
