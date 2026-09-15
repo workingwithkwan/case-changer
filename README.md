@@ -36,11 +36,11 @@ The Cloud console classes `script.container.ui` as sensitive, so a public Market
 
 ## Status
 
-10 September 2026: consent screen in production, Store Listing complete, demo video recorded (`assets/casechanger-demo.mp4`, kept out of git). OAuth verification approved 12 September 2026. Marketplace listing submitted for review the same evening; publishes automatically on approval. See `guide/VERIFICATION.md`.
+10 September 2026: consent screen in production, Store Listing complete, demo video recorded (`assets/casechanger-demo.mp4`, kept out of git). Marketplace listing 1.0.1 approved and live 15 September 2026 at https://workspace.google.com/marketplace/app/case_changer/422980989821. The 1.2 update (Sheets, Slides, acronyms, settings) was submitted the same evening. See `guide/VERIFICATION.md`.
 
 ## Version
 
-1.1.0 (in progress, 15 September 2026): Google Sheets and Google Slides support, tested, not yet released.
+1.2.0 (submitted 15 September 2026, together with 1.1): Google Sheets and Google Slides support; keep acronyms; Title Case small words for English, Bahasa Malaysia and Bahasa Indonesia plus custom words; whole-file mode; last-used style. Apps Script deployment Version 2.
 
 1.0.1 (10 September 2026): sidebar buttons no longer clip their labels (Google's add-on stylesheet forces a fixed button height); heading in sentence case.
 1.0.0 (3 September 2026): first release.
