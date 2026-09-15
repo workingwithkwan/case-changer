@@ -1,6 +1,6 @@
 # Release 1.3: languages, Turkish and Greek, snake_case and kebab-case
 
-Status 15 September 2026: code written and unit-tested. Release after the 1.2 Marketplace review finishes (new Apps Script version, App Configuration version bump, listing text and graphics update, then SUBMIT FOR REVIEW).
+Status 15 September 2026: code written, unit-tested, loaded into the Apps Script project (head) and tested through the dry-run deployment: Sheets (snake_case on Turkish, Greek and English cells; Türkçe setting gives İSTANBUL_IŞIK_İZMİR in UPPERCASE; Auto shows "Auto: English (your account language)"), Slides (kebab-case on a selected title box, undo works), Docs (Sentence case gives "Οδυσσευς ηταν εδω. Hello world, I said", then snake_case). Not yet deployed as a version. Release after the 1.2 Marketplace review finishes (new Apps Script version, App Configuration version bump, listing text and graphics update, then SUBMIT FOR REVIEW).
 
 ## What changed
 
