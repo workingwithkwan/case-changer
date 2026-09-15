@@ -22,7 +22,7 @@ Reload the document page. If it is still missing, check **Extensions > Add-ons >
 Yes. Press **Cmd+Z** (Mac) or **Ctrl+Z** (Windows) straight after, or use **File > Version history**.
 
 **Does it work in Sheets or Slides?**
-Not yet. Case Changer currently supports Google Docs only.
+Yes. Since version 1.2 Case Changer works in Google Docs, Google Sheets and Google Slides. In Sheets, select the cells you want to change; in Slides, highlight text inside a box, or select the box itself.
 
 **Does it send my text anywhere?**
 No. The text is changed inside Google's own servers and written straight back into your document. Nothing is collected or stored. See the Privacy Policy.

@@ -1,8 +1,8 @@
 # Terms of Service for Case Changer
 
-Effective date: 3 September 2026
+Effective date: 15 September 2026
 
-These terms apply to the Case Changer add-on for Google Docs ("the add-on"), provided by Ikhwan Ariff ("we", "us"). By installing or using the add-on you agree to these terms.
+These terms apply to the Case Changer add-on for Google Docs, Google Sheets and Google Slides ("the add-on"), provided by Ikhwan Ariff ("we", "us"). By installing or using the add-on you agree to these terms.
 
 ## 1. What the add-on does
 

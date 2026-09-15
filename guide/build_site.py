@@ -50,7 +50,7 @@ NAV = '<nav><a href="index.html">Home</a><a href="privacy-policy.html">Privacy P
 SITE = 'https://case-changer.app/'
 def page(title, body, path='', description='', extra_head=''):
     url = SITE + path
-    desc = html.escape(description or 'Case Changer is a free Google Docs add-on that changes selected text to UPPERCASE, lowercase, Sentence case, Title Case and more while keeping formatting.', quote=True)
+    desc = html.escape(description or 'Case Changer is a free Google Docs, Sheets and Slides add-on that changes selected text to UPPERCASE, lowercase, Sentence case, Title Case and more while keeping formatting.', quote=True)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)}</title>
@@ -65,13 +65,13 @@ def page(title, body, path='', description='', extra_head=''):
 {extra_head}<style>{CSS}</style></head>
 <body><header><div class="in"><img src="icon-128.png" alt="Case Changer logo"><a href="index.html">Case Changer</a>{NAV}</div></header>
 <main>{body}</main>
-<footer>Case Changer is a free add-on for Google Docs. Google Docs and Google Workspace are trademarks of Google LLC. Contact: <a href="mailto:support@case-changer.app">support@case-changer.app</a></footer>
+<footer>Case Changer is a free add-on for Google Docs, Sheets and Slides. Google Docs, Google Sheets, Google Slides and Google Workspace are trademarks of Google LLC. Contact: <a href="mailto:support@case-changer.app">support@case-changer.app</a></footer>
 </body></html>
 """
 
-pages = {'PRIVACY_POLICY.md': ('privacy-policy.html', 'Privacy Policy | Case Changer for Google Docs', 'How Case Changer handles your data: nothing is collected, stored or shared. Text is converted inside Google Apps Script and written straight back to your document.'),
-         'TERMS_OF_SERVICE.md': ('terms-of-service.html', 'Terms of Service | Case Changer for Google Docs', 'Terms of service for the free Case Changer add-on for Google Docs.'),
-         'SUPPORT.md': ('support.html', 'Support and FAQ | Case Changer for Google Docs', 'Help for Case Changer: how to change text case in Google Docs, undo a change, fix a missing menu, and contact support.')}
+pages = {'PRIVACY_POLICY.md': ('privacy-policy.html', 'Privacy Policy | Case Changer for Google Docs, Sheets and Slides', 'How Case Changer handles your data: nothing is collected, stored or shared. Text is converted inside Google Apps Script and written straight back to your document, spreadsheet or presentation.'),
+         'TERMS_OF_SERVICE.md': ('terms-of-service.html', 'Terms of Service | Case Changer for Google Docs, Sheets and Slides', 'Terms of service for the free Case Changer add-on for Google Docs, Sheets and Slides.'),
+         'SUPPORT.md': ('support.html', 'Support and FAQ | Case Changer for Google Docs, Sheets and Slides', 'Help for Case Changer: how to change text case in Google Docs, Sheets and Slides, undo a change, fix a missing menu, and contact support.')}
 for src, (dst, title, desc) in pages.items():
     md = open(f'{SRC}/{src}').read()
     open(f'{OUT}/{dst}', 'w').write(page(title, md_to_html(md), dst, desc))
@@ -93,11 +93,11 @@ faq = [
  ('The old "Change Case" add-on stopped working. Is this a replacement?',
   'Yes. Case Changer was built as a modern replacement for abandoned change-case add-ons, with the same styles, formatting kept intact, and a privacy policy that promises no data collection.'),
  ('Does it work in Google Sheets or Slides?',
-  'Not yet. Case Changer currently supports Google Docs. Sheets and Slides support is being built.'),
+  'Yes. Since version 1.2 Case Changer works in Google Docs, Google Sheets and Google Slides. In Sheets, select the cells you want to change. In Slides, highlight text inside a box or select the box itself.'),
 ]
 faq_html = ''.join(f'<h3>{html.escape(q)}</h3><p>{html.escape(a)}</p>' for q,a in faq)
 home = f"""
-<div class="hero"><img src="icon-512.png" alt="Case Changer logo, the letters Aa on a blue tile"><div><h1>Case Changer for Google Docs</h1>
+<div class="hero"><img src="icon-512.png" alt="Case Changer logo, the letters Aa on a blue tile"><div><h1>Case Changer for Google Docs, Sheets and Slides</h1>
 <p>A free add-on that changes the case of selected text in one click: UPPERCASE, lowercase, Sentence case, Title Case and more. Bold, links and colours stay exactly where they were.</p></div></div>
 <h2>Seven Case Styles</h2><div class="styles">{''.join(f'<div><strong>{html.escape(n)}</strong><br><span class="muted">{html.escape(d)}</span></div>' for n,d in styles)}</div>
 <h2>How To Change Case In Google Docs</h2>
@@ -109,7 +109,7 @@ home = f"""
 <li><strong>Private by design.</strong> Access is limited to the open document and nothing is stored. Read the <a href="privacy-policy.html">privacy policy</a>.</li>
 <li><strong>Free.</strong> No account, no sign-up, no ads.</li></ul>
 <h2>Get It</h2>
-<p>Case Changer is being published on the Google Workspace Marketplace. Once it is listed, install it from <strong>Extensions &gt; Add-ons &gt; Get add-ons</strong> inside Google Docs and search for "Case Changer".</p>
+<p>Case Changer is free on the <a href="https://workspace.google.com/marketplace/app/case_changer/422980989821">Google Workspace Marketplace</a>. Install it there, or open <strong>Extensions &gt; Add-ons &gt; Get add-ons</strong> inside Google Docs, Sheets or Slides and search for "Case Changer".</p>
 <h2>Frequently Asked Questions</h2>
 {faq_html}
 <p>More help on the <a href="support.html">support page</a>, or email <a href="mailto:support@case-changer.app">support@case-changer.app</a>.</p>
@@ -117,8 +117,8 @@ home = f"""
 import json
 ld = [{
  "@context":"https://schema.org","@type":"SoftwareApplication","name":"Case Changer","url":SITE,
- "applicationCategory":"BrowserApplication","applicationSubCategory":"Google Docs add-on","operatingSystem":"Web",
- "description":"Free Google Docs add-on that changes selected text to UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, iNVERSE cASE or aLtErNaTiNg cAsE while keeping bold, links and colours.",
+ "applicationCategory":"BrowserApplication","applicationSubCategory":"Google Workspace add-on","operatingSystem":"Web",
+ "description":"Free Google Docs, Sheets and Slides add-on that changes selected text to UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, iNVERSE cASE or aLtErNaTiNg cAsE while keeping bold, links and colours.",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
  "image":SITE+"icon-512.png","screenshot":SITE+"assets/screenshot-1.png",
  "author":{"@type":"Person","name":"Ikhwan Ariff"},
@@ -129,7 +129,7 @@ ld = [{
 }]
 extra = ''.join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in ld)
 open(f'{OUT}/index.html','w').write(page('Case Changer: Change Text Case in Google Docs (Free Add-on)', home, '',
-    'Free Google Docs add-on to change selected text to UPPERCASE, lowercase, Sentence case, Title Case and more in one click, keeping bold, links and colours.', extra))
+    'Free Google Docs, Sheets and Slides add-on to change selected text to UPPERCASE, lowercase, Sentence case, Title Case and more in one click, keeping bold, links and colours.', extra))
 open(f'{OUT}/robots.txt','w').write('User-agent: *\nAllow: /\nSitemap: https://case-changer.app/sitemap.xml\n')
 import datetime
 today = datetime.date.today().isoformat()
