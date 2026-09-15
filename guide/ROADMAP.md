@@ -21,10 +21,28 @@ Each release below needs only a Marketplace listing review (text and screenshots
 - Sidebar, menu hints and help text translated into the 1.3 languages, chosen from the account language.
 - Marketplace listing translated into the top five languages.
 
+## 1.5
+Smarter text
+- **Never-change words**: a Settings box for words that keep their exact spelling in every style (iPhone, eBay, macOS, PETRONAS, a company name). Remembered per user.
+- **Sentence case knows the basics**: days, months, language names and country names stay capitalised (monday to Monday), and English contractions of "I" are fixed (i'm, i've, i'll to I'm, I've, I'll). Small built-in lists per 1.3 language.
+- **Detect the language from the text itself**: Auto reads the selected words, not only the account language, so a Malay heading in an English account gets the Malay small words.
+
+Faster workflow
+- **Preview in the sidebar**: the first line of the selection shown as it would look, before clicking.
+- **Cycle case**: one button and one menu item that go UPPERCASE, lowercase, Title Case on repeated use, like Shift+F3 in Word.
+- **Repeat last style** menu item.
+
+Wider coverage
+- Sheets: whole column, skipping the header row.
+- Slides: speaker notes included in whole-deck mode.
+- Docs: footnotes and tables covered by whole-document mode.
+
+Polish
+- Dark sidebar when the editor is in dark theme.
+- Favourites: pin the three most-used styles to the top of the sidebar.
+
 ## Later, if asked for
-- Apply to every slide including speaker notes; apply to a whole Sheets column skipping the header.
-- Google Forms™ support.
-- Preview of the converted text in the sidebar.
+- Google Forms™ support: a different add-on type with its own scope and review, and very little text to change.
 
 ## Not planned
 - Keyboard shortcuts: Apps Script add-ons cannot register them.
