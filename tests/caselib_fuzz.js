@@ -99,13 +99,60 @@ eq('extra words', C('song of ice dan fire', 'title', {language:'en', extraSmallW
 eq('unknown language falls back', C('lord of the rings', 'title', {language:'xx'}), 'Lord of the Rings');
 eq('options do not leak', C('the NASA team', 'sentence', NA) === 'The nasa team' && C('the NASA team', 'sentence') === 'The NASA team', true);
 
+// 1c. 1.3: snake_case, kebab-case, more languages, Turkish and Greek
+eq('snake basic', C('Hello World', 'snake'), 'hello_world');
+eq('snake hyphen joins', C('case-changer app', 'snake'), 'case_changer_app');
+eq('snake double space', C('a  b', 'snake'), 'a__b');
+eq('snake keeps tabs and newlines', C('a b\tc\nD e', 'snake'), 'a_b\tc\nd_e');
+eq('snake nbsp', C('a\u00a0b', 'snake'), 'a_b');
+eq('snake punctuation kept', C('Hello, World!', 'snake'), 'hello,_world!');
+eq('kebab basic', C('Hello World', 'kebab'), 'hello-world');
+eq('kebab underscore joins', C('my_var name', 'kebab'), 'my-var-name');
+eq('kebab of snake', C(C('Some Name Here', 'snake'), 'kebab'), 'some-name-here');
+eq('snake of kebab', C(C('Some Name Here', 'kebab'), 'snake'), 'some_name_here');
+eq('snake unicode', C('Kuala Lumpur ÉTÉ', 'snake'), 'kuala_lumpur_été');
+eq('snake label', CaseLib.MODES.snake.label + ' ' + CaseLib.MODES.kebab.label, 'snake_case kebab-case');
+eq('modes count', Object.keys(CaseLib.MODES).length, 9);
+eq('languages listed', CaseLib.LANGUAGES.length, 12);
+count++; CaseLib.LANGUAGES.forEach(function (l) { if (!CaseLib.PRESETS.hasOwnProperty(l[0])) fails.push('language without preset: ' + l[0]); });
+eq('spanish preset', C('el señor de los anillos y la comunidad del anillo', 'title', {language:'es'}), 'El Señor de los Anillos y la Comunidad del Anillo');
+eq('french preset', C('le fabuleux destin d\'amélie poulain et les autres', 'title', {language:'fr'}), 'Le Fabuleux Destin D\'amélie Poulain et les Autres');
+eq('german preset', C('der herr der ringe und die gefährten', 'title', {language:'de'}), 'Der Herr der Ringe und die Gefährten');
+eq('portuguese preset', C('o senhor dos anéis e a sociedade do anel', 'title', {language:'pt'}), 'O Senhor dos Anéis e a Sociedade do Anel');
+eq('italian preset', C('il signore degli anelli e la compagnia dell\'anello', 'title', {language:'it'}), 'Il Signore degli Anelli e la Compagnia Dell\'anello');
+eq('dutch preset', C('in de ban van de ring en het gezelschap', 'title', {language:'nl'}), 'In de Ban van de Ring en het Gezelschap');
+eq('tagalog preset', C('ang panginoon ng mga singsing at ang kapatiran', 'title', {language:'tl'}), 'Ang Panginoon ng mga Singsing at ang Kapatiran');
+eq('turkish preset', C('yüzüklerin efendisi ve yüzük kardeşliği', 'title', {language:'tr'}), 'Yüzüklerin Efendisi ve Yüzük Kardeşliği');
+eq('greek preset', C('ο άρχοντας των δαχτυλιδιών και η συντροφιά', 'title', {language:'el'}), 'Ο Άρχοντας των Δαχτυλιδιών και η Συντροφιά');
+eq('i pronoun english only', C('what i said', 'sentence', {language:'nl'}) + '|' + C('what i said', 'sentence', {language:'en'}) + '|' + C('what i said', 'sentence', {language:'tr'}), 'What i said|What I said|What i said');
+eq('i pronoun default en', C('so i went', 'sentence'), 'So I went');
+eq('greek final sigma lower', C('ΟΔΥΣΣΕΥΣ ΚΑΙ ΣΟΦΙΑ', 'lower'), 'οδυσσευς και σοφια');
+eq('greek final sigma sentence', C('ΟΔΥΣΣΕΥΣ ΗΤΑΝ ΕΔΩ. ΝΑΙ', 'sentence', {keepAcronyms:false}), 'Οδυσσευς ηταν εδω. Ναι');
+eq('greek final sigma capitalize', C('ΟΔΥΣΣΕΥΣ ΣΟΦΟΣ', 'capitalize', {keepAcronyms:false}), 'Οδυσσευς Σοφος');
+eq('greek sigma alone', C('Σ', 'lower'), 'σ');
+eq('greek sigma before punctuation', C('ΟΔΥΣΣΕΥΣ, ΝΑΙ', 'lower'), 'οδυσσευς, ναι');
+eq('greek upper of final sigma', C('οδυσσευς', 'upper'), 'ΟΔΥΣΣΕΥΣ');
+eq('greek inverse', C('ΟΔΥΣΣΕΥΣ', 'inverse'), 'οδυσσευς');
+eq('greek not in en', C('ΟΔΥΣΣΕΥΣ', 'lower', {language:'en'}), 'οδυσσευς');
+eq('turkish lower I', C('ISPARTA IĞDIR', 'lower', {language:'tr'}), 'ısparta ığdır');
+eq('turkish lower dotted', C('İZMİR', 'lower', {language:'tr'}), 'izmir');
+eq('turkish upper i', C('izmir istanbul', 'upper', {language:'tr'}), 'İZMİR İSTANBUL');
+eq('turkish upper dotless', C('ısparta', 'upper', {language:'tr'}), 'ISPARTA');
+eq('turkish title', C('istanbul ve izmir', 'title', {language:'tr'}), 'İstanbul ve İzmir');
+eq('turkish sentence', C('ISPARTA GÜZEL. İZMİR DE', 'sentence', {language:'tr', keepAcronyms:false}), 'Isparta güzel. İzmir de');
+eq('turkish roundtrip', C(C('istanbul ısparta', 'upper', {language:'tr'}), 'lower', {language:'tr'}), 'istanbul ısparta');
+eq('english I lower stays i', C('ISTANBUL', 'lower'), 'istanbul');
+eq('english dotted I lowers to i', C('İstanbul', 'lower'), 'istanbul');
+eq('english i upper stays I', C('istanbul', 'upper'), 'ISTANBUL');
+eq('language does not leak', C('istanbul', 'upper', {language:'tr'}) === 'İSTANBUL' && C('istanbul', 'upper') === 'ISTANBUL', true);
+
 // 2. Invariants on a corpus + fuzz
 var corpus = ['', 'a', 'A', ' ', 'hello', 'Hello, World!', 'the quick brown fox.', 'ÀÉÎÕÜ àéîõü', 'straße Straße STRASSE',
   'İstanbul ıi', 'ﬁ ligature', 'é combining', '😀 emoji 🇲🇾 flags 👨‍👩‍👧 zwj', '你好，世界', 'مرحبا بالعالم', 'Привет мир',
   'tab\there\nnew\r\nline', '  leading and trailing  ', 'MiXeD cAsE tExT 123', "it's o'clock don't", 'a-b-c d_e_f',
-  '"quoted" (parens) [brackets] {braces}', 'x'.repeat(5000), 'word '.repeat(1000)];
+  '"quoted" (parens) [brackets] {braces}', 'ΟΔΥΣΣΕΥΣ ΣΟΦΙΑ σοφός', 'İSTANBUL ısparta', 'x'.repeat(5000), 'word '.repeat(1000)];
 var rnd = 12345; function rand() { rnd = (rnd * 1103515245 + 12345) & 0x7fffffff; return rnd / 0x7fffffff; }
-var alphabet = 'abcXYZ éÉßİı你😀 .!?\n\t\'"-:0129';
+var alphabet = 'abcXYZ éÉßİı你😀ΣσςΑ .!?\n\t\'"-_:0129';
 for (var f = 0; f < 400; f++) { var n = Math.floor(rand() * 40), s = ''; for (var k = 0; k < n; k++) s += alphabet[Math.floor(rand() * alphabet.length)]; corpus.push(s); }
 corpus.forEach(function (s, idx) {
   MODES.forEach(function (m) {
@@ -113,14 +160,21 @@ corpus.forEach(function (s, idx) {
     count++;
     if (typeof out !== 'string') fails.push('non-string ' + m + ' #' + idx);
     else if (out.length !== s.length) fails.push('LENGTH CHANGED ' + m + ' #' + idx + ' ' + JSON.stringify(s.slice(0, 40)) + ' -> ' + JSON.stringify(out.slice(0, 40)));
-    // non-letters must be untouched
-    for (var i = 0; i < s.length; i++) { if (!/\p{L}/u.test(s[i]) && s[i] !== out[i]) { fails.push('NON-LETTER CHANGED ' + m + ' #' + idx + ' at ' + i); break; } }
+    // non-letters must be untouched (snake and kebab may only turn space, nbsp, - and _ into their joiner)
+    var joiner = m === 'snake' ? '_' : m === 'kebab' ? '-' : null;
+    for (var i = 0; i < s.length; i++) {
+      if (/\p{L}/u.test(s[i]) || s[i] === out[i]) continue;
+      if (joiner && out[i] === joiner && /[ \u00a0_-]/.test(s[i])) continue;
+      fails.push('NON-LETTER CHANGED ' + m + ' #' + idx + ' at ' + i); break;
+    }
     // idempotence for the deterministic modes
     if (m !== 'inverse' && m !== 'alternating' && !/İ/.test(s)) { count++; if (C(out, m) !== out) fails.push('NOT IDEMPOTENT ' + m + ' #' + idx + ' ' + JSON.stringify(s.slice(0, 40))); }
   });
-  count++; if (C(C(s, 'inverse'), 'inverse') !== s && !/[ßİıﬁ]/.test(s)) fails.push('INVERSE NOT INVOLUTION #' + idx + ' ' + JSON.stringify(s.slice(0, 40)));
-  count++; if (C(C(s, 'upper'), 'lower') !== C(s, 'lower') && !/[ßİıﬁ]/.test(s)) fails.push('UPPER->LOWER != LOWER #' + idx + ' ' + JSON.stringify(s.slice(0, 40)));
+  count++; if (C(C(s, 'inverse'), 'inverse') !== s && !/[ßİıﬁΣσς]/.test(s)) fails.push('INVERSE NOT INVOLUTION #' + idx + ' ' + JSON.stringify(s.slice(0, 40)));
+  count++; if (C(C(s, 'upper'), 'lower') !== C(s, 'lower') && !/[ßİıﬁΣσς]/.test(s)) fails.push('UPPER->LOWER != LOWER #' + idx + ' ' + JSON.stringify(s.slice(0, 40)));
 });
+// 2b. Sigma round trip on real words (final form only at word ends)
+['ΟΔΥΣΣΕΥΣ ΣΟΦΙΑ', 'Σοφός Οδυσσεύς', 'ΝΑΙ ΚΑΙ ΟΧΙ'].forEach(function (g) { eq('sigma roundtrip ' + g, C(C(g, 'lower'), 'upper'), C(g, 'upper')); eq('sigma involution ' + g, C(C(C(g, 'lower'), 'inverse'), 'inverse'), C(g, 'lower')); });
 // 3. Performance
 var t0 = Date.now(); C('The quick brown fox jumps over the lazy dog. '.repeat(2000), 'title'); var ms = Date.now() - t0;
 count++; if (ms > 2000) fails.push('SLOW title on 90k chars: ' + ms + 'ms');

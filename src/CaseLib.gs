@@ -14,8 +14,24 @@ var CaseLib = (function () {
   var SMALL_WORD_PRESETS = {
     en: 'a an and as at but by en for if in nor of on or per the to v vs via',
     ms: 'dan atau di ke dari pada untuk yang dengan oleh bagi serta tentang demi',
-    id: 'dan atau di ke dari pada untuk yang dengan oleh bagi serta tentang demi'
+    id: 'dan atau di ke dari pada untuk yang dengan oleh bagi serta tentang demi',
+    es: 'a al ante bajo con contra de del desde durante e el en entre hacia hasta la las lo los mediante ni o para por que según sin sobre tras u un una unas unos y',
+    fr: 'à au aux avec car chez dans de des du en et la le les mais ni ou par pour sans sous sur un une vers',
+    de: 'aber als am an auf aus bei bis das dem den der des die durch ein eine einem einen einer eines für gegen im in mit nach ohne oder seit sondern über um und unter vom von vor zu zum zur zwischen',
+    pt: 'a à ao aos as às com da das de do dos e em mas na nas nem no nos o os ou para pela pelas pelo pelos por que sem sob sobre um uma umas uns',
+    it: 'a ad agli ai al alla alle allo che col con da dagli dai dal dalla dalle dallo degli dei del della delle dello di e ed fra gli i il in la le lo ma nei negli nel nella nelle nello o per su sugli sui sul sulla sulle sullo tra un una uno',
+    nl: 'aan als bij dan de door een en het in maar met naar of om onder op over te tot uit van voor want',
+    tl: 'ang at ay kay kina mga na nang ng ni nina o para sa si sina',
+    tr: 'ama da de fakat gibi ile için kadar ki mi mı mu mü ve veya ya',
+    el: 'από για δεν η ή και με να ο οι σε στα στη στην στις στο στον στου στους στων τα της τη την τις το τον του τους των'
   };
+  // Languages offered in the sidebar, in display order. 'auto' (the account
+  // language) is resolved by Code.gs before the options reach convert().
+  var LANGUAGES = [
+    ['en', 'English'], ['ms', 'Bahasa Malaysia'], ['id', 'Bahasa Indonesia'], ['es', 'Español'],
+    ['fr', 'Français'], ['de', 'Deutsch'], ['pt', 'Português'], ['it', 'Italiano'], ['nl', 'Nederlands'],
+    ['tl', 'Tagalog'], ['tr', 'Türkçe'], ['el', 'Ελληνικά']
+  ];
   function wordSet(list) {
     var set = {};
     String(list || '').toLowerCase().split(/[\s,;]+/).forEach(function (w) { if (w) set[w] = 1; });
@@ -24,14 +40,14 @@ var CaseLib = (function () {
   var SMALL_WORDS = wordSet(SMALL_WORD_PRESETS.en);
 
   // Options accepted by convert(): { keepAcronyms: true, language: 'en'|'ms'|'id', extraSmallWords: 'dan di ke' }
-  var current = { keepAcronyms: true, smallWords: SMALL_WORDS };
+  var current = { keepAcronyms: true, smallWords: SMALL_WORDS, language: 'en' };
   function applyOptions(opts) {
     opts = opts || {};
     var lang = SMALL_WORD_PRESETS.hasOwnProperty(opts.language) ? opts.language : 'en';
     var set = wordSet(SMALL_WORD_PRESETS[lang]);
     var extra = wordSet(opts.extraSmallWords);
     for (var k in extra) if (extra.hasOwnProperty(k)) set[k] = 1;
-    current = { keepAcronyms: opts.keepAcronyms !== false, smallWords: set };
+    current = { keepAcronyms: opts.keepAcronyms !== false, smallWords: set, language: lang };
   }
 
   // Acronym protection: words of 2 to 6 letters written entirely in capitals
@@ -87,8 +103,29 @@ var CaseLib = (function () {
 
   // Case-map a single character, but only if the result is still one character
   // (e.g. German sharp s uppercases to "SS", which would break in-place replacement).
-  function up(ch) { var u = ch.toUpperCase(); return u.length === 1 ? u : ch; }
-  function low(ch) { var l = ch.toLowerCase(); return l.length === 1 ? l : ch; }
+  // Turkish (and Azeri) pair the dotted i with a dotted capital İ and the
+  // dotless ı with a plain I, so those two mappings depend on the language.
+  function up(ch) {
+    if (ch === 'i' && current.language === 'tr') return 'İ';
+    var u = ch.toUpperCase(); return u.length === 1 ? u : ch;
+  }
+  function low(ch) {
+    if (ch === 'İ') return 'i';                              // toLowerCase gives "i" + combining dot
+    if (ch === 'I' && current.language === 'tr') return 'ı';
+    var l = ch.toLowerCase(); return l.length === 1 ? l : ch;
+  }
+  // Lowercase with context: a Greek capital sigma at the end of a word becomes
+  // the final form ς, elsewhere σ.
+  function lowAt(s, i) {
+    var ch = s[i];
+    if (ch === 'Σ') {
+      var prevLetter = i > 0 && isLetter(s[i - 1]);
+      var next = s[i + 1];
+      var nextLetter = next !== undefined && isLetter(next);
+      return (prevLetter && !nextLetter) ? 'ς' : 'σ';
+    }
+    return low(ch);
+  }
 
   function mapChars(s, fn) {
     var out = '';
@@ -97,24 +134,38 @@ var CaseLib = (function () {
   }
 
   function upper(s) { return mapChars(s, up); }
-  function lower(s) { return mapChars(s, low); }
+  function lower(s) { return mapChars(s, function (ch, i) { return lowAt(s, i); }); }
 
   function inverse(s) {
-    return mapChars(s, function (ch) {
+    return mapChars(s, function (ch, i) {
       var u = up(ch);
-      return ch === u ? low(ch) : u;
+      return ch === u ? lowAt(s, i) : u;
     });
   }
 
   function alternating(s) {
     var n = 0;
-    return mapChars(s, function (ch) {
+    return mapChars(s, function (ch, i) {
       if (!isLetter(ch)) return ch;
-      var r = (n % 2 === 0) ? low(ch) : up(ch);
+      var r = (n % 2 === 0) ? lowAt(s, i) : up(ch);
       n++;
       return r;
     });
   }
+
+  // snake_case and kebab-case: everything lowercase, and each space (or the
+  // other joiner) becomes the joiner. One character per character, so a run
+  // of two spaces becomes two joiners; tabs and line breaks are left alone.
+  function joined(s, joiner, other) {
+    var lowered = lower(s), out = '';
+    for (var i = 0; i < lowered.length; i++) {
+      var ch = lowered[i];
+      out += (ch === ' ' || ch === '\u00a0' || ch === other) ? joiner : ch;
+    }
+    return out;
+  }
+  function snakeCase(s) { return joined(s, '_', '-'); }
+  function kebabCase(s) { return joined(s, '-', '_'); }
 
   // Tokens that must not be re-cased by Title Case or Capitalize Each Word:
   // email addresses, URLs and bare domain names. Returned as [start, end] pairs.
@@ -136,11 +187,11 @@ var CaseLib = (function () {
 
   // Capitalise the first letter of every word; everything else lowercase.
   function capitalizeEachWord(s) {
-    var out = [];
+    var out = lower(s).split('');
     for (var i = 0; i < s.length; i++) {
-      var ch = s[i];
+      var ch = out[i];
       var startOfWord = isLetter(ch) && (i === 0 || !isWordChar(s[i - 1]));
-      out.push(startOfWord ? up(ch) : low(ch));
+      if (startOfWord) out[i] = up(ch);
     }
     return restoreAcronyms(s, restoreProtected(s, out)).join('');
   }
@@ -175,7 +226,8 @@ var CaseLib = (function () {
   }
 
   // Sentence case: lowercase everything, capitalise the first letter of each
-  // sentence (and after line breaks), and fix the standalone pronoun "i".
+  // sentence (and after line breaks), and fix the standalone pronoun "i"
+  // (English only: in Dutch, Turkish or Malay a lone "i" is not a pronoun).
   function sentenceCase(s) {
     var chars = lower(s).split('');
     var needCap = true;
@@ -194,7 +246,7 @@ var CaseLib = (function () {
       } else if (/\p{N}/u.test(ch)) {
         needCap = false; // "3 apples were left." - the number starts the sentence
       }
-      if (chars[i] === 'i') {
+      if (chars[i] === 'i' && current.language === 'en') {
         var prevOk = i === 0 || !isWordChar(chars[i - 1]);
         var next = chars[i + 1];
         var nextOk = next === undefined || !isWordChar(next) || next === "'" || next === '’';
@@ -213,7 +265,9 @@ var CaseLib = (function () {
     title: { label: 'Title Case', fn: titleCase },
     capitalize: { label: 'Capitalize Each Word', fn: capitalizeEachWord },
     inverse: { label: 'iNVERSE cASE', fn: inverse },
-    alternating: { label: 'aLtErNaTiNg cAsE', fn: alternating }
+    alternating: { label: 'aLtErNaTiNg cAsE', fn: alternating },
+    snake: { label: 'snake_case', fn: snakeCase },
+    kebab: { label: 'kebab-case', fn: kebabCase }
   };
 
   function convert(text, mode, options) {
@@ -225,5 +279,5 @@ var CaseLib = (function () {
     return out;
   }
 
-  return { convert: convert, MODES: MODES, PRESETS: SMALL_WORD_PRESETS };
+  return { convert: convert, MODES: MODES, PRESETS: SMALL_WORD_PRESETS, LANGUAGES: LANGUAGES };
 })();

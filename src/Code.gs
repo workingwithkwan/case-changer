@@ -47,6 +47,8 @@ function onOpen(e) {
     .addItem('Capitalize Each Word', 'menuCapitalize')
     .addItem('iNVERSE cASE', 'menuInverse')
     .addItem('aLtErNaTiNg cAsE', 'menuAlternating')
+    .addItem('snake_case', 'menuSnake')
+    .addItem('kebab-case', 'menuKebab')
     .addSeparator()
     .addItem('Open sidebar', 'showSidebar')
     .addItem('Help', 'showHelp')
@@ -66,6 +68,8 @@ function menuTitle() { runFromMenu('title'); }
 function menuCapitalize() { runFromMenu('capitalize'); }
 function menuInverse() { runFromMenu('inverse'); }
 function menuAlternating() { runFromMenu('alternating'); }
+function menuSnake() { runFromMenu('snake'); }
+function menuKebab() { runFromMenu('kebab'); }
 
 function runFromMenu(mode) {
   var result = applyCase(mode);
@@ -89,7 +93,23 @@ function fileNoun() {
 
 /* ---------- Settings (per user, stored by Apps Script, no extra permission) ---------- */
 
-var DEFAULT_SETTINGS = { keepAcronyms: true, language: 'en', extraSmallWords: '', lastMode: '' };
+var DEFAULT_SETTINGS = { keepAcronyms: true, language: 'auto', extraSmallWords: '', lastMode: '' };
+
+/**
+ * The language behind 'auto': the account language of the current user
+ * (Session.getActiveUserLocale needs no extra permission), reduced to one of
+ * the CaseLib presets. Anything unknown falls back to English.
+ */
+function accountLanguage() {
+  var code = 'en';
+  try { code = String(Session.getActiveUserLocale() || 'en'); } catch (e) { /* keep en */ }
+  code = code.toLowerCase().split(/[-_]/)[0];
+  if (code === 'fil') code = 'tl';
+  return CaseLib.PRESETS.hasOwnProperty(code) ? code : 'en';
+}
+function resolveLanguage(language) {
+  return language === 'auto' ? accountLanguage() : language;
+}
 
 function getSettings() {
   var out = {};
@@ -101,6 +121,7 @@ function getSettings() {
       for (var key in saved) if (saved.hasOwnProperty(key) && out.hasOwnProperty(key)) out[key] = saved[key];
     }
   } catch (e) { /* fall back to defaults */ }
+  out.resolvedLanguage = resolveLanguage(out.language); // for the sidebar's "Auto (English)" label
   return out;
 }
 
@@ -108,17 +129,18 @@ function saveSettings(patch) {
   var current = getSettings();
   patch = patch || {};
   if (typeof patch.keepAcronyms === 'boolean') current.keepAcronyms = patch.keepAcronyms;
-  if (typeof patch.language === 'string' && CaseLib.PRESETS.hasOwnProperty(patch.language)) current.language = patch.language;
+  if (typeof patch.language === 'string' && (patch.language === 'auto' || CaseLib.PRESETS.hasOwnProperty(patch.language))) current.language = patch.language;
   if (typeof patch.extraSmallWords === 'string') current.extraSmallWords = patch.extraSmallWords.slice(0, 500);
   if (typeof patch.lastMode === 'string' && CaseLib.MODES[patch.lastMode]) current.lastMode = patch.lastMode;
+  delete current.resolvedLanguage;
   PropertiesService.getUserProperties().setProperty('settings', JSON.stringify(current));
-  return current;
+  return getSettings();
 }
 
 /** The CaseLib options derived from the saved settings. */
 function caseOptions() {
   var st = getSettings();
-  return { keepAcronyms: st.keepAcronyms, language: st.language, extraSmallWords: st.extraSmallWords };
+  return { keepAcronyms: st.keepAcronyms, language: resolveLanguage(st.language), extraSmallWords: st.extraSmallWords };
 }
 
 /** Opens the sidebar with one button per case style. */

@@ -8,7 +8,8 @@ function fail(cat, msg) { count++; if (!shown[cat]) shown[cat] = 0; if (shown[ca
 function ok() { count++; }
 var LETTER = /\p{L}/u;
 function firstLetterIdx(w) { for (var i = 0; i < w.length; i++) if (LETTER.test(w[i])) return i; return -1; }
-function upc(ch) { var u = ch.toUpperCase(); return u.length === 1 ? u : ch; }
+function upc(ch, lang) { if (lang === 'tr' && ch === 'i') return 'İ'; var u = ch.toUpperCase(); return u.length === 1 ? u : ch; }
+var SMALL_EN = CaseLib.PRESETS.en.split(' ');
 function loc(ch) { var l = ch.toLowerCase(); return l.length === 1 ? l : ch; }
 
 // ---------- 1. Every English dictionary word ----------
@@ -125,10 +126,37 @@ ACC.forEach(function (w) {
 });
 // Known tricky mappings
 var tricky = [
-  ['straße', 'upper', 'STRAßE'], ['ǆ', 'upper', 'Ǆ'], ['ﬁ', 'upper', 'ﬁ'], ['İstanbul', 'lower', 'İstanbul'.length === 8 ? 'İstanbul' : ''],
+  ['straße', 'upper', 'STRAßE'], ['ǆ', 'upper', 'Ǆ'], ['ﬁ', 'upper', 'ﬁ'], ['İstanbul', 'lower', 'istanbul'],
   ['ISTANBUL', 'lower', 'istanbul'], ['ΣΟΦΊΑ', 'lower', 'σοφία'], ['σοφία', 'upper', 'ΣΟΦΊΑ'], ['москва', 'title', 'Москва'], ['école', 'sentence', 'École'], ['ÉCOLE alone stays', 'sentence', 'ÉCOLE alone stays'], ['élève', 'capitalize', 'Élève'],
   ['phở bò', 'title', 'Phở Bò'], ['đường', 'upper', 'ĐƯỜNG']
 ];
+// ---------- 4. 1.3 language presets: a real title per language ----------
+var TITLES = [
+  ['es', 'cien años de soledad y el amor en los tiempos del cólera', 'Cien Años de Soledad y el Amor en los Tiempos del Cólera'],
+  ['fr', 'à la recherche du temps perdu et les misérables', 'À la Recherche du Temps Perdu et les Misérables'],
+  ['de', 'die verwandlung und der prozess von franz kafka', 'Die Verwandlung und der Prozess von Franz Kafka'],
+  ['pt', 'memórias póstumas de brás cubas e o cortiço', 'Memórias Póstumas de Brás Cubas e o Cortiço'],
+  ['it', 'il nome della rosa e la divina commedia', 'Il Nome della Rosa e la Divina Commedia'],
+  ['nl', 'het diner en de ontdekking van de hemel', 'Het Diner en de Ontdekking van de Hemel'],
+  ['tl', 'noli me tangere at el filibusterismo ni rizal', 'Noli Me Tangere at El Filibusterismo ni Rizal'],
+  ['tr', 'benim adım kırmızı ve kar için istanbul', 'Benim Adım Kırmızı ve Kar için İstanbul'],
+  ['el', 'το τρίτο στεφάνι και η φόνισσα του παπαδιαμάντη', 'Το Τρίτο Στεφάνι και η Φόνισσα του Παπαδιαμάντη'],
+  ['ms', 'salina dan ranjau sepanjang jalan oleh shahnon ahmad', 'Salina dan Ranjau Sepanjang Jalan oleh Shahnon Ahmad'],
+  ['id', 'laskar pelangi dan bumi manusia oleh pramoedya', 'Laskar Pelangi dan Bumi Manusia oleh Pramoedya'],
+  ['en', 'of mice and men and the grapes of wrath', 'Of Mice and Men and the Grapes of Wrath']
+];
+TITLES.forEach(function (t) { var got = C(t[1], 'title', {language: t[0]}); if (got !== t[2]) fail('title-' + t[0], JSON.stringify(got) + ' want ' + JSON.stringify(t[2])); else ok(); });
+// every preset word, alone and in the middle of a title, in every language
+Object.keys(CaseLib.PRESETS).forEach(function (lang) {
+  CaseLib.PRESETS[lang].split(' ').forEach(function (w) {
+    var mid = C('alpha ' + w + ' omega', 'title', {language: lang});
+    if (mid !== 'Alpha ' + w + ' Omega') fail('preset-mid-' + lang, w + ' -> ' + mid); else ok();
+    var alone = C(w, 'title', {language: lang}), fi = firstLetterIdx(w);
+    if (fi >= 0 && alone[fi] !== upc(w[fi], lang)) fail('preset-alone-' + lang, w + ' -> ' + alone); else ok();
+    var other = C('alpha ' + w + ' omega', 'title', {language: 'xx'});
+    if (SMALL_EN.indexOf(w) < 0 && fi >= 0 && other[6 + fi] !== upc(w[fi])) fail('preset-not-en-' + lang, w + ' -> ' + other); else ok();
+  });
+});
 tricky.forEach(function (t) { var got = C(t[0], t[1]); if (got !== t[2]) fail('tricky', t[0] + ' ' + t[1] + ' -> ' + JSON.stringify(got) + ' want ' + JSON.stringify(t[2])); else ok(); });
 
 'dictionary words: ' + dict.length + ' (' + dictMs + ' ms), MS: ' + MS.length + ', ID: ' + ID.length + ', accented: ' + ACC.length + '\nchecks: ' + count + ', failures: ' + fails.length + (fails.length ? '\n' + fails.join('\n') : '');

@@ -48,6 +48,8 @@
     <button class="btn" data-mode="capitalize">Capitalize Each Word</button>
     <button class="btn" data-mode="inverse">iNVERSE cASE</button>
     <button class="btn" data-mode="alternating">aLtErNaTiNg cAsE</button>
+    <button class="btn" data-mode="snake">snake_case</button>
+    <button class="btn" data-mode="kebab">kebab-case</button>
   </div>
 
   <div id="status"></div>
@@ -56,11 +58,21 @@
   <details>
     <summary>Settings</summary>
     <label class="check"><input type="checkbox" id="keepAcronyms"> <span>Keep acronyms as they are (NASA, KL, UMNO) in Sentence case and Title Case</span></label>
-    <div class="field"><label for="language">Title Case keeps these small words lowercase</label>
+    <div class="field"><label for="language">Language: sets the small words Title Case keeps lowercase (of, the, dan, de, der...) and the English capital I</label>
       <select id="language">
-        <option value="en">English (of, the, and, to...)</option>
-        <option value="ms">Bahasa Malaysia (dan, di, ke, yang...)</option>
-        <option value="id">Bahasa Indonesia (dan, di, ke, yang...)</option>
+        <option value="auto">Auto (your Google account language)</option>
+        <option value="en">English</option>
+        <option value="ms">Bahasa Malaysia</option>
+        <option value="id">Bahasa Indonesia</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="pt">Português</option>
+        <option value="it">Italiano</option>
+        <option value="nl">Nederlands</option>
+        <option value="tl">Tagalog</option>
+        <option value="tr">Türkçe (dotted and dotless i)</option>
+        <option value="el">Ελληνικά (final sigma)</option>
       </select></div>
     <div class="field"><label for="extra">Also keep these words lowercase (separate with spaces)</label>
       <input type="text" id="extra" placeholder="e.g. vs feat"></div>
@@ -127,9 +139,11 @@
     var savedNote = document.getElementById('saved');
     var saveTimer = null;
 
+    var NAMES = { en: 'English', ms: 'Bahasa Malaysia', id: 'Bahasa Indonesia', es: 'Español', fr: 'Français', de: 'Deutsch', pt: 'Português', it: 'Italiano', nl: 'Nederlands', tl: 'Tagalog', tr: 'Türkçe', el: 'Ελληνικά' };
     function loadSettings(st) {
       keep.checked = !!st.keepAcronyms;
-      language.value = st.language || 'en';
+      if (st.resolvedLanguage) language.options[0].textContent = 'Auto (your Google account language: ' + (NAMES[st.resolvedLanguage] || st.resolvedLanguage) + ')';
+      language.value = st.language || 'auto';
       extra.value = st.extraSmallWords || '';
       if (st.lastMode) markLast(st.lastMode);
     }
@@ -137,7 +151,7 @@
       clearTimeout(saveTimer);
       saveTimer = setTimeout(function () {
         google.script.run
-          .withSuccessHandler(function () { savedNote.textContent = 'Saved'; setTimeout(function () { savedNote.textContent = ''; }, 1500); })
+          .withSuccessHandler(function (st) { savedNote.textContent = 'Saved'; setTimeout(function () { savedNote.textContent = ''; }, 1500); if (st && st.resolvedLanguage) language.options[0].textContent = 'Auto (your Google account language: ' + (NAMES[st.resolvedLanguage] || st.resolvedLanguage) + ')'; })
           .withFailureHandler(function (e) { savedNote.textContent = 'Could not save: ' + e.message; })
           .saveSettings({ keepAcronyms: keep.checked, language: language.value, extraSmallWords: extra.value });
       }, 400);
