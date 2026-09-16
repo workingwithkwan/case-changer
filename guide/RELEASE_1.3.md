@@ -23,3 +23,11 @@ Status 15 September 2026: code written, unit-tested, loaded into the Apps Script
 4. Store Listing: description bullets for languages and the two styles, "Nine case styles"; upload the new icons (32, 48, 96, 128) and card banner from `assets/`; Save Draft; SUBMIT FOR REVIEW.
 5. Google Auth Platform > Branding: replacing the app logo there triggers a branding re-verification. Do it only when the user agrees, and not while a Marketplace review is running.
 6. Website: styles grid to nine, FAQ for languages, README version.
+
+## After the 1.3 review: rename the app (decided 17 September 2026)
+
+New name: **Case Changer for Google Docs™, Sheets™ & Slides™** (47 characters). Google's branding rules allow "[your name] for [Google product]™" with the ™ symbol, as long as the Google name is not first.
+
+1. Marketplace SDK > Store Listing > App Details > English: Application name = the new name. Save Draft, SUBMIT FOR REVIEW.
+2. Google Auth Platform > Branding > App name = the same string (the review checklist requires the two to match), Save, then Verify branding (automated, about 2 minutes) and Publish branding.
+3. Website and README already carry the new name (this commit). Sidebar title stays "Case Changer" (too narrow for the long name).

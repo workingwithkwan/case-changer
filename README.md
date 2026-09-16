@@ -1,4 +1,4 @@
-# Case Changer
+# Case Changer for Google Docs™, Sheets™ & Slides™
 
 A Google Docs Editor Add-on that changes the case of selected text while keeping all formatting. Built as a replacement for the abandoned "Change Case" add-on.
 

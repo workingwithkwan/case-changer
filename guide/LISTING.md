@@ -4,7 +4,9 @@ Paste these into the **Store Listing** tab of the Google Workspace Marketplace S
 
 ## Application name (max 50 characters)
 
-Case Changer
+Case Changer for Google Docs™, Sheets™ & Slides™
+
+(47 characters. Google's branding rules allow "[your name] for [Google product]™" with the ™ symbol; the Google name must not come first. The OAuth consent screen app name must be the same string.)
 
 ## Short description (max 200 characters)
 

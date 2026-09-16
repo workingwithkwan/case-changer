@@ -105,7 +105,7 @@ faq = [
 ]
 faq_html = ''.join(f'<h3>{html.escape(q)}</h3><p>{html.escape(a)}</p>' for q,a in faq)
 home = f"""
-<div class="hero"><img src="icon-512.png" alt="Case Changer logo: the letters Aa on a blue tile above three dots in the colours of Docs, Sheets and Slides"><div><h1>Case Changer for Google Docs, Sheets and Slides</h1>
+<div class="hero"><img src="icon-512.png" alt="Case Changer logo: the letters Aa on a blue tile above three dots in the colours of Docs, Sheets and Slides"><div><h1>Case Changer for Google Docs™, Sheets™ &amp; Slides™</h1>
 <p>A free add-on that changes the case of selected text in one click: UPPERCASE, lowercase, Sentence case, Title Case and more, in a document, a spreadsheet or a presentation. Bold, links and colours stay exactly where they were.</p></div></div>
 <h2>Seven Case Styles</h2><div class="styles">{''.join(f'<div><strong>{html.escape(n)}</strong><br><span class="muted">{html.escape(d)}</span></div>' for n,d in styles)}</div>
 <h2>See It In Action</h2>
@@ -135,7 +135,7 @@ home = f"""
 """
 import json
 ld = [{
- "@context":"https://schema.org","@type":"SoftwareApplication","name":"Case Changer","url":SITE,
+ "@context":"https://schema.org","@type":"SoftwareApplication","name":"Case Changer for Google Docs™, Sheets™ & Slides™","alternateName":"Case Changer","url":SITE,
  "applicationCategory":"BrowserApplication","applicationSubCategory":"Google Workspace add-on","operatingSystem":"Web",
  "description":"Free Google Docs, Sheets and Slides add-on that changes selected text to UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, iNVERSE cASE or aLtErNaTiNg cAsE while keeping bold, links and colours.",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
@@ -155,7 +155,7 @@ for src, (dst, title, desc) in pages.items():
         body = body.replace('<p>[[FAQ]]</p>', '<h2 id="faq">Frequently Asked Questions</h2>' + faq_html)
         head = faq_extra
     open(f'{OUT}/{dst}', 'w').write(page(title, body, dst, desc, head))
-open(f'{OUT}/index.html','w').write(page('Case Changer: Change Text Case in Google Docs, Sheets and Slides (Free Add-on)', home, '',
+open(f'{OUT}/index.html','w').write(page('Case Changer for Google Docs™, Sheets™ & Slides™: Free Change Case Add-on', home, '',
     'Free Google Docs, Sheets and Slides add-on to change selected text to UPPERCASE, lowercase, Sentence case, Title Case and more in one click, keeping bold, links and colours.', extra))
 open(f'{OUT}/robots.txt','w').write('User-agent: *\nAllow: /\nSitemap: https://case-changer.app/sitemap.xml\n')
 import datetime
