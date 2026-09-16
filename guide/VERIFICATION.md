@@ -100,3 +100,7 @@ Cloud console > Marketplace SDK > Store Listing > **Submit for review**. Google'
 ## 15 September 2026: 1.0.1 approved, 1.2 submitted
 
 Marketplace approved the resubmitted 1.0.1 listing (trademark symbols added). Live at https://workspace.google.com/marketplace/app/case_changer/422980989821. The same evening the 1.2 update (Sheets, Slides, acronyms, Title Case languages, whole-file mode, settings) was submitted as a new draft review. Screenshots for Sheets and Slides were captured from the Chrome window only, after an earlier capture that showed the desktop was removed and purged from git history.
+
+## 17 September 2026: 1.2 approved
+
+The public listing now shows the 1.2 text (Docs, Sheets and Slides, acronyms) and all three screenshots; the console's "draft is in review" banner is gone. Approved within two days of the 15 September submission. Next release: 1.3 (see RELEASE_1.3.md checklist).
