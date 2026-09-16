@@ -23,6 +23,8 @@ Highlight the text, then pick a style from the Extensions menu or the sidebar:
 • Capitalize Each Word
 • iNVERSE cASE
 • aLtErNaTiNg cAsE
+• snake_case
+• kebab-case
 
 What makes it different:
 
@@ -31,7 +33,8 @@ What makes it different:
 • Fast. Change a paragraph and keep typing.
 • Private. Nothing leaves your document. The add-on only asks for access to the document it is open in, and stores nothing.
 • Keeps acronyms such as NASA or KL when you switch to Sentence case or Title Case.
-• Title Case knows which small words to keep lowercase in English, Bahasa Malaysia and Bahasa Indonesia, and you can add your own.
+• Speaks your language. Title Case knows which small words to keep lowercase in English, Bahasa Malaysia, Bahasa Indonesia, Spanish, French, German, Portuguese, Italian, Dutch, Tagalog, Turkish and Greek, picked automatically from your account language or chosen by you, and you can add your own words.
+• Gets Turkish and Greek right: dotted and dotless i, and the final sigma.
 • Nothing selected? Change the whole document, sheet or presentation in one go.
 • Free, with no account, sign-up or ads.
 
@@ -57,15 +60,16 @@ Free
 
 | Asset | File | Size |
 |---|---|---|
-| Application icon | icon-32.png | 32x32 |
-| Application icon | icon-128.png | 128x128 |
-| Card banner | card-banner-220x140.png | 220x140 |
-| Screenshot 1 | screenshot-1.png (taken 10 September 2026) | 1280x800 |
+| Application icon | icon-32.png, icon-48.png, icon-96.png, icon-128.png (new logo, 15 September 2026) | 32 to 128 |
+| Card banner | card-banner-220x140.png (new logo) | 220x140 |
+| Screenshot 1 | screenshot-1.png (Docs, 10 September 2026) | 1280x800 |
+| Screenshot 2 | screenshot-2-sheets.png | 1280x800 |
+| Screenshot 3 | screenshot-3-slides.png | 1280x800 |
 
 ## Support links
 
 | Field | URL |
 |---|---|
-| Terms of service | your Google Sites terms page |
-| Privacy policy | your Google Sites privacy page |
-| Support | your Google Sites support page |
+| Terms of service | https://case-changer.app/terms-of-service.html |
+| Privacy policy | https://case-changer.app/privacy-policy.html |
+| Support | https://case-changer.app/support.html |
