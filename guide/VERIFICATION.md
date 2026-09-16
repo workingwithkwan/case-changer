@@ -104,3 +104,7 @@ Marketplace approved the resubmitted 1.0.1 listing (trademark symbols added). Li
 ## 17 September 2026: 1.2 approved
 
 The public listing now shows the 1.2 text (Docs, Sheets and Slides, acronyms) and all three screenshots; the console's "draft is in review" banner is gone. Approved within two days of the 15 September submission. Next release: 1.3 (see RELEASE_1.3.md checklist).
+
+## 17 September 2026: 1.3 submitted, branding logo changed
+
+Store Listing draft submitted for review with the 1.3 text and the new logo graphics (console: "The draft is in review and can't be edited"). On Google Auth Platform > Branding the app logo was replaced with the new icon-128.png; the console warned that the previously verified branding stays on the consent screen until re-verified, so "Verify branding" was clicked (automated, up to 5 minutes). Lesson: the site's docs/assets copies of the icons must be updated too, otherwise fetch-injection uploads the old files.
