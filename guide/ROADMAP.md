@@ -21,7 +21,7 @@ Each release below needs only a Marketplace listing review (text and screenshots
 - Sidebar, menu hints and help text translated into the 1.3 languages, chosen from the account language.
 - Marketplace listing translated into the top five languages.
 
-## 1.5
+## 1.5 (built and tested 19 September 2026, release after the rename review)
 Smarter text
 - **Never-change words**: a Settings box for words that keep their exact spelling in every style (iPhone, eBay, macOS, PETRONAS, a company name). Remembered per user.
 - **Sentence case knows the basics**: days, months, language names and country names stay capitalised (monday to Monday), and English contractions of "I" are fixed (i'm, i've, i'll to I'm, I've, I'll). Small built-in lists per 1.3 language.
