@@ -39,24 +39,56 @@ function getHost() {
  * nothing else is allowed to run.
  */
 function onOpen(e) {
+  var t = S();
   getUi().createAddonMenu()
-    .addItem('UPPERCASE', 'menuUpper')
-    .addItem('lowercase', 'menuLower')
-    .addItem('Sentence case', 'menuSentence')
-    .addItem('Title Case', 'menuTitle')
-    .addItem('Capitalize Each Word', 'menuCapitalize')
-    .addItem('iNVERSE cASE', 'menuInverse')
-    .addItem('aLtErNaTiNg cAsE', 'menuAlternating')
-    .addItem('snake_case', 'menuSnake')
-    .addItem('kebab-case', 'menuKebab')
+    .addItem(t.style_upper, 'menuUpper')
+    .addItem(t.style_lower, 'menuLower')
+    .addItem(t.style_sentence, 'menuSentence')
+    .addItem(t.style_title, 'menuTitle')
+    .addItem(t.style_capitalize, 'menuCapitalize')
+    .addItem(t.style_inverse, 'menuInverse')
+    .addItem(t.style_alternating, 'menuAlternating')
+    .addItem(t.style_snake, 'menuSnake')
+    .addItem(t.style_kebab, 'menuKebab')
     .addSeparator()
-    .addItem('Cycle case (UPPER > lower > Title)', 'menuCycle')
-    .addItem('Repeat last style', 'menuRepeat')
+    .addItem(t.menu_cycle, 'menuCycle')
+    .addItem(t.menu_repeat, 'menuRepeat')
     .addSeparator()
-    .addItem('Open sidebar', 'showSidebar')
-    .addItem('Help', 'showHelp')
+    .addItem(t.menu_sidebar, 'showSidebar')
+    .addItem(t.menu_help, 'showHelp')
     .addToUi();
 }
+
+/* ---------- Interface language (1.4) ---------- */
+
+/**
+ * The language of the menu, sidebar and messages: the user's own choice if
+ * they made one, otherwise the Google account language, otherwise English.
+ * Safe to call from onOpen in AuthMode.NONE, where settings cannot be read.
+ */
+function uiLanguage() {
+  var choice = 'auto';
+  try {
+    var raw = PropertiesService.getUserProperties().getProperty('settings');
+    if (raw) { var saved = JSON.parse(raw); if (saved && typeof saved.uiLanguage === 'string') choice = saved.uiLanguage; }
+  } catch (e) { /* no access to settings here */ }
+  if (choice !== 'auto' && Strings.has(choice)) return choice;
+  return accountUiLanguage();
+}
+function accountUiLanguage() {
+  var code = 'en';
+  try { code = String(Session.getActiveUserLocale() || 'en'); } catch (e) { /* keep en */ }
+  code = code.toLowerCase().split(/[-_]/)[0];
+  if (code === 'fil') code = 'tl';
+  return Strings.has(code) ? code : 'en';
+}
+var STRINGS_CACHE = null;
+/** The interface strings for this run. */
+function S() {
+  if (!STRINGS_CACHE) STRINGS_CACHE = Strings.get(uiLanguage());
+  return STRINGS_CACHE;
+}
+function styleLabel(mode) { return S()['style_' + mode] || CaseLib.MODES[mode].label; }
 
 /** Runs once when a user installs the add-on. */
 function onInstall(e) {
@@ -78,7 +110,7 @@ function menuRepeat() {
   var last = getSettings().lastMode;
   if (!last || !CaseLib.MODES[last]) {
     var ui = getUi();
-    ui.alert(ADDON_TITLE, 'No style has been used yet. Pick one from the menu first.', ui.ButtonSet.OK);
+    ui.alert(ADDON_TITLE, S().msg_noLast, ui.ButtonSet.OK);
     return;
   }
   runFromMenu(last);
@@ -89,7 +121,7 @@ function runFromMenu(mode) {
   if (result.ok) return;
   var ui = getUi();
   if (result.needWhole) {
-    var answer = ui.alert(ADDON_TITLE, 'Nothing is selected. Change the entire ' + fileNoun() + ' instead?', ui.ButtonSet.YES_NO);
+    var answer = ui.alert(ADDON_TITLE, S()['ask_' + (getHost() || 'docs')], ui.ButtonSet.YES_NO);
     if (answer === ui.Button.YES) {
       var r2 = applyCaseWhole(mode);
       if (!r2.ok) ui.alert(ADDON_TITLE, r2.message, ui.ButtonSet.OK);
@@ -107,7 +139,7 @@ function fileNoun() {
 /* ---------- Settings (per user, stored by Apps Script, no extra permission) ---------- */
 
 var DEFAULT_SETTINGS = { keepAcronyms: true, language: 'auto', extraSmallWords: '', lastMode: '',
-  protectedWords: '', properNouns: true, skipHeader: true, darkSidebar: false, counts: {} };
+  protectedWords: '', properNouns: true, skipHeader: true, darkSidebar: false, uiLanguage: 'auto', counts: {} };
 
 /**
  * The language behind 'auto': the account language of the current user
@@ -138,6 +170,8 @@ function getSettings() {
   if (!out.counts || typeof out.counts !== 'object') out.counts = {};
   out.resolvedLanguage = resolveLanguage(out.language); // for the sidebar's "Auto: English" label
   out.favourites = favouriteModes(out.counts);
+  out.uiResolved = uiLanguage();
+  out.uiAccount = accountUiLanguage();
   return out;
 }
 
@@ -152,9 +186,13 @@ function saveSettings(patch) {
   if (typeof patch.properNouns === 'boolean') current.properNouns = patch.properNouns;
   if (typeof patch.skipHeader === 'boolean') current.skipHeader = patch.skipHeader;
   if (typeof patch.darkSidebar === 'boolean') current.darkSidebar = patch.darkSidebar;
+  if (typeof patch.uiLanguage === 'string' && (patch.uiLanguage === 'auto' || Strings.has(patch.uiLanguage))) current.uiLanguage = patch.uiLanguage;
   if (patch.countMode && CaseLib.MODES[patch.countMode]) current.counts[patch.countMode] = (current.counts[patch.countMode] || 0) + 1;
   delete current.resolvedLanguage;
   delete current.favourites;
+  delete current.uiResolved;
+  delete current.uiAccount;
+  STRINGS_CACHE = null;
   PropertiesService.getUserProperties().setProperty('settings', JSON.stringify(current));
   return getSettings();
 }
@@ -242,22 +280,16 @@ function cycleCase() {
 
 /** Opens the sidebar with one button per case style. */
 function showSidebar() {
-  var html = HtmlService.createHtmlOutputFromFile('Sidebar')
-    .setTitle(ADDON_TITLE);
-  getUi().showSidebar(html);
+  var template = HtmlService.createTemplateFromFile('Sidebar');
+  template.strings = JSON.stringify(S()).replace(/</g, '\\u003c');
+  template.names = JSON.stringify(Strings.NAMES);
+  template.host = getHost() || 'docs';
+  getUi().showSidebar(template.evaluate().setTitle(ADDON_TITLE));
 }
 
 function showHelp() {
   var ui = getUi();
-  ui.alert(ADDON_TITLE,
-    'Select some text (in Sheets: select cells; in Slides: highlight text or select a text box), ' +
-    'then pick a case style from the Case Changer menu or the sidebar.\n\n' +
-    'Cycle case switches between UPPERCASE, lowercase and Title Case. Repeat last style does what it says.\n' +
-    'With nothing selected you can change the whole file.\n\n' +
-    'Formatting such as bold, links and colours is kept.\n' +
-    'Nothing leaves your file: the add-on only reads the text you select and ' +
-    'writes it back in the new case.',
-    ui.ButtonSet.OK);
+  ui.alert(ADDON_TITLE, S().help, ui.ButtonSet.OK);
 }
 
 /**
@@ -268,7 +300,7 @@ function showHelp() {
  * @return {{ok: boolean, message: string, changed: number}}
  */
 function applyCase(mode) {
-  if (!CaseLib.MODES[mode]) return { ok: false, message: 'Unknown case style.', changed: 0 };
+  if (!CaseLib.MODES[mode]) return { ok: false, message: S().msg_unknownStyle, changed: 0 };
   var host = getHost();
   var opts = caseOptions();
   var changed;
@@ -276,10 +308,10 @@ function applyCase(mode) {
     if (host === 'sheets') changed = SheetsCase.apply(mode, opts);
     else if (host === 'slides') changed = SlidesCase.apply(mode, opts);
     else if (host === 'docs') changed = applyCaseDocs(mode, opts);
-    else return { ok: false, message: 'Open this add-on from Google Docs, Sheets or Slides.', changed: 0 };
+    else return { ok: false, message: S().msg_wrongHost, changed: 0 };
   } catch (err) {
     if (err && err.noSelection) {
-      return { ok: false, needWhole: true, message: 'Nothing is selected.', changed: 0, noun: fileNoun() };
+      return { ok: false, needWhole: true, message: S().msg_nothingSelected, changed: 0, host: host };
     }
     throw err;
   }
@@ -289,7 +321,7 @@ function applyCase(mode) {
 
 /** Converts the whole document, the active sheet, or every slide. */
 function applyCaseWhole(mode) {
-  if (!CaseLib.MODES[mode]) return { ok: false, message: 'Unknown case style.', changed: 0 };
+  if (!CaseLib.MODES[mode]) return { ok: false, message: S().msg_unknownStyle, changed: 0 };
   var host = getHost();
   var opts = caseOptions();
   var changed = 0;
@@ -308,7 +340,7 @@ function applyCaseWhole(mode) {
       if (contents) changed += convertElement(contents, mode, opts);
     }
   } else {
-    return { ok: false, message: 'Open this add-on from Google Docs, Sheets or Slides.', changed: 0 };
+    return { ok: false, message: S().msg_wrongHost, changed: 0 };
   }
   rememberMode(mode);
   return finish(changed, mode);
@@ -319,13 +351,19 @@ function rememberMode(mode) {
 }
 
 function finish(changed, mode) {
-  var note = '';
-  try { if (getHost() === 'sheets') note = SheetsCase.note(); } catch (e) { /* no note */ }
+  var t = S(), note = '';
+  try {
+    if (getHost() === 'sheets') {
+      var skipped = SheetsCase.skipped();
+      if (skipped === 1) note = t.msg_headerSkipped;
+      else if (skipped > 1) note = Strings.format(t.msg_headersSkipped, { n: skipped });
+    }
+  } catch (e) { /* no note */ }
   return {
     ok: true,
     changed: changed,
     mode: mode,
-    message: (changed ? 'Changed to ' + CaseLib.MODES[mode].label + '.' : 'Nothing to change.') + (note ? ' ' + note : '')
+    message: (changed ? Strings.format(t.msg_changed, { style: styleLabel(mode) }) : t.msg_nothingToChange) + (note ? ' ' + note : '')
   };
 }
 

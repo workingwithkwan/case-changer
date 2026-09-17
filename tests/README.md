@@ -15,3 +15,9 @@ Expected output ends with `failures: 0`.
 CASELIB="$PWD/src/CaseLib.gs" osascript -l JavaScript tests/language_words.js
 ```
 
+
+- `tests/strings_check.js`: every interface language has every string, the same `{placeholders}` as English, nothing accidentally left in English, and labels short enough for the menu:
+
+```bash
+STRINGS="$PWD/src/Strings.gs" osascript -l JavaScript tests/strings_check.js
+```

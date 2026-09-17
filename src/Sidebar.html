@@ -58,62 +58,67 @@
   </style>
 </head>
 <body>
-  <h2>Change selected text to</h2>
-  <p class="hint">Highlight some text (or select cells in Sheets, or a text box in Slides), then click a style. Bold, links and colours are kept.</p>
+  <h2 data-i18n="heading"></h2>
+  <p class="hint" data-i18n="hint"></p>
 
   <div class="tools">
-    <button id="cycleBtn" title="UPPERCASE, then lowercase, then Title Case">Cycle case</button>
-    <button id="previewBtn" title="Show how the selected text would look in each style">Preview</button>
+    <button id="cycleBtn" data-i18n="cycle" data-i18n-title="cycleTip"></button>
+    <button id="previewBtn" data-i18n="preview" data-i18n-title="previewTip"></button>
   </div>
   <div class="grouplabel" id="favLabel"></div>
   <div id="favs"></div>
   <div class="grouplabel" id="allLabel"></div>
   <div id="buttons">
-    <button class="btn" data-mode="upper">UPPERCASE</button>
-    <button class="btn" data-mode="lower">lowercase</button>
-    <button class="btn" data-mode="sentence">Sentence case</button>
-    <button class="btn" data-mode="title">Title Case</button>
-    <button class="btn" data-mode="capitalize">Capitalize Each Word</button>
-    <button class="btn" data-mode="inverse">iNVERSE cASE</button>
-    <button class="btn" data-mode="alternating">aLtErNaTiNg cAsE</button>
-    <button class="btn" data-mode="snake">snake_case</button>
-    <button class="btn" data-mode="kebab">kebab-case</button>
+    <button class="btn" data-mode="upper"></button>
+    <button class="btn" data-mode="lower"></button>
+    <button class="btn" data-mode="sentence"></button>
+    <button class="btn" data-mode="title"></button>
+    <button class="btn" data-mode="capitalize"></button>
+    <button class="btn" data-mode="inverse"></button>
+    <button class="btn" data-mode="alternating"></button>
+    <button class="btn" data-mode="snake"></button>
+    <button class="btn" data-mode="kebab"></button>
   </div>
 
   <div id="status"></div>
-  <div id="whole"><button id="wholeBtn">Change the entire document</button></div>
+  <div id="whole"><button id="wholeBtn"></button></div>
 
   <details>
-    <summary>Settings</summary>
-    <label class="check"><input type="checkbox" id="keepAcronyms"> <span>Keep acronyms as they are (NASA, KL, UMNO) in Sentence case and Title Case</span></label>
-    <div class="field"><label for="language">Language: sets the small words Title Case keeps lowercase (of, the, dan, de, der...) and the English capital I</label>
-      <select id="language">
-        <option value="auto">Auto (your account language)</option>
-        <option value="en">English</option>
-        <option value="ms">Bahasa Malaysia</option>
-        <option value="id">Bahasa Indonesia</option>
-        <option value="es">Español</option>
-        <option value="fr">Français</option>
-        <option value="de">Deutsch</option>
-        <option value="pt">Português</option>
-        <option value="it">Italiano</option>
-        <option value="nl">Nederlands</option>
-        <option value="tl">Tagalog</option>
-        <option value="tr">Türkçe (dotted and dotless i)</option>
-        <option value="el">Ελληνικά (final sigma)</option>
-      </select></div>
-    <div class="field"><label for="extra">Also keep these words lowercase (separate with spaces)</label>
-      <input type="text" id="extra" placeholder="e.g. vs feat"></div>
-    <div class="field"><label for="protected">Never change these words (spelling kept in every style)</label>
-      <input type="text" id="protected" placeholder="e.g. iPhone eBay macOS"></div>
-    <label class="check"><input type="checkbox" id="properNouns"> <span>Sentence case capitalises days, months, languages and places (Monday, Kuala Lumpur)</span></label>
-    <label class="check"><input type="checkbox" id="skipHeader"> <span>In Sheets, leave the header row alone when a whole column is selected</span></label>
-    <label class="check"><input type="checkbox" id="darkSidebar"> <span>Dark sidebar</span></label>
+    <summary data-i18n="settings"></summary>
+    <label class="check"><input type="checkbox" id="keepAcronyms"> <span data-i18n="keepAcronyms"></span></label>
+    <div class="field"><label for="language" data-i18n="languageLabel"></label>
+      <select id="language"></select></div>
+    <div class="field"><label for="extra" data-i18n="extraLabel"></label>
+      <input type="text" id="extra" data-i18n-placeholder="extraPlaceholder"></div>
+    <div class="field"><label for="protected" data-i18n="protectedLabel"></label>
+      <input type="text" id="protected" data-i18n-placeholder="protectedPlaceholder"></div>
+    <label class="check"><input type="checkbox" id="properNouns"> <span data-i18n="properNouns"></span></label>
+    <label class="check"><input type="checkbox" id="skipHeader"> <span data-i18n="skipHeader"></span></label>
+    <label class="check"><input type="checkbox" id="darkSidebar"> <span data-i18n="darkSidebar"></span></label>
+    <div class="field"><label for="uiLanguage" data-i18n="uiLanguageLabel"></label>
+      <select id="uiLanguage"></select></div>
     <div id="saved"></div>
   </details>
 
-  <p class="footer">Tip: the same styles are in the Extensions &gt; Case Changer menu, so you can close this sidebar if you prefer.</p>
+  <p class="footer" data-i18n="tip"></p>
 
+  <script>
+    // Interface text for the viewer's language, put in by Code.gs when the sidebar is built.
+    var STR = <?!= strings ?>;
+    var NAMES = <?!= names ?>;
+    var HOST = '<?= host ?>';
+    function fmt(text, vars) { return String(text).replace(/\{(\w+)\}/g, function (m, k) { return vars && vars.hasOwnProperty(k) ? vars[k] : m; }); }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'), function (el) { el.textContent = STR[el.getAttribute('data-i18n')] || ''; });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-title]'), function (el) { el.title = STR[el.getAttribute('data-i18n-title')] || ''; });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-placeholder]'), function (el) { el.placeholder = STR[el.getAttribute('data-i18n-placeholder')] || ''; });
+    Array.prototype.forEach.call(document.querySelectorAll('.btn'), function (b) { b.textContent = STR['style_' + b.getAttribute('data-mode')] || b.getAttribute('data-mode'); });
+    function fillLanguages(select) {
+      var auto = document.createElement('option'); auto.value = 'auto'; select.appendChild(auto);
+      Object.keys(NAMES).forEach(function (code) { var o = document.createElement('option'); o.value = code; o.textContent = NAMES[code]; select.appendChild(o); });
+    }
+    fillLanguages(document.getElementById('language'));
+    fillLanguages(document.getElementById('uiLanguage'));
+  </script>
   <script>
     var status = document.getElementById('status');
     var whole = document.getElementById('whole');
@@ -141,8 +146,8 @@
       favs.forEach(function (m) {
         buttons.forEach(function (b) { if (b.getAttribute('data-mode') === m) favBox.appendChild(b); });
       });
-      document.getElementById('favLabel').textContent = favs.length ? 'Your most used' : '';
-      document.getElementById('allLabel').textContent = favs.length ? 'All styles' : '';
+      document.getElementById('favLabel').textContent = favs.length ? STR.favLabel : '';
+      document.getElementById('allLabel').textContent = favs.length ? STR.allLabel : '';
     }
 
     function show(msg, cls) {
@@ -155,7 +160,7 @@
       buttons.forEach(function (b) { b.classList.toggle('last', b.getAttribute('data-mode') === mode); });
     }
 
-    function failed(e) { setBusy(false); show('Something went wrong: ' + e.message, 'err'); }
+    function failed(e) { setBusy(false); show(fmt(STR.wentWrong, { error: e.message }), 'err'); }
 
     function done(r) {
       setBusy(false);
@@ -163,7 +168,7 @@
       if (r.mode) { pendingMode = r.mode; if (!r.needWhole) markLast(r.mode); }
       if (r.needWhole) {
         show(r.message, 'err');
-        wholeBtn.textContent = 'Change the entire ' + (r.noun || 'document');
+        wholeBtn.textContent = STR['whole_' + (r.host || HOST)] || STR.whole_docs;
         whole.style.display = 'block';
         return;
       }
@@ -177,7 +182,7 @@
         markLast(pendingMode);
         whole.style.display = 'none';
         setBusy(true);
-        show('Working...', '');
+        show(STR.working, '');
         google.script.run.withSuccessHandler(done).withFailureHandler(failed).applyCase(pendingMode);
       });
     });
@@ -185,7 +190,7 @@
     cycleBtn.addEventListener('click', function () {
       whole.style.display = 'none';
       setBusy(true);
-      show('Working...', '');
+      show(STR.working, '');
       google.script.run.withSuccessHandler(function (r) {
         if (r.needWhole && r.mode) pendingMode = r.mode;
         done(r);
@@ -194,19 +199,19 @@
 
     previewBtn.addEventListener('click', function () {
       setBusy(true);
-      show('Reading the selection...', '');
+      show(STR.reading, '');
       google.script.run.withSuccessHandler(function (r) {
         setBusy(false);
-        if (!r.sample) { clearPreviews(); show('Nothing to preview. Select some text first.', 'err'); return; }
+        if (!r.sample) { clearPreviews(); show(STR.nothingPreview, 'err'); return; }
         buttons.forEach(function (b) { b.querySelector('.pv').textContent = r.previews[b.getAttribute('data-mode')] || ''; });
-        show('Preview of the first line. Click a style to apply it.', 'ok');
+        show(STR.previewDone, 'ok');
       }).withFailureHandler(failed).previewSelection();
     });
 
     wholeBtn.addEventListener('click', function () {
       if (!pendingMode) return;
       setBusy(true);
-      show('Working on the whole file...', '');
+      show(STR.workingWhole, '');
       google.script.run.withSuccessHandler(done).withFailureHandler(failed).applyCaseWhole(pendingMode);
     });
 
@@ -221,11 +226,17 @@
     var savedNote = document.getElementById('saved');
     var saveTimer = null;
 
-    var NAMES = { en: 'English', ms: 'Bahasa Malaysia', id: 'Bahasa Indonesia', es: 'Español', fr: 'Français', de: 'Deutsch', pt: 'Português', it: 'Italiano', nl: 'Nederlands', tl: 'Tagalog', tr: 'Türkçe', el: 'Ελληνικά' };
+    var uiLanguage = document.getElementById('uiLanguage');
+    function autoLabels(st) {
+      if (!st) return;
+      if (st.resolvedLanguage) language.options[0].textContent = fmt(STR.langAuto, { language: NAMES[st.resolvedLanguage] || st.resolvedLanguage });
+      if (st.uiAccount) uiLanguage.options[0].textContent = fmt(STR.uiAuto, { language: NAMES[st.uiAccount] || st.uiAccount });
+    }
     function loadSettings(st) {
       keep.checked = !!st.keepAcronyms;
-      if (st.resolvedLanguage) language.options[0].textContent = 'Auto: ' + (NAMES[st.resolvedLanguage] || st.resolvedLanguage) + ' (your account language)';
+      autoLabels(st);
       language.value = st.language || 'auto';
+      uiLanguage.value = st.uiLanguage || 'auto';
       extra.value = st.extraSmallWords || '';
       protectedWords.value = st.protectedWords || '';
       properNouns.checked = st.properNouns !== false;
@@ -235,15 +246,20 @@
       arrange(st.favourites);
       if (st.lastMode) markLast(st.lastMode);
     }
-    function save() {
+    function save(note) {
       clearTimeout(saveTimer);
       saveTimer = setTimeout(function () {
         google.script.run
-          .withSuccessHandler(function (st) { savedNote.textContent = 'Saved'; setTimeout(function () { savedNote.textContent = ''; }, 1500); if (st && st.resolvedLanguage) language.options[0].textContent = 'Auto: ' + (NAMES[st.resolvedLanguage] || st.resolvedLanguage) + ' (your account language)'; })
-          .withFailureHandler(function (e) { savedNote.textContent = 'Could not save: ' + e.message; })
+          .withSuccessHandler(function (st) {
+            var text = typeof note === 'string' ? note : STR.saved;
+            savedNote.textContent = text;
+            setTimeout(function () { if (savedNote.textContent === text) savedNote.textContent = ''; }, typeof note === 'string' ? 6000 : 1500);
+            autoLabels(st);
+          })
+          .withFailureHandler(function (e) { savedNote.textContent = fmt(STR.couldNotSave, { error: e.message }); })
           .saveSettings({ keepAcronyms: keep.checked, language: language.value, extraSmallWords: extra.value,
                           protectedWords: protectedWords.value, properNouns: properNouns.checked, skipHeader: skipHeader.checked,
-                          darkSidebar: darkSidebar.checked });
+                          darkSidebar: darkSidebar.checked, uiLanguage: uiLanguage.value });
       }, 400);
     }
     keep.addEventListener('change', save);
@@ -253,6 +269,7 @@
     properNouns.addEventListener('change', save);
     skipHeader.addEventListener('change', save);
     darkSidebar.addEventListener('change', function () { document.body.classList.toggle('dark', darkSidebar.checked); save(); });
+    uiLanguage.addEventListener('change', function () { save(STR.saved + '. ' + STR.uiReload); });
     google.script.run.withSuccessHandler(loadSettings).withFailureHandler(function () {}).getSettings();
   </script>
 </body>

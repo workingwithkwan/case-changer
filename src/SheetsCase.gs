@@ -25,15 +25,15 @@ var SheetsCase = (function () {
       throw noSelectionError('Nothing is selected.');
     }
 
-    lastNote = '';
+    lastSkipped = 0;
     var changed = 0;
     for (var i = 0; i < ranges.length; i++) changed += convertRange(trimWholeColumns(ranges[i], opts), mode, opts);
     return changed;
   }
 
-  var lastNote = '';
-  /** A short remark about the last apply(), e.g. that the header row was skipped. */
-  function note() { return lastNote; }
+  var lastSkipped = 0;
+  /** How many header rows the last apply() left alone (Code.gs words the message). */
+  function skipped() { return lastSkipped; }
 
   /**
    * When whole columns are selected (by clicking the column letter), only the
@@ -48,7 +48,7 @@ var SheetsCase = (function () {
     var skip = 0;
     if (!opts || opts.skipHeader !== false) skip = Math.max(sheet.getFrozenRows(), 1);
     if (skip >= lastRow) skip = 0;               // a single row of data is not a header
-    if (skip) lastNote = skip === 1 ? 'Header row skipped.' : skip + ' header rows skipped.';
+    if (skip) lastSkipped = skip;
     return sheet.getRange(skip + 1, range.getColumn(), lastRow - skip, range.getNumColumns());
   }
 
@@ -107,5 +107,5 @@ var SheetsCase = (function () {
     return changed;
   }
 
-  return { apply: apply, applyWhole: applyWhole, sample: sample, note: note };
+  return { apply: apply, applyWhole: applyWhole, sample: sample, skipped: skipped };
 })();
