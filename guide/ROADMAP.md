@@ -38,7 +38,7 @@ Wider coverage
 - Docs: footnotes and tables covered by whole-document mode.
 
 Polish
-- Dark sidebar when the editor is in dark theme.
+- Dark sidebar as a switch in Settings (the editors give add-ons no way to read their theme, and they have no dark theme on the web).
 - Favourites: pin the three most-used styles to the top of the sidebar.
 
 ## Later, if asked for

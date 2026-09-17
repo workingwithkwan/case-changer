@@ -42,20 +42,19 @@
     .pv:empty { display: none; }
     .grouplabel { font-size: 11px; color: #80868b; margin: 2px 0 6px; text-transform: none; }
     .grouplabel:empty { display: none; }
-    @media (prefers-color-scheme: dark) {
-      body { background: #1f1f1f; color: #e3e3e3; }
-      h2, .hint, .field label, .grouplabel, .footer, .pv { color: #a8abb0; }
-      .btn { background: #2a2b2e; border-color: #444746; color: #e3e3e3; }
-      .btn:hover { background: #35363a; }
-      .btn:active { background: #3c4043; }
-      .btn.last { border-color: #8ab4f8; box-shadow: inset 3px 0 0 #8ab4f8; }
-      .tools button, #whole button { background: #1e2a3a; border-color: #8ab4f8; color: #a8c7fa; }
-      details { border-top-color: #444746; }
-      summary { color: #e3e3e3; }
-      .field select, .field input[type=text] { background: #2a2b2e; border-color: #444746; color: #e3e3e3; }
-      #status.ok, #saved { color: #81c995; }
-      #status.err { color: #f28b82; }
-    }
+    /* Dark sidebar: a manual switch in Settings, because the editors give add-ons no way to read their theme. */
+    body.dark { background: #1f1f1f; color: #e3e3e3; }
+    body.dark h2, body.dark .hint, body.dark .field label, body.dark .grouplabel, body.dark .footer, body.dark .pv { color: #a8abb0; }
+    body.dark .btn { background: #2a2b2e; border-color: #444746; color: #e3e3e3; }
+    body.dark .btn:hover { background: #35363a; }
+    body.dark .btn:active { background: #3c4043; }
+    body.dark .btn.last { border-color: #8ab4f8; box-shadow: inset 3px 0 0 #8ab4f8; }
+    body.dark .tools button, body.dark #whole button { background: #1e2a3a; border-color: #8ab4f8; color: #a8c7fa; }
+    body.dark details { border-top-color: #444746; }
+    body.dark summary { color: #e3e3e3; }
+    body.dark .field select, body.dark .field input[type=text] { background: #2a2b2e; border-color: #444746; color: #e3e3e3; }
+    body.dark #status.ok, body.dark #saved { color: #81c995; }
+    body.dark #status.err { color: #f28b82; }
   </style>
 </head>
 <body>
@@ -109,6 +108,7 @@
       <input type="text" id="protected" placeholder="e.g. iPhone eBay macOS"></div>
     <label class="check"><input type="checkbox" id="properNouns"> <span>Sentence case capitalises days, months, languages and places (Monday, Kuala Lumpur)</span></label>
     <label class="check"><input type="checkbox" id="skipHeader"> <span>In Sheets, leave the header row alone when a whole column is selected</span></label>
+    <label class="check"><input type="checkbox" id="darkSidebar"> <span>Dark sidebar</span></label>
     <div id="saved"></div>
   </details>
 
@@ -217,6 +217,7 @@
     var protectedWords = document.getElementById('protected');
     var properNouns = document.getElementById('properNouns');
     var skipHeader = document.getElementById('skipHeader');
+    var darkSidebar = document.getElementById('darkSidebar');
     var savedNote = document.getElementById('saved');
     var saveTimer = null;
 
@@ -229,6 +230,8 @@
       protectedWords.value = st.protectedWords || '';
       properNouns.checked = st.properNouns !== false;
       skipHeader.checked = st.skipHeader !== false;
+      darkSidebar.checked = !!st.darkSidebar;
+      document.body.classList.toggle('dark', !!st.darkSidebar);
       arrange(st.favourites);
       if (st.lastMode) markLast(st.lastMode);
     }
@@ -239,7 +242,8 @@
           .withSuccessHandler(function (st) { savedNote.textContent = 'Saved'; setTimeout(function () { savedNote.textContent = ''; }, 1500); if (st && st.resolvedLanguage) language.options[0].textContent = 'Auto: ' + (NAMES[st.resolvedLanguage] || st.resolvedLanguage) + ' (your account language)'; })
           .withFailureHandler(function (e) { savedNote.textContent = 'Could not save: ' + e.message; })
           .saveSettings({ keepAcronyms: keep.checked, language: language.value, extraSmallWords: extra.value,
-                          protectedWords: protectedWords.value, properNouns: properNouns.checked, skipHeader: skipHeader.checked });
+                          protectedWords: protectedWords.value, properNouns: properNouns.checked, skipHeader: skipHeader.checked,
+                          darkSidebar: darkSidebar.checked });
       }, 400);
     }
     keep.addEventListener('change', save);
@@ -248,6 +252,7 @@
     protectedWords.addEventListener('input', save);
     properNouns.addEventListener('change', save);
     skipHeader.addEventListener('change', save);
+    darkSidebar.addEventListener('change', function () { document.body.classList.toggle('dark', darkSidebar.checked); save(); });
     google.script.run.withSuccessHandler(loadSettings).withFailureHandler(function () {}).getSettings();
   </script>
 </body>
