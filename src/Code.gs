@@ -62,9 +62,10 @@ function onOpen(e) {
 /* ---------- Interface language (1.4) ---------- */
 
 /**
- * The language of the menu, sidebar and messages: the user's own choice if
- * they made one, otherwise the Google account language, otherwise English.
- * Safe to call from onOpen in AuthMode.NONE, where settings cannot be read.
+ * The language of the sidebar and messages: the user's own choice if they
+ * made one, otherwise the Google account language, otherwise English.
+ * The menu is built in onOpen, where Google does not let an add-on read its
+ * saved settings, so the menu always follows the account language.
  */
 function uiLanguage() {
   var choice = 'auto';
