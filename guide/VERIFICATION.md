@@ -108,3 +108,7 @@ The public listing now shows the 1.2 text (Docs, Sheets and Slides, acronyms) an
 ## 17 September 2026: 1.3 submitted, branding logo changed
 
 Store Listing draft submitted for review with the 1.3 text and the new logo graphics (console: "The draft is in review and can't be edited"). On Google Auth Platform > Branding the app logo was replaced with the new icon-128.png; the console warned that the previously verified branding stays on the consent screen until re-verified, so "Verify branding" was clicked (automated, up to 5 minutes). Lesson: the site's docs/assets copies of the icons must be updated too, otherwise fetch-injection uploads the old files.
+
+## 19 September 2026: 1.3 approved, rename submitted
+
+1.3 approved (email about 6 hours before this entry); the public listing shows snake_case, kebab-case and the language text. Same day: application name changed to "Case Changer for Google Docs™, Sheets™ & Slides™" (48 characters) in Store Listing > App Details > English, draft saved, SUBMITTED FOR REVIEW. The consent-screen app name was changed to the same string first: Save, Verify branding (passed in under two minutes), Publish branding; Verification Center shows branding verified and shown to users. Website updated to nine styles, twelve languages and three new FAQ entries.

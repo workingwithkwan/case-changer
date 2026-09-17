@@ -3,10 +3,10 @@
 ## How to use it
 
 1. Install Case Changer from the Google Workspace Marketplace.
-2. Open a Google Doc and highlight the text you want to change.
+2. Open a Google Doc, Sheet or Slides deck and highlight the text you want to change (in Sheets, select cells).
 3. Choose a style from **Extensions > Case Changer**, or open the sidebar for one-click buttons.
 
-Available styles: UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, iNVERSE cASE and aLtErNaTiNg cAsE.
+Available styles: UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, iNVERSE cASE, aLtErNaTiNg cAsE, snake_case and kebab-case.
 
 Bold, italic, colours, fonts and links are kept exactly where they were.
 

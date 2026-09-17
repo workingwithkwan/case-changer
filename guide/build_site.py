@@ -74,7 +74,7 @@ pages = {'PRIVACY_POLICY.md': ('privacy-policy.html', 'Privacy Policy | Case Cha
          'TERMS_OF_SERVICE.md': ('terms-of-service.html', 'Terms of Service | Case Changer for Google Docs, Sheets and Slides', 'Terms of service for the free Case Changer add-on for Google Docs, Sheets and Slides.'),
          'SUPPORT.md': ('support.html', 'Support and FAQ | Case Changer for Google Docs, Sheets and Slides', 'Help for Case Changer: how to change text case in Google Docs, Sheets and Slides, undo a change, fix a missing menu, and contact support.')}
 
-styles = [('UPPERCASE','MAKE EVERYTHING CAPITAL LETTERS'),('lowercase','make everything small letters'),('Sentence case','Capital letter at the start of each sentence'),('Title Case','Capitals On The Important Words, Small On "of" and "the"'),('Capitalize Each Word','A Capital Letter On Every Word'),('iNVERSE cASE','sWAPS eVERY lETTER'),('aLtErNaTiNg cAsE','uPpEr AnD lOwEr In TuRn')]
+styles = [('UPPERCASE','MAKE EVERYTHING CAPITAL LETTERS'),('lowercase','make everything small letters'),('Sentence case','Capital letter at the start of each sentence'),('Title Case','Capitals On The Important Words, Small On "of" and "the"'),('Capitalize Each Word','A Capital Letter On Every Word'),('iNVERSE cASE','sWAPS eVERY lETTER'),('aLtErNaTiNg cAsE','uPpEr AnD lOwEr In TuRn'),('snake_case','lowercase_words_joined_with_underscores'),('kebab-case','lowercase-words-joined-with-hyphens')]
 faq = [
  ('The menu says "Select the text you want to change first."',
   'Nothing was highlighted. Click and drag over some text (or select cells in Sheets, or a text box in Slides), then run the command again. With nothing selected, the sidebar offers to change the whole file instead.'),
@@ -100,6 +100,12 @@ faq = [
   'Select the cells and pick a style from Extensions > Case Changer. The text is rewritten in the same cells, so there is no UPPER(), LOWER() or PROPER() formula to write, no helper column and no copy-and-paste-as-values step. Cells that hold formulas or numbers are skipped.'),
  ('How do I change text to uppercase or lowercase in Google Slides?',
   'Highlight the text, or click the text box, shape or table, then choose UPPERCASE, lowercase or another style from Extensions > Case Changer. Fonts, sizes, colours and links are kept. With nothing selected, the sidebar can change every slide.'),
+ ('Which languages does Title Case support?',
+  'English, Bahasa Malaysia, Bahasa Indonesia, Spanish, French, German, Portuguese, Italian, Dutch, Tagalog, Turkish and Greek. Each has its own list of small words that stay lowercase in a title, such as "of" and "the", "dan" and "di", or "de" and "la". Case Changer picks the language from your Google account, or you can choose one in the sidebar Settings and add your own words.'),
+ ('How do I convert text to snake_case or kebab-case in Google Docs or Sheets?',
+  'Select the text or cells and choose snake_case or kebab-case from Extensions > Case Changer. Everything becomes lowercase and each space becomes an underscore or a hyphen, handy for file names, column names and URL slugs.'),
+ ('Does it handle Turkish and Greek letters correctly?',
+  'Yes. With Turkish chosen, I lowercases to the dotless i and i uppercases to the dotted capital. In Greek, a capital sigma at the end of a word lowercases to the final form.'),
  ('Can I change the case of a whole document, sheet or presentation at once?',
   'Yes. Click a style with nothing selected and the sidebar offers a button to change the entire document, the active sheet or every slide, after a confirmation.'),
 ]
@@ -107,7 +113,7 @@ faq_html = ''.join(f'<h3>{html.escape(q)}</h3><p>{html.escape(a)}</p>' for q,a i
 home = f"""
 <div class="hero"><img src="icon-512.png" alt="Case Changer logo: the letters Aa on a blue tile above three dots in the colours of Docs, Sheets and Slides"><div><h1>Case Changer for Google Docs™, Sheets™ &amp; Slides™</h1>
 <p>A free add-on that changes the case of selected text in one click: UPPERCASE, lowercase, Sentence case, Title Case and more, in a document, a spreadsheet or a presentation. Bold, links and colours stay exactly where they were.</p></div></div>
-<h2>Seven Case Styles</h2><div class="styles">{''.join(f'<div><strong>{html.escape(n)}</strong><br><span class="muted">{html.escape(d)}</span></div>' for n,d in styles)}</div>
+<h2>Nine Case Styles</h2><div class="styles">{''.join(f'<div><strong>{html.escape(n)}</strong><br><span class="muted">{html.escape(d)}</span></div>' for n,d in styles)}</div>
 <h2>See It In Action</h2>
 <div class="shots">
 <figure><a href="assets/screenshot-1.png"><img src="assets/screenshot-1.png" width="1280" height="800" loading="lazy" alt="Case Changer sidebar in Google Docs with the case style buttons next to a document"></a><figcaption>Google Docs: highlight text, click a style in the sidebar.</figcaption></figure>
@@ -125,7 +131,9 @@ home = f"""
 <li><strong>Smart title case.</strong> Short words such as "of", "and" and "the" stay lowercase, the way editors write titles.</li>
 <li><strong>Works on any selection.</strong> A word, a sentence, a whole table, a range of cells, a text box or the entire file.</li>
 <li><strong>One add-on for three editors.</strong> The same menu and sidebar in Google Docs, Google Sheets and Google Slides.</li>
-<li><strong>Keeps acronyms.</strong> Sentence case and Title Case leave NASA, KL or UMNO alone, and Title Case knows the small words of English, Bahasa Malaysia and Bahasa Indonesia.</li>
+<li><strong>Keeps acronyms.</strong> Sentence case and Title Case leave NASA, KL or UMNO alone.</li>
+<li><strong>Speaks twelve languages.</strong> Title Case knows the small words to keep lowercase in English, Bahasa Malaysia, Bahasa Indonesia, Spanish, French, German, Portuguese, Italian, Dutch, Tagalog, Turkish and Greek. The language is picked from your Google account, or you choose it, and you can add your own words.</li>
+<li><strong>Gets Turkish and Greek right.</strong> Dotted and dotless i in Turkish, and the final sigma in Greek.</li>
 <li><strong>Private by design.</strong> Access is limited to the open document and nothing is stored. Read the <a href="privacy-policy.html">privacy policy</a>.</li>
 <li><strong>Free.</strong> No account, no sign-up, no ads.</li></ul>
 <h2>Get It</h2>
@@ -137,11 +145,11 @@ import json
 ld = [{
  "@context":"https://schema.org","@type":"SoftwareApplication","name":"Case Changer for Google Docs™, Sheets™ & Slides™","alternateName":"Case Changer","url":SITE,
  "applicationCategory":"BrowserApplication","applicationSubCategory":"Google Workspace add-on","operatingSystem":"Web",
- "description":"Free Google Docs, Sheets and Slides add-on that changes selected text to UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, iNVERSE cASE or aLtErNaTiNg cAsE while keeping bold, links and colours.",
+ "description":"Free Google Docs, Sheets and Slides add-on that changes selected text to UPPERCASE, lowercase, Sentence case, Title Case, Capitalize Each Word, iNVERSE cASE, aLtErNaTiNg cAsE, snake_case or kebab-case while keeping bold, links and colours. Title Case in twelve languages.",
  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
  "image":SITE+"icon-512.png","screenshot":[SITE+"assets/screenshot-1.png", SITE+"assets/screenshot-2-sheets.png", SITE+"assets/screenshot-3-slides.png"],
  "author":{"@type":"Person","name":"Ikhwan Ariff"},
- "softwareVersion":"1.2.0","featureList":[n for n,_ in styles] + ["Works in Google Docs, Google Sheets and Google Slides", "Keeps bold, links and colours", "Keeps acronyms", "Whole-file mode"]
+ "softwareVersion":"1.3.0","featureList":[n for n,_ in styles] + ["Works in Google Docs, Google Sheets and Google Slides", "Keeps bold, links and colours", "Keeps acronyms", "Whole-file mode"]
 }]
 faq_ld = {"@context":"https://schema.org","@type":"FAQPage",
  "mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}

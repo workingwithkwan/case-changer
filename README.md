@@ -40,7 +40,7 @@ The Cloud console classes `script.container.ui` as sensitive, so a public Market
 
 ## Version
 
-1.2.0 (submitted 15 September 2026, together with 1.1): Google Sheets and Google Slides support; keep acronyms; Title Case small words for English, Bahasa Malaysia and Bahasa Indonesia plus custom words; whole-file mode; last-used style. Apps Script deployment Version 2.
+1.3.0 (live 19 September 2026): language picker with Auto and twelve languages, Turkish and Greek lowercase, snake_case and kebab-case, new logo. 1.2.0 (live 17 September 2026, together with 1.1): Google Sheets and Google Slides support; keep acronyms; Title Case small words for English, Bahasa Malaysia and Bahasa Indonesia plus custom words; whole-file mode; last-used style. Apps Script deployment Version 2.
 
 1.0.1 (10 September 2026): sidebar buttons no longer clip their labels (Google's add-on stylesheet forces a fixed button height); heading in sentence case.
 1.0.0 (3 September 2026): first release.
