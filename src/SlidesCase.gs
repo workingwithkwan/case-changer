@@ -23,6 +23,10 @@ var SlidesCase = (function () {
     var changed = 0;
 
     if (type === T.TEXT) {
+      // A blinking cursor with nothing highlighted counts as "nothing selected",
+      // so the caller can offer the whole presentation instead.
+      var tr = selection.getTextRange();
+      if (!tr || !tr.asString()) throw noSelectionError('Nothing is selected.');
       changed = convertSelectedText(selection, mode, opts);
     } else if (type === T.TABLE_CELL) {
       var cells = selection.getTableCellRange().getTableCells();
