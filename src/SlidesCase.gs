@@ -36,15 +36,62 @@ var SlidesCase = (function () {
     return changed;
   }
 
-  /** Every text element on every slide (speaker notes are left alone). */
+  /** Every text element on every slide, speaker notes included. */
   function applyWhole(mode, opts) {
     var slides = SlidesApp.getActivePresentation().getSlides();
     var changed = 0;
     for (var s = 0; s < slides.length; s++) {
       var elements = slides[s].getPageElements();
       for (var e = 0; e < elements.length; e++) changed += convertPageElement(elements[e], mode, opts);
+      try {
+        var notes = slides[s].getNotesPage().getSpeakerNotesShape();
+        if (notes) changed += convertWhole(notes.getText(), mode, opts);
+      } catch (err) { /* a slide without a notes shape */ }
     }
     return changed;
+  }
+
+  /** The selected text, or the first text on the current slide, for the preview. */
+  function sample() {
+    var pres = SlidesApp.getActivePresentation();
+    var selection = pres.getSelection();
+    var T = SlidesApp.SelectionType, type = selection.getSelectionType();
+    if (type === T.TEXT) {
+      var tr = selection.getTextRange();
+      if (tr && tr.asString().trim()) return tr.asString();
+    }
+    if (type === T.TABLE_CELL) {
+      var cells = selection.getTableCellRange().getTableCells();
+      for (var i = 0; i < cells.length; i++) { var ct = cells[i].getText().asString(); if (ct.trim()) return ct; }
+    }
+    var elements = [];
+    if (type === T.PAGE_ELEMENT) elements = selection.getPageElementRange().getPageElements();
+    if (!elements.length) {
+      var page = selection.getCurrentPage();
+      elements = page ? page.getPageElements() : [];
+    }
+    for (var j = 0; j < elements.length; j++) {
+      var found = firstText(elements[j]);
+      if (found) return found;
+    }
+    return '';
+  }
+
+  function firstText(el) {
+    var PT = SlidesApp.PageElementType, kind = el.getPageElementType();
+    if (kind === PT.SHAPE) { var t = el.asShape().getText().asString(); return t.trim() ? t : ''; }
+    if (kind === PT.TABLE) {
+      var table = el.asTable();
+      for (var r = 0; r < table.getNumRows(); r++) for (var c = 0; c < table.getNumColumns(); c++) {
+        var ct = table.getCell(r, c).getText().asString();
+        if (ct.trim()) return ct;
+      }
+    }
+    if (kind === PT.GROUP) {
+      var children = el.asGroup().getChildren();
+      for (var k = 0; k < children.length; k++) { var g = firstText(children[k]); if (g) return g; }
+    }
+    return '';
   }
 
   /** Text highlighted inside a shape or a table cell. */
@@ -162,5 +209,5 @@ var SlidesCase = (function () {
     return changed;
   }
 
-  return { apply: apply, applyWhole: applyWhole };
+  return { apply: apply, applyWhole: applyWhole, sample: sample };
 })();

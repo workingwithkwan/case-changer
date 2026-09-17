@@ -28,7 +28,7 @@ dict.forEach(function (w) {
   if (alt.length !== lw.length || alt.toLowerCase() !== lw) fail('dict-alternating', lw + ' -> ' + alt); else ok();
   // acronym rule: an all-caps dictionary word of 2..6 letters is kept by Sentence case when alone
   if (uw.length >= 2 && uw.length <= 6) { var kept = C('the ' + uw + ' item', 'sentence'); if (kept !== 'The ' + uw + ' item') fail('dict-acronym-kept', uw + ' -> ' + kept); else ok(); }
-  else if (uw.length > 6) { var fixed = C('the ' + uw + ' item', 'sentence'); if (fixed !== 'The ' + lw + ' item') fail('dict-longcaps-fixed', uw + ' -> ' + fixed); else ok(); }
+  else if (uw.length > 6) { var fixed = C('the ' + uw + ' item', 'sentence', {properNouns: false}); if (fixed !== 'The ' + lw + ' item') fail('dict-longcaps-fixed', uw + ' -> ' + fixed); else ok(); }
 });
 var dictMs = Date.now() - t0;
 
@@ -157,6 +157,50 @@ Object.keys(CaseLib.PRESETS).forEach(function (lang) {
     if (SMALL_EN.indexOf(w) < 0 && fi >= 0 && other[6 + fi] !== upc(w[fi])) fail('preset-not-en-' + lang, w + ' -> ' + other); else ok();
   });
 });
+// ---------- 5. 1.5: proper nouns, never-change words, language detection ----------
+['monday','tuesday','wednesday','thursday','friday','saturday','sunday','january','february','april','june','july','august','september','october','november','december','malaysia','singapore','english','french'].forEach(function (w) {
+  var got = C('we met on ' + w + ' again', 'sentence'); var want = 'We met on ' + w.charAt(0).toUpperCase() + w.slice(1) + ' again';
+  if (got !== want) fail('proper-en', w + ' -> ' + got); else ok();
+  if (C('we met on ' + w + ' again', 'sentence', {properNouns:false}) !== 'We met on ' + w + ' again') fail('proper-off', w); else ok();
+  if (C('we met on ' + w + ' again', 'lower') !== 'we met on ' + w + ' again') fail('proper-not-in-lower', w); else ok();
+});
+['isnin','selasa','rabu','khamis','jumaat','sabtu','ahad','januari','ogos','disember','melayu','johor'].forEach(function (w) {
+  var got = C('kami jumpa pada ' + w + ' lagi', 'sentence', {language:'ms'}); var want = 'Kami jumpa pada ' + w.charAt(0).toUpperCase() + w.slice(1) + ' lagi';
+  if (got !== want) fail('proper-ms', w + ' -> ' + got); else ok();
+});
+['may','march','polish','turkey','minggu'].forEach(function (w) { if (C('it ' + w + ' be so', 'sentence') !== 'It ' + w + ' be so') fail('proper-ambiguous', w); else ok(); });
+// never-change words against every dictionary word of 4..8 letters starting with "ph" (cheap sample) and a brand list
+var BRANDS = ['iPhone','eBay','macOS','PETRONAS','YouTube','LinkedIn','WhatsApp','McDonald','JavaScript','GitHub'];
+BRANDS.forEach(function (b) {
+  ['upper','lower','sentence','title','capitalize','snake','kebab'].forEach(function (m) {
+    var src = 'the ' + b.toLowerCase() + ' and ' + b.toUpperCase() + ' story';
+    var got = C(src, m, {protectedWords: BRANDS.join(' ')});
+    var count = got.split(b).length - 1;
+    if (count !== 2) fail('never-change-' + m, b + ' -> ' + got); else ok();
+    if (got.length !== src.length) fail('never-change-length', b); else ok();
+  });
+  var inside = C('x' + b.toLowerCase() + 'y ' + b.toLowerCase() + 's', b === b.toUpperCase() ? 'lower' : 'upper', {protectedWords: b});
+  if (inside.indexOf(b) >= 0) fail('never-change-boundary', b + ' -> ' + inside); else ok();
+});
+var DET = [
+  ['en','the quick brown fox jumps over the lazy dog and this is for you'],
+  ['ms','kementerian kesihatan dan kebajikan di malaysia untuk rakyat yang tidak sihat'],
+  ['es','el señor de los anillos y la comunidad del anillo para todos los que leen'],
+  ['fr','le petit prince est un livre pour les enfants et les adultes qui ne sont pas pressés'],
+  ['de','der herr der ringe ist ein buch und das ist nicht für kinder'],
+  ['pt','o senhor dos anéis é um livro que não é para crianças mas para os adultos'],
+  ['it','il signore degli anelli è un libro che non è per i bambini ma anche per gli adulti'],
+  ['nl','het boek is niet voor kinderen maar het is ook een verhaal van de schrijver dat er is'],
+  ['tl','ang aklat ay para sa mga bata at hindi para sa mga matatanda na si juan'],
+  ['tr','bu kitap çocuklar için değil ve çok güzel bir şey olarak yazıldı'],
+  ['el','ο άρχοντας των δαχτυλιδιών είναι ένα βιβλίο']
+];
+DET.forEach(function (d) { var got = CaseLib.detectLanguage(d[1], 'xx'); if (got !== d[0]) fail('detect', d[0] + ' got ' + got); else ok(); });
+[['hello world','ms','ms'],['','id','id'],['123 456','nl','nl'],['laporan tahunan dan cadangan untuk jabatan','id','id'],['istanbul is a city and the people are kind','tr','en']].forEach(function (d) {
+  var got = CaseLib.detectLanguage(d[0], d[1]); if (got !== d[2]) fail('detect-fallback', JSON.stringify(d[0]) + ' got ' + got); else ok();
+});
+// English text must never get Turkish casing through auto detection
+if (C('INSIDE THE ISLAND IT IS IDLE AND THIS IS FOR YOU', 'lower', {language:'auto', fallbackLanguage:'en'}) !== 'inside the island it is idle and this is for you') fail('auto-no-turkish', 'x'); else ok();
 tricky.forEach(function (t) { var got = C(t[0], t[1]); if (got !== t[2]) fail('tricky', t[0] + ' ' + t[1] + ' -> ' + JSON.stringify(got) + ' want ' + JSON.stringify(t[2])); else ok(); });
 
 'dictionary words: ' + dict.length + ' (' + dictMs + ' ms), MS: ' + MS.length + ', ID: ' + ID.length + ', accented: ' + ACC.length + '\nchecks: ' + count + ', failures: ' + fails.length + (fails.length ? '\n' + fails.join('\n') : '');

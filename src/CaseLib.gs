@@ -32,6 +32,58 @@ var CaseLib = (function () {
     ['fr', 'Français'], ['de', 'Deutsch'], ['pt', 'Português'], ['it', 'Italiano'], ['nl', 'Nederlands'],
     ['tl', 'Tagalog'], ['tr', 'Türkçe'], ['el', 'Ελληνικά']
   ];
+  // Distinctive everyday words used to recognise the language of a piece of
+  // text (1.5). Kept separate from the Title Case presets because those share
+  // many words across languages ("de", "la", "en").
+  var DETECT = {
+    en: 'the and of to is are was were this that with for you your not have has will from they our their would about which',
+    ms: 'dan yang di ini itu untuk dengan tidak adalah akan telah kami kita mereka boleh sudah juga atau oleh pada kepada dalam ialah anda',
+    es: 'el los las una que por para con no es son como más pero sus este esta del al muy también hay',
+    fr: 'le les des une que est pas pour dans qui sur avec sont nous vous ce cette au aux plus mais très',
+    de: 'der die das und ist nicht ein eine mit für auf dem den sich auch von zu wir sie werden oder',
+    pt: 'os as uma que não para com é são como mais mas seu sua este esta do da em também muito',
+    it: 'il gli una che non per con è sono come più ma della nel questo questa anche molto alla dei',
+    nl: 'het een van en is niet dat op te voor met zijn er aan ook als bij naar deze wordt',
+    tl: 'ang ng mga sa ay na at si ko ka ako siya kami ito para hindi may ni kay nang',
+    tr: 've bir bu için ile de da ne çok daha gibi kadar ama olarak olan var değil her sonra'
+  };
+  var DETECT_SETS = null;
+  function detectSets() {
+    if (!DETECT_SETS) { DETECT_SETS = {}; for (var k in DETECT) if (DETECT.hasOwnProperty(k)) DETECT_SETS[k] = wordSet(DETECT[k]); }
+    return DETECT_SETS;
+  }
+
+  // Words Sentence case capitalises because they are proper nouns (1.5).
+  // Ambiguous ones are left out on purpose: may, march, polish, turkey, minggu.
+  var PLACES = 'malaysia indonesia singapore brunei thailand vietnam philippines cambodia laos myanmar japan china korea india pakistan bangladesh australia america canada mexico brazil argentina england scotland wales ireland britain france germany spain portugal italy netherlands belgium switzerland austria sweden norway denmark finland poland russia ukraine greece egypt nigeria kenya africa asia europe kuala lumpur selangor johor penang perak kedah kelantan terengganu pahang melaka sabah sarawak putrajaya labuan bahru kinabalu kuching ipoh pinang jakarta bandung surabaya bali london paris berlin madrid rome tokyo beijing delhi dubai';
+  var PROPER = {
+    en: 'monday tuesday wednesday thursday friday saturday sunday january february april june july august september october november december ' +
+        'english malay indonesian chinese japanese korean french german spanish portuguese italian dutch arabic hindi tamil thai vietnamese russian greek turkish tagalog filipino ' +
+        'malaysian singaporean american british australian canadian european asian african indian ' +
+        'christmas easter ramadan eid deepavali diwali hanukkah ' + PLACES,
+    ms: 'isnin selasa rabu khamis jumaat sabtu ahad januari februari mac april mei jun julai ogos september oktober november disember ' +
+        'melayu inggeris cina jepun korea perancis jerman sepanyol arab tamil islam kristian hindu buddha ramadan syawal aidilfitri aidiladha deepavali krismas ' +
+        'jepun amerika britain perancis jerman belanda ' + PLACES,
+    id: 'senin selasa rabu kamis jumat sabtu januari februari maret april mei juni juli agustus september oktober november desember ' +
+        'indonesia inggris tionghoa jepang korea prancis jerman spanyol arab jawa sunda bali islam kristen hindu buddha ramadan lebaran natal ' +
+        'jepang amerika inggris prancis jerman belanda ' + PLACES,
+    tl: 'lunes martes miyerkules huwebes biyernes sabado enero pebrero marso abril mayo hunyo hulyo agosto setyembre oktubre nobyembre disyembre ' +
+        'pilipinas pilipino filipino tagalog ingles kastila hapon amerika maynila cebu davao ' + PLACES,
+    el: 'δευτέρα τρίτη τετάρτη πέμπτη παρασκευή σάββατο κυριακή ιανουάριος φεβρουάριος μάρτιος απρίλιος μάιος ιούνιος ιούλιος αύγουστος σεπτέμβριος οκτώβριος νοέμβριος δεκέμβριος ελλάδα αθήνα θεσσαλονίκη κύπρος ευρώπη',
+    es: 'españa méxico argentina colombia chile perú venezuela madrid barcelona europa américa ' + PLACES,
+    fr: 'france belgique suisse canada paris lyon marseille europe afrique asie amérique allemagne espagne italie angleterre ' + PLACES,
+    de: 'deutschland österreich schweiz berlin münchen hamburg europa frankreich spanien italien england ' + PLACES,
+    pt: 'brasil portugal lisboa porto angola moçambique europa américa espanha frança alemanha itália ' + PLACES,
+    it: 'italia roma milano napoli europa francia germania spagna inghilterra svizzera ' + PLACES,
+    nl: 'nederland belgië amsterdam rotterdam europa duitsland frankrijk spanje italië engeland ' + PLACES,
+    tr: 'türkiye istanbul ankara izmir avrupa asya almanya fransa ingiltere ' + PLACES
+  };
+  var PROPER_SETS = {};
+  function properSet(lang) {
+    if (!PROPER_SETS[lang]) PROPER_SETS[lang] = wordSet(PROPER[lang] || PROPER.en);
+    return PROPER_SETS[lang];
+  }
+
   function wordSet(list) {
     var set = {};
     String(list || '').toLowerCase().split(/[\s,;]+/).forEach(function (w) { if (w) set[w] = 1; });
@@ -39,15 +91,111 @@ var CaseLib = (function () {
   }
   var SMALL_WORDS = wordSet(SMALL_WORD_PRESETS.en);
 
-  // Options accepted by convert(): { keepAcronyms: true, language: 'en'|'ms'|'id', extraSmallWords: 'dan di ke' }
-  var current = { keepAcronyms: true, smallWords: SMALL_WORDS, language: 'en' };
-  function applyOptions(opts) {
+  // Options accepted by convert():
+  //   keepAcronyms (default true), language ('auto' or a preset key),
+  //   fallbackLanguage (used by 'auto' when the text gives no clear answer),
+  //   extraSmallWords ('dan di ke'), properNouns (default true),
+  //   protectedWords ('iPhone eBay macOS': spelling kept in every style)
+  var current = { keepAcronyms: true, smallWords: SMALL_WORDS, language: 'en', properNouns: true, protectedWords: [] };
+  function applyOptions(opts, text) {
     opts = opts || {};
-    var lang = SMALL_WORD_PRESETS.hasOwnProperty(opts.language) ? opts.language : 'en';
+    var requested = opts.language;
+    if (requested === 'auto') requested = detectLanguage(text, opts.fallbackLanguage);
+    var lang = SMALL_WORD_PRESETS.hasOwnProperty(requested) ? requested : 'en';
     var set = wordSet(SMALL_WORD_PRESETS[lang]);
     var extra = wordSet(opts.extraSmallWords);
     for (var k in extra) if (extra.hasOwnProperty(k)) set[k] = 1;
-    current = { keepAcronyms: opts.keepAcronyms !== false, smallWords: set, language: lang };
+    var keep = [];
+    String(opts.protectedWords || '').split(/[\s,;]+/).forEach(function (w) { if (w && /\p{L}/u.test(w)) keep.push(w); });
+    current = { keepAcronyms: opts.keepAcronyms !== false, smallWords: set, language: lang, properNouns: opts.properNouns !== false, protectedWords: keep };
+  }
+
+  // Lowercase without any language rules, for matching only.
+  function plainLower(s) {
+    var out = '';
+    for (var i = 0; i < s.length; i++) { var l = s[i].toLowerCase(); out += l.length === 1 ? l : s[i]; }
+    return out;
+  }
+
+  /**
+   * Guesses the language of a piece of text from its everyday words. Needs at
+   * least two hits and a clear winner, otherwise the fallback (the account
+   * language) is used, so short selections behave exactly as before.
+   * Turkish is only chosen when the text also has a Turkish-only letter,
+   * because choosing it wrongly would turn every I into a dotless one.
+   */
+  function detectLanguage(text, fallback) {
+    fallback = SMALL_WORD_PRESETS.hasOwnProperty(fallback) ? fallback : 'en';
+    text = String(text || '');
+    var letters = text.match(/\p{L}/gu) || [];
+    if (!letters.length) return fallback;
+    var greek = (text.match(/[\u0370-\u03ff\u1f00-\u1fff]/g) || []).length;
+    if (greek >= 3 && greek * 2 > letters.length) return 'el';
+    var words = plainLower(text).match(/[\p{L}'’]+/gu) || [];
+    if (words.length < 3) return fallback;
+    var sets = detectSets(), scores = {}, lang;
+    for (lang in sets) if (sets.hasOwnProperty(lang)) scores[lang] = 0;
+    for (var i = 0; i < words.length; i++) {
+      for (lang in sets) if (sets.hasOwnProperty(lang) && sets[lang].hasOwnProperty(words[i])) scores[lang]++;
+    }
+    if (!/[ıİğĞşŞ]/.test(text)) scores.tr = 0;
+    var best = null, bestScore = 0, second = 0;
+    for (lang in scores) if (scores.hasOwnProperty(lang)) {
+      if (scores[lang] > bestScore) { second = bestScore; bestScore = scores[lang]; best = lang; }
+      else if (scores[lang] > second) second = scores[lang];
+    }
+    if (!best || bestScore < 2 || bestScore === second) return fallback;
+    // Malay and Indonesian share their everyday words; keep whichever the account uses.
+    if (best === 'ms') return fallback === 'id' ? 'id' : 'ms';
+    return best;
+  }
+
+  /** Cycle case: mixed or Title text goes to UPPERCASE, UPPERCASE to lowercase, lowercase to Title Case. */
+  function nextCycleMode(sample) {
+    sample = String(sample || '');
+    var hasUpper = false, hasLower = false;
+    for (var i = 0; i < sample.length; i++) {
+      var ch = sample[i];
+      if (!isLetter(ch)) continue;
+      if (ch !== ch.toLowerCase()) hasUpper = true;
+      else if (ch !== ch.toUpperCase()) hasLower = true;
+    }
+    if (hasUpper && !hasLower) return 'lower';
+    if (hasLower && !hasUpper) return 'title';
+    return 'upper';
+  }
+
+  // Never-change words: wherever one appears in the original (any case, as a
+  // whole word), the result gets the spelling from the list.
+  function restoreProtectedWords(original, out) {
+    var list = current.protectedWords;
+    if (!list.length) return out;
+    var lowered = plainLower(original), chars = null;
+    for (var w = 0; w < list.length; w++) {
+      var word = list[w], needle = plainLower(word);
+      if (needle.length !== word.length) continue;
+      var from = 0, at;
+      while ((at = lowered.indexOf(needle, from)) >= 0) {
+        var before = at > 0 ? lowered[at - 1] : '', after = lowered[at + needle.length] || '';
+        var boundary = !(before && /[\p{L}\p{N}]/u.test(before)) && !(after && /[\p{L}\p{N}]/u.test(after));
+        if (boundary) {
+          if (!chars) chars = out.split('');
+          for (var k = 0; k < word.length; k++) chars[at + k] = word[k];
+        }
+        from = at + needle.length;
+      }
+    }
+    return chars ? chars.join('') : out;
+  }
+
+  // Proper nouns in Sentence case: days, months, languages, places.
+  function capitaliseProperNouns(chars) {
+    if (!current.properNouns) return chars;
+    var set = properSet(current.language), text = chars.join(''), re = /\p{L}+/gu, m;
+    while ((m = re.exec(text)) !== null) {
+      if (set.hasOwnProperty(m[0])) chars[m.index] = up(chars[m.index]);
+    }
+    return chars;
   }
 
   // Acronym protection: words of 2 to 6 letters written entirely in capitals
@@ -255,6 +403,7 @@ var CaseLib = (function () {
         if (prevOk && nextOk) chars[i] = 'I';
       }
     }
+    chars = capitaliseProperNouns(chars);
     return restoreAcronyms(s, restoreProtected(s, chars)).join('');
   }
 
@@ -273,11 +422,14 @@ var CaseLib = (function () {
   function convert(text, mode, options) {
     var m = MODES[mode];
     if (!m) throw new Error('Unknown case mode: ' + mode);
-    applyOptions(options);
-    var out = m.fn(String(text));
+    text = String(text);
+    applyOptions(options, text);
+    var out = m.fn(text);
+    if (mode !== 'inverse' && mode !== 'alternating') out = restoreProtectedWords(text, out);
     if (out.length !== text.length) throw new Error('Internal error: length changed');
     return out;
   }
 
-  return { convert: convert, MODES: MODES, PRESETS: SMALL_WORD_PRESETS, LANGUAGES: LANGUAGES };
+  return { convert: convert, MODES: MODES, PRESETS: SMALL_WORD_PRESETS, LANGUAGES: LANGUAGES,
+           detectLanguage: detectLanguage, nextCycleMode: nextCycleMode };
 })();

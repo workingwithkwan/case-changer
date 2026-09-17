@@ -146,6 +146,38 @@ eq('english dotted I lowers to i', C('İstanbul', 'lower'), 'istanbul');
 eq('english i upper stays I', C('istanbul', 'upper'), 'ISTANBUL');
 eq('language does not leak', C('istanbul', 'upper', {language:'tr'}) === 'İSTANBUL' && C('istanbul', 'upper') === 'ISTANBUL', true);
 
+// 1d. 1.5: never-change words, proper nouns, auto language, cycle
+var PW={protectedWords:'iPhone eBay, macOS; PETRONAS'};
+eq('never-change title', C('my new iphone and EBAY account on MACOS', 'title', PW), 'My New iPhone and eBay Account on macOS');
+eq('never-change upper', C('my new iphone', 'upper', PW), 'MY NEW iPhone');
+eq('never-change lower', C('PETRONAS TOWERS', 'lower', PW), 'PETRONAS towers');
+eq('never-change sentence start', C('iphone sales rose. ebay too', 'sentence', PW), 'iPhone sales rose. eBay too');
+eq('never-change snake', C('My iPhone Case', 'snake', PW), 'my_iPhone_case');
+eq('never-change whole word only', C('iphones and myiphone', 'upper', PW), 'IPHONES AND MYIPHONE');
+eq('never-change next to punctuation', C('(iphone), "ebay"!', 'upper', PW), '(iPhone), "eBay"!');
+eq('never-change not in inverse', C('iphone', 'inverse', PW), 'IPHONE');
+eq('never-change empty list', C('iphone', 'upper', {protectedWords:'  ,; '}), 'IPHONE');
+eq('never-change does not leak', C('iphone', 'upper', PW) + C('iphone', 'upper'), 'iPhoneIPHONE');
+eq('proper nouns sentence', C("see you on monday in kuala lumpur. i'm ready, i've said i'll go and i'd like that", 'sentence'), "See you on Monday in Kuala Lumpur. I'm ready, I've said I'll go and I'd like that");
+eq('proper nouns ambiguous left', C('you may go in march. we meet in may', 'sentence'), 'You may go in march. We meet in may');
+eq('proper nouns off', C('see you on monday', 'sentence', {properNouns:false}), 'See you on monday');
+eq('proper nouns malay', C('mesyuarat pada hari isnin di johor bahru', 'sentence', {language:'ms'}), 'Mesyuarat pada hari Isnin di Johor Bahru');
+eq('proper nouns indonesian', C('rapat pada hari senin di jakarta', 'sentence', {language:'id'}), 'Rapat pada hari Senin di Jakarta');
+eq('proper nouns not malay days in english', C('the isnin file', 'sentence'), 'The isnin file');
+eq('proper nouns only sentence', C('see you on monday', 'lower'), 'see you on monday');
+eq('proper nouns with caps input', C('SEE YOU ON MONDAY IN PARIS', 'sentence'), 'See you on Monday in Paris');
+eq('auto title malay', C('laporan tahunan dan cadangan untuk jabatan di putrajaya', 'title', {language:'auto', fallbackLanguage:'en'}), 'Laporan Tahunan dan Cadangan untuk Jabatan di Putrajaya');
+eq('auto title english in malay account', C('the lord of the rings and the return of the king', 'title', {language:'auto', fallbackLanguage:'ms'}), 'The Lord of the Rings and the Return of the King');
+eq('auto short falls back', C('rock dan roll', 'title', {language:'auto', fallbackLanguage:'ms'}), 'Rock dan Roll');
+eq('auto short falls back en', C('rock dan roll', 'title', {language:'auto', fallbackLanguage:'en'}), 'Rock Dan Roll');
+eq('auto i pronoun only english', C('dan saya tidak tahu yang i itu untuk apa', 'sentence', {language:'auto', fallbackLanguage:'en'}), 'Dan saya tidak tahu yang i itu untuk apa');
+eq('detect exposed', CaseLib.detectLanguage('the cat and the dog are with you', 'ms'), 'en');
+eq('cycle from mixed', CaseLib.nextCycleMode('Hello World'), 'upper');
+eq('cycle from upper', CaseLib.nextCycleMode('HELLO WORLD 123'), 'lower');
+eq('cycle from lower', CaseLib.nextCycleMode('hello world'), 'title');
+eq('cycle no letters', CaseLib.nextCycleMode('123 !!'), 'upper');
+eq('cycle full loop', (function () { var t = 'Hello big World', seen = []; for (var i = 0; i < 3; i++) { var m = CaseLib.nextCycleMode(t); seen.push(m); t = C(t, m); } return seen.join('>'); })(), 'upper>lower>title');
+
 // 2. Invariants on a corpus + fuzz
 var corpus = ['', 'a', 'A', ' ', 'hello', 'Hello, World!', 'the quick brown fox.', 'ÀÉÎÕÜ àéîõü', 'straße Straße STRASSE',
   'İstanbul ıi', 'ﬁ ligature', 'é combining', '😀 emoji 🇲🇾 flags 👨‍👩‍👧 zwj', '你好，世界', 'مرحبا بالعالم', 'Привет мир',
@@ -170,6 +202,7 @@ corpus.forEach(function (s, idx) {
     // idempotence for the deterministic modes
     if (m !== 'inverse' && m !== 'alternating' && !/İ/.test(s)) { count++; if (C(out, m) !== out) fails.push('NOT IDEMPOTENT ' + m + ' #' + idx + ' ' + JSON.stringify(s.slice(0, 40))); }
   });
+  MODES.forEach(function (m) { count++; var o = C(s, m, {language:'auto', fallbackLanguage:'tr', protectedWords:'abc XYZ é', properNouns:true}); if (o.length !== s.length) fails.push('LENGTH CHANGED with 1.5 options ' + m + ' #' + idx); });
   count++; if (C(C(s, 'inverse'), 'inverse') !== s && !/[ßİıﬁΣσς]/.test(s)) fails.push('INVERSE NOT INVOLUTION #' + idx + ' ' + JSON.stringify(s.slice(0, 40)));
   count++; if (C(C(s, 'upper'), 'lower') !== C(s, 'lower') && !/[ßİıﬁΣσς]/.test(s)) fails.push('UPPER->LOWER != LOWER #' + idx + ' ' + JSON.stringify(s.slice(0, 40)));
 });

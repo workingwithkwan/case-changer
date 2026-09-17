@@ -50,6 +50,9 @@ function onOpen(e) {
     .addItem('snake_case', 'menuSnake')
     .addItem('kebab-case', 'menuKebab')
     .addSeparator()
+    .addItem('Cycle case (UPPER > lower > Title)', 'menuCycle')
+    .addItem('Repeat last style', 'menuRepeat')
+    .addSeparator()
     .addItem('Open sidebar', 'showSidebar')
     .addItem('Help', 'showHelp')
     .addToUi();
@@ -70,6 +73,16 @@ function menuInverse() { runFromMenu('inverse'); }
 function menuAlternating() { runFromMenu('alternating'); }
 function menuSnake() { runFromMenu('snake'); }
 function menuKebab() { runFromMenu('kebab'); }
+function menuCycle() { runFromMenu(nextCycleMode()); }
+function menuRepeat() {
+  var last = getSettings().lastMode;
+  if (!last || !CaseLib.MODES[last]) {
+    var ui = getUi();
+    ui.alert(ADDON_TITLE, 'No style has been used yet. Pick one from the menu first.', ui.ButtonSet.OK);
+    return;
+  }
+  runFromMenu(last);
+}
 
 function runFromMenu(mode) {
   var result = applyCase(mode);
@@ -93,7 +106,8 @@ function fileNoun() {
 
 /* ---------- Settings (per user, stored by Apps Script, no extra permission) ---------- */
 
-var DEFAULT_SETTINGS = { keepAcronyms: true, language: 'auto', extraSmallWords: '', lastMode: '' };
+var DEFAULT_SETTINGS = { keepAcronyms: true, language: 'auto', extraSmallWords: '', lastMode: '',
+  protectedWords: '', properNouns: true, skipHeader: true, counts: {} };
 
 /**
  * The language behind 'auto': the account language of the current user
@@ -121,7 +135,9 @@ function getSettings() {
       for (var key in saved) if (saved.hasOwnProperty(key) && out.hasOwnProperty(key)) out[key] = saved[key];
     }
   } catch (e) { /* fall back to defaults */ }
-  out.resolvedLanguage = resolveLanguage(out.language); // for the sidebar's "Auto (English)" label
+  if (!out.counts || typeof out.counts !== 'object') out.counts = {};
+  out.resolvedLanguage = resolveLanguage(out.language); // for the sidebar's "Auto: English" label
+  out.favourites = favouriteModes(out.counts);
   return out;
 }
 
@@ -132,15 +148,95 @@ function saveSettings(patch) {
   if (typeof patch.language === 'string' && (patch.language === 'auto' || CaseLib.PRESETS.hasOwnProperty(patch.language))) current.language = patch.language;
   if (typeof patch.extraSmallWords === 'string') current.extraSmallWords = patch.extraSmallWords.slice(0, 500);
   if (typeof patch.lastMode === 'string' && CaseLib.MODES[patch.lastMode]) current.lastMode = patch.lastMode;
+  if (typeof patch.protectedWords === 'string') current.protectedWords = patch.protectedWords.slice(0, 1000);
+  if (typeof patch.properNouns === 'boolean') current.properNouns = patch.properNouns;
+  if (typeof patch.skipHeader === 'boolean') current.skipHeader = patch.skipHeader;
+  if (patch.countMode && CaseLib.MODES[patch.countMode]) current.counts[patch.countMode] = (current.counts[patch.countMode] || 0) + 1;
   delete current.resolvedLanguage;
+  delete current.favourites;
   PropertiesService.getUserProperties().setProperty('settings', JSON.stringify(current));
   return getSettings();
 }
 
-/** The CaseLib options derived from the saved settings. */
+/** The three most used styles (used at least twice), most used first. */
+function favouriteModes(counts) {
+  var keys = [];
+  for (var k in counts) if (counts.hasOwnProperty(k) && CaseLib.MODES[k] && counts[k] >= 2) keys.push(k);
+  keys.sort(function (a, b) { return counts[b] - counts[a]; });
+  return keys.slice(0, 3);
+}
+
+/**
+ * The CaseLib options derived from the saved settings. With 'auto' the
+ * engine looks at the text itself and falls back to the account language.
+ */
 function caseOptions() {
   var st = getSettings();
-  return { keepAcronyms: st.keepAcronyms, language: resolveLanguage(st.language), extraSmallWords: st.extraSmallWords };
+  return {
+    keepAcronyms: st.keepAcronyms,
+    language: st.language === 'auto' ? 'auto' : st.language,
+    fallbackLanguage: accountLanguage(),
+    extraSmallWords: st.extraSmallWords,
+    protectedWords: st.protectedWords,
+    properNouns: st.properNouns,
+    skipHeader: st.skipHeader
+  };
+}
+
+/* ---------- Preview and cycle (1.5) ---------- */
+
+/** The first line of what is selected (or of the file when nothing is), at most 80 characters. */
+function selectionSample() {
+  var host = getHost(), text = '';
+  try {
+    if (host === 'docs') text = docsSample();
+    else if (host === 'sheets') text = SheetsCase.sample();
+    else if (host === 'slides') text = SlidesCase.sample();
+  } catch (e) { text = ''; }
+  text = String(text || '').split(/[\r\n\u000b]/)[0];
+  return text.length > 80 ? text.slice(0, 80) : text;
+}
+
+function docsSample() {
+  var doc = DocumentApp.getActiveDocument();
+  var selection = doc.getSelection();
+  if (selection) {
+    var els = selection.getRangeElements();
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i].getElement();
+      if (typeof el.asText !== 'function' && typeof el.editAsText !== 'function') continue;
+      var t = (el.getType() === DocumentApp.ElementType.TEXT ? el.asText() : el.editAsText()).getText();
+      if (els[i].isPartial()) t = t.substring(els[i].getStartOffset(), els[i].getEndOffsetInclusive() + 1);
+      if (t && t.trim()) return t;
+    }
+  }
+  var body = doc.getBody().getText();
+  var lines = body.split('\n');
+  for (var k = 0; k < lines.length; k++) if (lines[k].trim()) return lines[k];
+  return '';
+}
+
+/** Used by the sidebar's Preview button: the sample in every style. */
+function previewSelection() {
+  var sample = selectionSample();
+  var opts = caseOptions(), previews = {};
+  if (sample) {
+    for (var key in CaseLib.MODES) if (CaseLib.MODES.hasOwnProperty(key)) previews[key] = CaseLib.convert(sample, key, opts);
+  }
+  return { sample: sample, previews: previews, next: CaseLib.nextCycleMode(sample) };
+}
+
+/** UPPERCASE, lowercase or Title Case, whichever comes next for the selected text. */
+function nextCycleMode() {
+  return CaseLib.nextCycleMode(selectionSample());
+}
+
+/** Sidebar entry point for the Cycle button. */
+function cycleCase() {
+  var mode = nextCycleMode();
+  var result = applyCase(mode);
+  result.mode = mode;
+  return result;
 }
 
 /** Opens the sidebar with one button per case style. */
@@ -155,6 +251,8 @@ function showHelp() {
   ui.alert(ADDON_TITLE,
     'Select some text (in Sheets: select cells; in Slides: highlight text or select a text box), ' +
     'then pick a case style from the Case Changer menu or the sidebar.\n\n' +
+    'Cycle case switches between UPPERCASE, lowercase and Title Case. Repeat last style does what it says.\n' +
+    'With nothing selected you can change the whole file.\n\n' +
     'Formatting such as bold, links and colours is kept.\n' +
     'Nothing leaves your file: the add-on only reads the text you select and ' +
     'writes it back in the new case.',
@@ -203,6 +301,11 @@ function applyCaseWhole(mode) {
     changed += convertElement(doc.getBody(), mode, opts);
     var header = doc.getHeader(); if (header) changed += convertElement(header, mode, opts);
     var footer = doc.getFooter(); if (footer) changed += convertElement(footer, mode, opts);
+    var footnotes = doc.getFootnotes() || [];
+    for (var f = 0; f < footnotes.length; f++) {
+      var contents = footnotes[f].getFootnoteContents();
+      if (contents) changed += convertElement(contents, mode, opts);
+    }
   } else {
     return { ok: false, message: 'Open this add-on from Google Docs, Sheets or Slides.', changed: 0 };
   }
@@ -211,14 +314,17 @@ function applyCaseWhole(mode) {
 }
 
 function rememberMode(mode) {
-  try { saveSettings({ lastMode: mode }); } catch (e) { /* not important */ }
+  try { saveSettings({ lastMode: mode, countMode: mode }); } catch (e) { /* not important */ }
 }
 
 function finish(changed, mode) {
+  var note = '';
+  try { if (getHost() === 'sheets') note = SheetsCase.note(); } catch (e) { /* no note */ }
   return {
     ok: true,
     changed: changed,
-    message: changed ? 'Changed to ' + CaseLib.MODES[mode].label + '.' : 'Nothing to change.'
+    mode: mode,
+    message: (changed ? 'Changed to ' + CaseLib.MODES[mode].label + '.' : 'Nothing to change.') + (note ? ' ' + note : '')
   };
 }
 
