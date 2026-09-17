@@ -107,7 +107,7 @@ function fileNoun() {
 /* ---------- Settings (per user, stored by Apps Script, no extra permission) ---------- */
 
 var DEFAULT_SETTINGS = { keepAcronyms: true, language: 'auto', extraSmallWords: '', lastMode: '',
-  protectedWords: '', properNouns: true, skipHeader: true, counts: {} };
+  protectedWords: '', properNouns: true, skipHeader: true, darkSidebar: false, counts: {} };
 
 /**
  * The language behind 'auto': the account language of the current user
@@ -151,6 +151,7 @@ function saveSettings(patch) {
   if (typeof patch.protectedWords === 'string') current.protectedWords = patch.protectedWords.slice(0, 1000);
   if (typeof patch.properNouns === 'boolean') current.properNouns = patch.properNouns;
   if (typeof patch.skipHeader === 'boolean') current.skipHeader = patch.skipHeader;
+  if (typeof patch.darkSidebar === 'boolean') current.darkSidebar = patch.darkSidebar;
   if (patch.countMode && CaseLib.MODES[patch.countMode]) current.counts[patch.countMode] = (current.counts[patch.countMode] || 0) + 1;
   delete current.resolvedLanguage;
   delete current.favourites;
