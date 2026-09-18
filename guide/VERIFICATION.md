@@ -112,3 +112,7 @@ Store Listing draft submitted for review with the 1.3 text and the new logo grap
 ## 19 September 2026: 1.3 approved, rename submitted
 
 1.3 approved (email about 6 hours before this entry); the public listing shows snake_case, kebab-case and the language text. Same day: application name changed to "Case Changer for Google Docs™, Sheets™ & Slides™" (48 characters) in Store Listing > App Details > English, draft saved, SUBMITTED FOR REVIEW. The consent-screen app name was changed to the same string first: Save, Verify branding (passed in under two minutes), Publish branding; Verification Center shows branding verified and shown to users. Website updated to nine styles, twelve languages and three new FAQ entries.
+
+## 18 September 2026: GitHub purge confirmed
+
+GitHub Support (ticket 4764788, reply dated 17 September 09:54 UTC) completed the repository cleanup. Verified: the commit page, both raw screenshot URLs and the API lookup for 57725a8 now return 404, while the current history and the website are unaffected. The screenshot incident of 15 September is closed.
