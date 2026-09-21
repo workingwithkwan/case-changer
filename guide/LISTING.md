@@ -34,10 +34,13 @@ What makes it different:
 • Works on any selection: a word, a sentence, several paragraphs, list items or whole tables.
 • Fast. Change a paragraph and keep typing.
 • Private. Nothing leaves your document. The add-on only asks for access to the document it is open in, and stores nothing.
-• Keeps acronyms such as NASA or KL when you switch to Sentence case or Title Case.
-• Speaks your language. Title Case knows which small words to keep lowercase in English, Bahasa Malaysia, Bahasa Indonesia, Spanish, French, German, Portuguese, Italian, Dutch, Tagalog, Turkish and Greek, picked automatically from your account language or chosen by you, and you can add your own words.
+• Keeps acronyms such as NASA or KL when you switch to Sentence case or Title Case, and never changes the words you list, such as iPhone, eBay or PETRONAS.
+• Sentence case capitalises days, months, languages and places (Monday, Kuala Lumpur).
+• Preview shows your text in all nine styles before you choose. Cycle case flips between UPPERCASE, lowercase and Title Case in one click, and your most used styles move to the top.
+• Speaks your language. The sidebar, menu and messages appear in English, Bahasa Malaysia, Bahasa Indonesia, Spanish, French, German, Portuguese, Italian, Dutch, Tagalog, Turkish or Greek, following your Google account language.
+• Title Case knows which small words to keep lowercase in each of those languages. It detects the language from the text itself, or you can choose it, and you can add your own words.
 • Gets Turkish and Greek right: dotted and dotless i, and the final sigma.
-• Nothing selected? Change the whole document, sheet or presentation in one go.
+• Nothing selected? Change the whole document, sheet or presentation in one go, including footnotes in Google Docs™ and speaker notes in Google Slides™. Select a whole column in Google Sheets™ and the header row is left alone.
 • Free, with no account, sign-up or ads.
 
 Tip: made a mistake? Press Cmd+Z or Ctrl+Z to undo, just like any other edit.
