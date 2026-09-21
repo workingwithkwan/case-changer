@@ -2,6 +2,8 @@
 
 Add each one in Marketplace SDK > Store Listing > App Details > **Add a Language**. The application name stays the same in every language: `Case Changer for Google Docs™, Sheets™ & Slides™`. Google product names keep their English form and the ™ symbol, and every description ends with the trademark line, because a missing ™ was the one rejection this listing has had. Short descriptions are under 200 characters. The text describes the add-on as of 1.5.
 
+Correction of 21 September 2026, after the listings were submitted: the menu is not called "Extensions" in every language. Google's own help pages give Sambungan (ms), Ekstensi (id), Extensiones (es), Extensões (pt-BR), Erweiterungen (de) and Extensions (fr), and the French word for add-on is "module complémentaire". The text below has the corrected wording. The submitted listings still say "Extensions"; paste the corrected descriptions at the next listing edit.
+
 Languages: Bahasa Malaysia (home market), Bahasa Indonesia, Spanish, Portuguese (Brazil), French, German.
 
 ---
@@ -14,7 +16,7 @@ Tukar teks yang dipilih dalam Google Docs™, Sheets™ dan Slides™ kepada HUR
 **Detailed description**
 Case Changer membetulkan huruf besar dan kecil bagi sebarang teks dalam Google Docs™, Google Sheets™ dan Google Slides™ dengan satu klik.
 
-Serlahkan teks, kemudian pilih gaya daripada menu Extensions atau bar sisi:
+Serlahkan teks, kemudian pilih gaya daripada menu Sambungan atau bar sisi:
 
 • HURUF BESAR
 • huruf kecil
@@ -46,7 +48,7 @@ Berfungsi dalam Google Docs™ (teks yang dipilih), Google Sheets™ (sel yang d
 Google Docs™, Google Sheets™, Google Slides™ dan Google Workspace™ ialah tanda dagangan Google LLC.
 
 **Post install tip**
-Serlahkan teks (atau pilih sel dalam Sheets™), kemudian buka Extensions > Case Changer dan pilih satu gaya.
+Serlahkan teks (atau pilih sel dalam Sheets™), kemudian buka Sambungan > Case Changer dan pilih satu gaya.
 
 ---
 
@@ -58,7 +60,7 @@ Ubah teks yang dipilih di Google Docs™, Sheets™, dan Slides™ menjadi HURUF
 **Detailed description**
 Case Changer merapikan huruf besar dan kecil pada teks apa pun di Google Docs™, Google Sheets™, dan Google Slides™ dengan satu klik.
 
-Sorot teks, lalu pilih gaya dari menu Extensions atau sidebar:
+Sorot teks, lalu pilih gaya dari menu Ekstensi atau sidebar:
 
 • HURUF BESAR
 • huruf kecil
@@ -90,7 +92,7 @@ Berfungsi di Google Docs™ (teks yang dipilih), Google Sheets™ (sel yang dipi
 Google Docs™, Google Sheets™, Google Slides™, dan Google Workspace™ adalah merek dagang Google LLC.
 
 **Post install tip**
-Sorot teks (atau pilih sel di Sheets™), lalu buka Extensions > Case Changer dan pilih sebuah gaya.
+Sorot teks (atau pilih sel di Sheets™), lalu buka Ekstensi > Case Changer dan pilih sebuah gaya.
 
 ---
 
@@ -102,7 +104,7 @@ Cambia el texto seleccionado en Google Docs™, Sheets™ y Slides™ a MAYÚSCU
 **Detailed description**
 Case Changer corrige las mayúsculas y minúsculas de cualquier texto en Google Docs™, Google Sheets™ y Google Slides™ con un clic.
 
-Selecciona el texto y elige un estilo en el menú Extensions o en la barra lateral:
+Selecciona el texto y elige un estilo en el menú Extensiones o en la barra lateral:
 
 • MAYÚSCULAS
 • minúsculas
@@ -133,7 +135,7 @@ Funciona en Google Docs™ (texto seleccionado), Google Sheets™ (celdas selecc
 Google Docs™, Google Sheets™, Google Slides™ y Google Workspace™ son marcas comerciales de Google LLC.
 
 **Post install tip**
-Selecciona texto (o celdas en Sheets™), abre Extensions > Case Changer y elige un estilo.
+Selecciona texto (o celdas en Sheets™), abre Extensiones > Case Changer y elige un estilo.
 
 ---
 
@@ -145,7 +147,7 @@ Mude o texto selecionado no Google Docs™, Sheets™ e Slides™ para MAIÚSCUL
 **Detailed description**
 O Case Changer corrige maiúsculas e minúsculas de qualquer texto no Google Docs™, Google Sheets™ e Google Slides™ com um clique.
 
-Selecione o texto e escolha um estilo no menu Extensions ou na barra lateral:
+Selecione o texto e escolha um estilo no menu Extensões ou na barra lateral:
 
 • MAIÚSCULAS
 • minúsculas
@@ -176,7 +178,7 @@ Funciona no Google Docs™ (texto selecionado), no Google Sheets™ (células se
 Google Docs™, Google Sheets™, Google Slides™ e Google Workspace™ são marcas registradas da Google LLC.
 
 **Post install tip**
-Selecione um texto (ou células no Sheets™), abra Extensions > Case Changer e escolha um estilo.
+Selecione um texto (ou células no Sheets™), abra Extensões > Case Changer e escolha um estilo.
 
 ---
 
@@ -209,7 +211,7 @@ Ce qui fait la différence :
 • Conserve les sigles comme NASA ou ONU, ainsi que les mots que vous indiquez, comme iPhone ou eBay.
 • L'Aperçu montre votre texte dans chaque style avant de choisir.
 • Rien de sélectionné ? Modifiez tout le document, toute la feuille ou toute la présentation d'un coup.
-• Confidentiel. Rien ne quitte votre fichier. Le module demande seulement l'accès au fichier ouvert et ne conserve pas votre contenu.
+• Confidentiel. Rien ne quitte votre fichier. Le module complémentaire demande seulement l'accès au fichier ouvert et ne conserve pas votre contenu.
 • Gratuit, sans compte, sans inscription et sans publicité.
 
 Astuce : une erreur ? Appuyez sur Cmd+Z ou Ctrl+Z pour annuler, comme pour toute autre modification.
@@ -231,7 +233,7 @@ Markierten Text in Google Docs™, Sheets™ und Slides™ in GROSSBUCHSTABEN, k
 **Detailed description**
 Case Changer korrigiert die Groß- und Kleinschreibung von beliebigem Text in Google Docs™, Google Sheets™ und Google Slides™ mit einem Klick.
 
-Text markieren und im Menü Extensions oder in der Seitenleiste einen Stil wählen:
+Text markieren und im Menü Erweiterungen oder in der Seitenleiste einen Stil wählen:
 
 • GROSSBUCHSTABEN
 • kleinbuchstaben
@@ -262,4 +264,4 @@ Funktioniert in Google Docs™ (markierter Text), Google Sheets™ (markierte Ze
 Google Docs™, Google Sheets™, Google Slides™ und Google Workspace™ sind Marken von Google LLC.
 
 **Post install tip**
-Text markieren (oder Zellen in Sheets™), dann Extensions > Case Changer öffnen und einen Stil wählen.
+Text markieren (oder Zellen in Sheets™), dann Erweiterungen > Case Changer öffnen und einen Stil wählen.

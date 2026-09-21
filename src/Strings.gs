@@ -5,6 +5,11 @@
  * which case the English text is used. {placeholders} are filled in by
  * Strings.format(). The style names show the style they describe, so they
  * keep their own capitalisation in every language.
+ *
+ * Menu names (Extensions, Sambungan, Erweiterungen...) and the word for
+ * "add-on" follow Google's own help pages in each language
+ * (support.google.com/docs/answer/2942256?hl=xx), checked 21 September 2026.
+ * Filipino has no localised help page, so Tagalog keeps "Extensions".
  */
 var Strings = (function () {
   'use strict';
@@ -74,7 +79,7 @@ var Strings = (function () {
     uiLanguageLabel: 'Bahasa bar sisi', uiAuto: 'Auto: {language} (bahasa akaun anda)',
     uiReload: 'Buka semula bar sisi untuk melihatnya. Menu mengikut bahasa akaun Google anda.',
     saved: 'Disimpan', couldNotSave: 'Tidak dapat disimpan: {error}',
-    tip: 'Petua: gaya yang sama ada dalam menu Extensions > Case Changer, jadi bar sisi ini boleh ditutup jika anda mahu.',
+    tip: 'Petua: gaya yang sama ada dalam menu Sambungan > Case Changer, jadi bar sisi ini boleh ditutup jika anda mahu.',
     menu_cycle: 'Kitar huruf (BESAR > kecil > Tajuk)', menu_repeat: 'Ulang gaya terakhir', menu_sidebar: 'Buka bar sisi', menu_help: 'Bantuan',
     msg_changed: 'Ditukar kepada {style}.', msg_nothingToChange: 'Tiada apa untuk ditukar.', msg_nothingSelected: 'Tiada apa yang dipilih.',
     msg_headerSkipped: 'Baris tajuk dilangkau.', msg_headersSkipped: '{n} baris tajuk dilangkau.',
@@ -111,7 +116,7 @@ var Strings = (function () {
     uiLanguageLabel: 'Bahasa sidebar', uiAuto: 'Otomatis: {language} (bahasa akun Anda)',
     uiReload: 'Buka kembali sidebar untuk melihatnya. Menu mengikuti bahasa akun Google Anda.',
     saved: 'Tersimpan', couldNotSave: 'Tidak dapat menyimpan: {error}',
-    tip: 'Tips: gaya yang sama ada di menu Extensions > Case Changer, jadi sidebar ini boleh ditutup.',
+    tip: 'Tips: gaya yang sama ada di menu Ekstensi > Case Changer, jadi sidebar ini boleh ditutup.',
     menu_cycle: 'Putar huruf (BESAR > kecil > Judul)', menu_repeat: 'Ulangi gaya terakhir', menu_sidebar: 'Buka sidebar', menu_help: 'Bantuan',
     msg_changed: 'Diubah menjadi {style}.', msg_nothingToChange: 'Tidak ada yang perlu diubah.', msg_nothingSelected: 'Tidak ada yang dipilih.',
     msg_headerSkipped: 'Baris judul dilewati.', msg_headersSkipped: '{n} baris judul dilewati.',
@@ -148,7 +153,7 @@ var Strings = (function () {
     uiLanguageLabel: 'Idioma de la barra lateral', uiAuto: 'Automático: {language} (idioma de tu cuenta)',
     uiReload: 'Vuelve a abrir la barra lateral para verlo. El menú sigue el idioma de tu cuenta de Google.',
     saved: 'Guardado', couldNotSave: 'No se pudo guardar: {error}',
-    tip: 'Consejo: los mismos estilos están en el menú Extensions > Case Changer, así que puedes cerrar esta barra si lo prefieres.',
+    tip: 'Consejo: los mismos estilos están en el menú Extensiones > Case Changer, así que puedes cerrar esta barra si lo prefieres.',
     menu_cycle: 'Alternar (MAYÚS > minús > Título)', menu_repeat: 'Repetir el último estilo', menu_sidebar: 'Abrir la barra lateral', menu_help: 'Ayuda',
     msg_changed: 'Cambiado a {style}.', msg_nothingToChange: 'No hay nada que cambiar.', msg_nothingSelected: 'No hay nada seleccionado.',
     msg_headerSkipped: 'Se omitió la fila de encabezado.', msg_headersSkipped: 'Se omitieron {n} filas de encabezado.',
@@ -189,12 +194,12 @@ var Strings = (function () {
     menu_cycle: 'Alterner (MAJ > min > Titre)', menu_repeat: 'Répéter le dernier style', menu_sidebar: 'Ouvrir la barre latérale', menu_help: 'Aide',
     msg_changed: 'Converti en {style}.', msg_nothingToChange: 'Rien à modifier.', msg_nothingSelected: 'Rien n\'est sélectionné.',
     msg_headerSkipped: 'Ligne d\'en-tête ignorée.', msg_headersSkipped: '{n} lignes d\'en-tête ignorées.',
-    msg_unknownStyle: 'Style inconnu.', msg_wrongHost: 'Ouvrez ce module depuis Google Docs, Sheets ou Slides.',
+    msg_unknownStyle: 'Style inconnu.', msg_wrongHost: 'Ouvrez ce module complémentaire depuis Google Docs, Sheets ou Slides.',
     msg_noLast: 'Aucun style n\'a encore été utilisé. Choisissez-en un dans le menu.',
     ask_docs: 'Rien n\'est sélectionné. Modifier tout le document ?',
     ask_sheets: 'Rien n\'est sélectionné. Modifier toute la feuille ?',
     ask_slides: 'Rien n\'est sélectionné. Modifier toute la présentation ?',
-    help: 'Sélectionnez du texte (dans Sheets : des cellules ; dans Slides : du texte ou une zone de texte), puis choisissez un style dans le menu Case Changer ou la barre latérale.\n\nAlterner passe de MAJUSCULES à minuscules puis à Casse De Titre. Répéter le dernier style fait ce que son nom indique.\nSans sélection, vous pouvez modifier tout le fichier.\n\nLa mise en forme (gras, liens, couleurs) est conservée.\nRien ne quitte votre fichier : le module lit seulement le texte sélectionné et le réécrit dans le nouveau style.'
+    help: 'Sélectionnez du texte (dans Sheets : des cellules ; dans Slides : du texte ou une zone de texte), puis choisissez un style dans le menu Case Changer ou la barre latérale.\n\nAlterner passe de MAJUSCULES à minuscules puis à Casse De Titre. Répéter le dernier style fait ce que son nom indique.\nSans sélection, vous pouvez modifier tout le fichier.\n\nLa mise en forme (gras, liens, couleurs) est conservée.\nRien ne quitte votre fichier : le module complémentaire lit seulement le texte sélectionné et le réécrit dans le nouveau style.'
   };
 
   T.de = {
@@ -222,7 +227,7 @@ var Strings = (function () {
     uiLanguageLabel: 'Sprache der Seitenleiste', uiAuto: 'Automatisch: {language} (Sprache Ihres Kontos)',
     uiReload: 'Seitenleiste neu öffnen, um es zu sehen. Das Menü folgt der Sprache Ihres Google-Kontos.',
     saved: 'Gespeichert', couldNotSave: 'Speichern nicht möglich: {error}',
-    tip: 'Tipp: Dieselben Stile stehen im Menü Extensions > Case Changer, die Seitenleiste kann also geschlossen werden.',
+    tip: 'Tipp: Dieselben Stile stehen im Menü Erweiterungen > Case Changer, die Seitenleiste kann also geschlossen werden.',
     menu_cycle: 'Durchwechseln (GROSS > klein > Titel)', menu_repeat: 'Letzten Stil wiederholen', menu_sidebar: 'Seitenleiste öffnen', menu_help: 'Hilfe',
     msg_changed: 'Geändert in {style}.', msg_nothingToChange: 'Nichts zu ändern.', msg_nothingSelected: 'Nichts markiert.',
     msg_headerSkipped: 'Kopfzeile ausgelassen.', msg_headersSkipped: '{n} Kopfzeilen ausgelassen.',
@@ -259,7 +264,7 @@ var Strings = (function () {
     uiLanguageLabel: 'Idioma da barra lateral', uiAuto: 'Automático: {language} (idioma da sua conta)',
     uiReload: 'Reabra a barra lateral para ver. O menu segue o idioma da sua Conta do Google.',
     saved: 'Salvo', couldNotSave: 'Não foi possível salvar: {error}',
-    tip: 'Dica: os mesmos estilos estão no menu Extensions > Case Changer, então você pode fechar esta barra se preferir.',
+    tip: 'Dica: os mesmos estilos estão no menu Extensões > Case Changer, então você pode fechar esta barra se preferir.',
     menu_cycle: 'Alternar (MAIÚS > minús > Título)', menu_repeat: 'Repetir o último estilo', menu_sidebar: 'Abrir a barra lateral', menu_help: 'Ajuda',
     msg_changed: 'Alterado para {style}.', msg_nothingToChange: 'Nada para alterar.', msg_nothingSelected: 'Nada selecionado.',
     msg_headerSkipped: 'Linha de cabeçalho ignorada.', msg_headersSkipped: '{n} linhas de cabeçalho ignoradas.',
@@ -296,7 +301,7 @@ var Strings = (function () {
     uiLanguageLabel: 'Lingua della barra laterale', uiAuto: 'Automatica: {language} (lingua del tuo account)',
     uiReload: 'Riapri la barra laterale per vederla. Il menu segue la lingua del tuo account Google.',
     saved: 'Salvato', couldNotSave: 'Impossibile salvare: {error}',
-    tip: 'Suggerimento: gli stessi stili sono nel menu Extensions > Case Changer, quindi puoi chiudere questa barra.',
+    tip: 'Suggerimento: gli stessi stili sono nel menu Estensioni > Case Changer, quindi puoi chiudere questa barra.',
     menu_cycle: 'Alterna (MAIUSC > minusc > Titolo)', menu_repeat: 'Ripeti l\'ultimo stile', menu_sidebar: 'Apri la barra laterale', menu_help: 'Guida',
     msg_changed: 'Cambiato in {style}.', msg_nothingToChange: 'Niente da cambiare.', msg_nothingSelected: 'Nessuna selezione.',
     msg_headerSkipped: 'Riga di intestazione saltata.', msg_headersSkipped: '{n} righe di intestazione saltate.',
@@ -333,7 +338,7 @@ var Strings = (function () {
     uiLanguageLabel: 'Taal van de zijbalk', uiAuto: 'Automatisch: {language} (taal van je account)',
     uiReload: 'Open de zijbalk opnieuw om het te zien. Het menu volgt de taal van je Google-account.',
     saved: 'Opgeslagen', couldNotSave: 'Opslaan mislukt: {error}',
-    tip: 'Tip: dezelfde stijlen staan in het menu Extensions > Case Changer, dus je kunt deze zijbalk sluiten.',
+    tip: 'Tip: dezelfde stijlen staan in het menu Uitbreidingen > Case Changer, dus je kunt deze zijbalk sluiten.',
     menu_cycle: 'Wisselen (HOOFD > klein > Titel)', menu_repeat: 'Laatste stijl herhalen', menu_sidebar: 'Zijbalk openen', menu_help: 'Help',
     msg_changed: 'Gewijzigd in {style}.', msg_nothingToChange: 'Niets te wijzigen.', msg_nothingSelected: 'Niets geselecteerd.',
     msg_headerSkipped: 'Koprij overgeslagen.', msg_headersSkipped: '{n} koprijen overgeslagen.',
@@ -407,7 +412,7 @@ var Strings = (function () {
     uiLanguageLabel: 'Kenar çubuğu dili', uiAuto: 'Otomatik: {language} (hesap diliniz)',
     uiReload: 'Görmek için kenar çubuğunu yeniden açın. Menü, Google hesabınızın dilini izler.',
     saved: 'Kaydedildi', couldNotSave: 'Kaydedilemedi: {error}',
-    tip: 'İpucu: aynı stiller Extensions > Case Changer menüsünde de var, bu yüzden kenar çubuğunu kapatabilirsiniz.',
+    tip: 'İpucu: aynı stiller Uzantılar > Case Changer menüsünde de var, bu yüzden kenar çubuğunu kapatabilirsiniz.',
     menu_cycle: 'Sırayla değiştir (BÜYÜK > küçük > Başlık)', menu_repeat: 'Son stili yinele', menu_sidebar: 'Kenar çubuğunu aç', menu_help: 'Yardım',
     msg_changed: '{style} olarak değiştirildi.', msg_nothingToChange: 'Değiştirilecek bir şey yok.', msg_nothingSelected: 'Hiçbir şey seçilmedi.',
     msg_headerSkipped: 'Başlık satırı atlandı.', msg_headersSkipped: '{n} başlık satırı atlandı.',
@@ -444,7 +449,7 @@ var Strings = (function () {
     uiLanguageLabel: 'Γλώσσα πλαϊνής γραμμής', uiAuto: 'Αυτόματα: {language} (γλώσσα του λογαριασμού σας)',
     uiReload: 'Ανοίξτε ξανά την πλαϊνή γραμμή για να το δείτε. Το μενού ακολουθεί τη γλώσσα του λογαριασμού σας Google.',
     saved: 'Αποθηκεύτηκε', couldNotSave: 'Δεν αποθηκεύτηκε: {error}',
-    tip: 'Συμβουλή: τα ίδια στυλ υπάρχουν στο μενού Extensions > Case Changer, άρα μπορείτε να κλείσετε αυτή τη γραμμή.',
+    tip: 'Συμβουλή: τα ίδια στυλ υπάρχουν στο μενού Επεκτάσεις > Case Changer, άρα μπορείτε να κλείσετε αυτή τη γραμμή.',
     menu_cycle: 'Εναλλαγή (ΚΕΦΑΛΑΙΑ > πεζά > Τίτλος)', menu_repeat: 'Επανάληψη τελευταίου στυλ', menu_sidebar: 'Άνοιγμα πλαϊνής γραμμής', menu_help: 'Βοήθεια',
     msg_changed: 'Άλλαξε σε {style}.', msg_nothingToChange: 'Δεν υπάρχει κάτι για αλλαγή.', msg_nothingSelected: 'Δεν έχει επιλεγεί τίποτα.',
     msg_headerSkipped: 'Η γραμμή κεφαλίδας παραλείφθηκε.', msg_headersSkipped: 'Παραλείφθηκαν {n} γραμμές κεφαλίδας.',
