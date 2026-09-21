@@ -116,3 +116,7 @@ Store Listing draft submitted for review with the 1.3 text and the new logo grap
 ## 18 September 2026: GitHub purge confirmed
 
 GitHub Support (ticket 4764788, reply dated 17 September 09:54 UTC) completed the repository cleanup. Verified: the commit page, both raw screenshot URLs and the API lookup for 57725a8 now return 404, while the current history and the website are unaffected. The screenshot incident of 15 September is closed.
+
+## 21 September 2026: rename approved; support mailbox restored
+
+The public Marketplace listing now shows "Case Changer for Google Docs™, Sheets™ & Slides™", so the rename review of 19 September is approved and the listing is unlocked for the 1.4 + 1.5 release. Separately, casechangersupport@gmail.com was disabled by Google on about 18 September and restored on appeal (the owner reported the approval on 21 September). Mail DNS for case-changer.app is unchanged (Cloudflare MX and SPF). Not yet re-checked after the restore: that forwarded mail actually arrives, and that the "Send mail as" alias still works. Any review email sent while the mailbox was disabled may have bounced.
