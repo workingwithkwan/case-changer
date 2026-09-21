@@ -55,7 +55,7 @@ var CaseLib = (function () {
 
   // Words Sentence case capitalises because they are proper nouns (1.5).
   // Ambiguous ones are left out on purpose: may, march, polish, turkey, minggu.
-  var PLACES = 'malaysia indonesia singapore brunei thailand vietnam philippines cambodia laos myanmar japan china korea india pakistan bangladesh australia america canada mexico brazil argentina england scotland wales ireland britain france germany spain portugal italy netherlands belgium switzerland austria sweden norway denmark finland poland russia ukraine greece egypt nigeria kenya africa asia europe kuala lumpur selangor johor penang perak kedah kelantan terengganu pahang melaka sabah sarawak putrajaya labuan bahru kinabalu kuching ipoh pinang jakarta bandung surabaya bali london paris berlin madrid rome tokyo beijing delhi dubai';
+  var PLACES = 'malaysia indonesia singapore brunei thailand vietnam philippines cambodia laos myanmar japan china korea india pakistan bangladesh australia america canada mexico brazil argentina england scotland wales ireland britain france germany spain portugal italy netherlands belgium switzerland austria sweden norway denmark finland poland russia ukraine greece egypt nigeria kenya africa asia europe selangor johor penang perak kedah kelantan terengganu pahang melaka sabah sarawak putrajaya labuan kuching ipoh jakarta bandung surabaya bali london paris berlin madrid rome tokyo beijing delhi dubai';
   var PROPER = {
     en: 'monday tuesday wednesday thursday friday saturday sunday january february april june july august september october november december ' +
         'english malay indonesian chinese japanese korean french german spanish portuguese italian dutch arabic hindi tamil thai vietnamese russian greek turkish tagalog filipino ' +
@@ -68,19 +68,32 @@ var CaseLib = (function () {
         'indonesia inggris tionghoa jepang korea prancis jerman spanyol arab jawa sunda bali islam kristen hindu buddha ramadan lebaran natal ' +
         'jepang amerika inggris prancis jerman belanda ' + PLACES,
     tl: 'lunes martes miyerkules huwebes biyernes sabado enero pebrero marso abril mayo hunyo hulyo agosto setyembre oktubre nobyembre disyembre ' +
-        'pilipinas pilipino filipino tagalog ingles kastila hapon amerika maynila cebu davao ' + PLACES,
-    el: 'δευτέρα τρίτη τετάρτη πέμπτη παρασκευή σάββατο κυριακή ιανουάριος φεβρουάριος μάρτιος απρίλιος μάιος ιούνιος ιούλιος αύγουστος σεπτέμβριος οκτώβριος νοέμβριος δεκέμβριος ελλάδα αθήνα θεσσαλονίκη κύπρος ευρώπη',
-    es: 'españa méxico argentina colombia chile perú venezuela madrid barcelona europa américa ' + PLACES,
+        'pilipinas pilipino filipino tagalog ingles kastila amerika maynila cebu davao ' + PLACES,
+    el: 'δευτέρα παρασκευή σάββατο κυριακή ιανουάριος φεβρουάριος μάρτιος απρίλιος μάιος ιούνιος ιούλιος αύγουστος σεπτέμβριος οκτώβριος νοέμβριος δεκέμβριος ελλάδα αθήνα θεσσαλονίκη κύπρος ευρώπη',
+    es: 'españa méxico colombia perú venezuela madrid barcelona europa américa ' + PLACES,
     fr: 'france belgique suisse canada paris lyon marseille europe afrique asie amérique allemagne espagne italie angleterre ' + PLACES,
     de: 'deutschland österreich schweiz berlin münchen hamburg europa frankreich spanien italien england ' + PLACES,
-    pt: 'brasil portugal lisboa porto angola moçambique europa américa espanha frança alemanha itália ' + PLACES,
+    pt: 'brasil portugal lisboa angola moçambique europa américa espanha frança alemanha itália ' + PLACES,
     it: 'italia roma milano napoli europa francia germania spagna inghilterra svizzera ' + PLACES,
     nl: 'nederland belgië amsterdam rotterdam europa duitsland frankrijk spanje italië engeland ' + PLACES,
     tr: 'türkiye istanbul ankara izmir avrupa asya almanya fransa ingiltere ' + PLACES
   };
+  // Words that are a place in one language but an everyday word in another:
+  // perak is silver in Malay and Indonesian; china, argentina and chile are
+  // an adjective, an adjective and a pepper in Spanish; porto is a port.
+  var PROPER_EXCLUDE = { ms: 'perak', id: 'perak', es: 'china argentina chile', pt: 'porto china', it: 'china', tl: 'china' };
+  // Names that are only safe as a whole phrase ("lumpur" alone is mud,
+  // "pinang" a nut, "new" an adjective). Matched as consecutive words.
+  var PROPER_PHRASES = ['kuala lumpur', 'johor bahru', 'kota kinabalu', 'kota bharu', 'kuala terengganu', 'pulau pinang', 'shah alam',
+    'george town', 'new york', 'new zealand', 'hong kong', 'sri lanka', 'saudi arabia', 'south korea', 'north korea', 'south africa',
+    'united states', 'united kingdom', 'los angeles', 'san francisco', 'abu dhabi', 'timor leste', 'papua new guinea'];
   var PROPER_SETS = {};
   function properSet(lang) {
-    if (!PROPER_SETS[lang]) PROPER_SETS[lang] = wordSet(PROPER[lang] || PROPER.en);
+    if (!PROPER_SETS[lang]) {
+      var set = wordSet(PROPER[lang] || PROPER.en), drop = wordSet(PROPER_EXCLUDE[lang]);
+      for (var w in drop) if (drop.hasOwnProperty(w)) delete set[w];
+      PROPER_SETS[lang] = set;
+    }
     return PROPER_SETS[lang];
   }
 
@@ -194,6 +207,20 @@ var CaseLib = (function () {
     var set = properSet(current.language), text = chars.join(''), re = /\p{L}+/gu, m;
     while ((m = re.exec(text)) !== null) {
       if (set.hasOwnProperty(m[0])) chars[m.index] = up(chars[m.index]);
+    }
+    // Multi-word names: every word of the phrase gets its capital.
+    var lowered = plainLower(text);
+    for (var p = 0; p < PROPER_PHRASES.length; p++) {
+      var phrase = PROPER_PHRASES[p], from = 0, at;
+      while ((at = lowered.indexOf(phrase, from)) >= 0) {
+        var before = at > 0 ? lowered[at - 1] : '', after = lowered[at + phrase.length] || '';
+        if (!(before && /[\p{L}\p{N}]/u.test(before)) && !(after && /[\p{L}\p{N}]/u.test(after))) {
+          for (var k = 0; k < phrase.length; k++) {
+            if (k === 0 || phrase[k - 1] === ' ') chars[at + k] = up(chars[at + k]);
+          }
+        }
+        from = at + phrase.length;
+      }
     }
     return chars;
   }

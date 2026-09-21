@@ -10,6 +10,9 @@
  * "add-on" follow Google's own help pages in each language
  * (support.google.com/docs/answer/2942256?hl=xx), checked 21 September 2026.
  * Filipino has no localised help page, so Tagalog keeps "Extensions".
+ * Product names follow the same pages: Hojas de cálculo, Tabellen, Planilhas,
+ * Fogli, Spreadsheets, E-Tablolar, Υπολογιστικά φύλλα, Spreadsheet. French,
+ * Malay and Tagalog use the English names, as Google does there.
  */
 var Strings = (function () {
   'use strict';
@@ -43,7 +46,7 @@ var Strings = (function () {
     uiReload: 'Reopen the sidebar to see it. The menu follows your Google account language.',
     saved: 'Saved', couldNotSave: 'Could not save: {error}',
     tip: 'Tip: the same styles are in the Extensions > Case Changer menu, so you can close this sidebar if you prefer.',
-    menu_cycle: 'Cycle case (UPPER > lower > Title)', menu_repeat: 'Repeat last style', menu_sidebar: 'Open sidebar', menu_help: 'Help',
+    menu_cycle: 'Cycle case (UPPER > lower > Title)', menu_repeat: 'Repeat last style', menu_sidebar: 'Open sidebar', menu_help: 'How it works',
     msg_changed: 'Changed to {style}.', msg_nothingToChange: 'Nothing to change.', msg_nothingSelected: 'Nothing is selected.',
     msg_headerSkipped: 'Header row skipped.', msg_headersSkipped: '{n} header rows skipped.',
     msg_unknownStyle: 'Unknown case style.', msg_wrongHost: 'Open this add-on from Google Docs, Sheets or Slides.',
@@ -80,7 +83,7 @@ var Strings = (function () {
     uiReload: 'Buka semula bar sisi untuk melihatnya. Menu mengikut bahasa akaun Google anda.',
     saved: 'Disimpan', couldNotSave: 'Tidak dapat disimpan: {error}',
     tip: 'Petua: gaya yang sama ada dalam menu Sambungan > Case Changer, jadi bar sisi ini boleh ditutup jika anda mahu.',
-    menu_cycle: 'Kitar huruf (BESAR > kecil > Tajuk)', menu_repeat: 'Ulang gaya terakhir', menu_sidebar: 'Buka bar sisi', menu_help: 'Bantuan',
+    menu_cycle: 'Kitar huruf (BESAR > kecil > Tajuk)', menu_repeat: 'Ulang gaya terakhir', menu_sidebar: 'Buka bar sisi', menu_help: 'Cara guna',
     msg_changed: 'Ditukar kepada {style}.', msg_nothingToChange: 'Tiada apa untuk ditukar.', msg_nothingSelected: 'Tiada apa yang dipilih.',
     msg_headerSkipped: 'Baris tajuk dilangkau.', msg_headersSkipped: '{n} baris tajuk dilangkau.',
     msg_unknownStyle: 'Gaya huruf tidak dikenali.', msg_wrongHost: 'Buka alat tambah ini daripada Google Docs, Sheets atau Slides.',
@@ -93,12 +96,12 @@ var Strings = (function () {
 
   T.id = {
     heading: 'Ubah teks yang dipilih menjadi',
-    hint: 'Sorot teks (atau pilih sel di Sheets, atau kotak teks di Slides), lalu klik sebuah gaya. Huruf tebal, tautan, dan warna tetap dipertahankan.',
+    hint: 'Sorot teks (atau pilih sel di Spreadsheet, atau kotak teks di Slide), lalu klik sebuah gaya. Huruf tebal, tautan, dan warna tetap dipertahankan.',
     cycle: 'Putar huruf', cycleTip: 'HURUF BESAR, lalu huruf kecil, lalu Huruf Judul',
     preview: 'Pratinjau', previewTip: 'Tampilkan tampilan teks yang dipilih dalam setiap gaya',
     favLabel: 'Paling sering Anda pakai', allLabel: 'Semua gaya',
     style_upper: 'HURUF BESAR', style_lower: 'huruf kecil', style_sentence: 'Huruf kalimat', style_title: 'Huruf Judul',
-    style_capitalize: 'Huruf Besar Setiap Kata', style_inverse: 'hURUF tERBALIK', style_alternating: 'hUrUf SeLaNg-SeLiNg',
+    style_capitalize: 'Huruf Besar Tiap Awal Kata', style_inverse: 'hURUF tERBALIK', style_alternating: 'hUrUf SeLaNg-SeLiNg',
     working: 'Sedang diproses...', workingWhole: 'Memproses seluruh file...', reading: 'Membaca pilihan...',
     nothingPreview: 'Tidak ada yang bisa dipratinjau. Pilih teks terlebih dahulu.',
     previewDone: 'Pratinjau baris pertama. Klik sebuah gaya untuk menerapkannya.',
@@ -111,26 +114,26 @@ var Strings = (function () {
     extraLabel: 'Pertahankan juga kata-kata ini dalam huruf kecil (pisahkan dengan spasi)', extraPlaceholder: 'mis. vs feat',
     protectedLabel: 'Jangan ubah kata-kata ini (ejaan dipertahankan di setiap gaya)', protectedPlaceholder: 'mis. iPhone eBay macOS',
     properNouns: 'Huruf kalimat mengapitalkan hari, bulan, bahasa, dan tempat (Senin, Jakarta)',
-    skipHeader: 'Di Sheets, biarkan baris judul saat seluruh kolom dipilih',
+    skipHeader: 'Di Spreadsheet, biarkan baris judul saat seluruh kolom dipilih',
     darkSidebar: 'Sidebar gelap',
     uiLanguageLabel: 'Bahasa sidebar', uiAuto: 'Otomatis: {language} (bahasa akun Anda)',
     uiReload: 'Buka kembali sidebar untuk melihatnya. Menu mengikuti bahasa akun Google Anda.',
     saved: 'Tersimpan', couldNotSave: 'Tidak dapat menyimpan: {error}',
     tip: 'Tips: gaya yang sama ada di menu Ekstensi > Case Changer, jadi sidebar ini boleh ditutup.',
-    menu_cycle: 'Putar huruf (BESAR > kecil > Judul)', menu_repeat: 'Ulangi gaya terakhir', menu_sidebar: 'Buka sidebar', menu_help: 'Bantuan',
+    menu_cycle: 'Putar huruf (BESAR > kecil > Judul)', menu_repeat: 'Ulangi gaya terakhir', menu_sidebar: 'Buka sidebar', menu_help: 'Cara pakai',
     msg_changed: 'Diubah menjadi {style}.', msg_nothingToChange: 'Tidak ada yang perlu diubah.', msg_nothingSelected: 'Tidak ada yang dipilih.',
     msg_headerSkipped: 'Baris judul dilewati.', msg_headersSkipped: '{n} baris judul dilewati.',
-    msg_unknownStyle: 'Gaya huruf tidak dikenal.', msg_wrongHost: 'Buka add-on ini dari Google Docs, Sheets, atau Slides.',
+    msg_unknownStyle: 'Gaya huruf tidak dikenal.', msg_wrongHost: 'Buka add-on ini dari Google Dokumen, Spreadsheet, atau Slide.',
     msg_noLast: 'Belum ada gaya yang digunakan. Pilih satu dari menu terlebih dahulu.',
     ask_docs: 'Tidak ada yang dipilih. Ubah seluruh dokumen?',
     ask_sheets: 'Tidak ada yang dipilih. Ubah seluruh sheet?',
     ask_slides: 'Tidak ada yang dipilih. Ubah seluruh presentasi?',
-    help: 'Pilih teks (di Sheets: pilih sel; di Slides: sorot teks atau pilih kotak teks), lalu pilih gaya huruf dari menu Case Changer atau sidebar.\n\nPutar huruf berganti antara HURUF BESAR, huruf kecil, dan Huruf Judul. Ulangi gaya terakhir mengulang gaya yang terakhir dipakai.\nJika tidak ada yang dipilih, Anda dapat mengubah seluruh file.\n\nFormat seperti huruf tebal, tautan, dan warna dipertahankan.\nTidak ada yang keluar dari file Anda: add-on ini hanya membaca teks yang dipilih dan menulisnya kembali dengan gaya baru.'
+    help: 'Pilih teks (di Spreadsheet: pilih sel; di Slide: sorot teks atau pilih kotak teks), lalu pilih gaya huruf dari menu Case Changer atau sidebar.\n\nPutar huruf berganti antara HURUF BESAR, huruf kecil, dan Huruf Judul. Ulangi gaya terakhir mengulang gaya yang terakhir dipakai.\nJika tidak ada yang dipilih, Anda dapat mengubah seluruh file.\n\nFormat seperti huruf tebal, tautan, dan warna dipertahankan.\nTidak ada yang keluar dari file Anda: add-on ini hanya membaca teks yang dipilih dan menulisnya kembali dengan gaya baru.'
   };
 
   T.es = {
     heading: 'Cambiar el texto seleccionado a',
-    hint: 'Selecciona texto (o celdas en Sheets, o un cuadro de texto en Slides) y haz clic en un estilo. La negrita, los enlaces y los colores se conservan.',
+    hint: 'Selecciona texto (o celdas en Hojas de cálculo, o un cuadro de texto en Presentaciones) y haz clic en un estilo. La negrita, los enlaces y los colores se conservan.',
     cycle: 'Alternar', cycleTip: 'MAYÚSCULAS, luego minúsculas, luego Tipo Título',
     preview: 'Vista previa', previewTip: 'Muestra cómo quedaría el texto seleccionado en cada estilo',
     favLabel: 'Los que más usas', allLabel: 'Todos los estilos',
@@ -148,21 +151,21 @@ var Strings = (function () {
     extraLabel: 'Mantener también estas palabras en minúscula (separadas por espacios)', extraPlaceholder: 'p. ej. vs feat',
     protectedLabel: 'No cambiar nunca estas palabras (se conserva su escritura en todos los estilos)', protectedPlaceholder: 'p. ej. iPhone eBay macOS',
     properNouns: 'Tipo oración pone en mayúscula países y ciudades (España, Madrid)',
-    skipHeader: 'En Sheets, no tocar la fila de encabezado al seleccionar una columna entera',
+    skipHeader: 'En Hojas de cálculo, no tocar la fila de encabezado al seleccionar una columna entera',
     darkSidebar: 'Barra lateral oscura',
     uiLanguageLabel: 'Idioma de la barra lateral', uiAuto: 'Automático: {language} (idioma de tu cuenta)',
     uiReload: 'Vuelve a abrir la barra lateral para verlo. El menú sigue el idioma de tu cuenta de Google.',
     saved: 'Guardado', couldNotSave: 'No se pudo guardar: {error}',
     tip: 'Consejo: los mismos estilos están en el menú Extensiones > Case Changer, así que puedes cerrar esta barra si lo prefieres.',
-    menu_cycle: 'Alternar (MAYÚS > minús > Título)', menu_repeat: 'Repetir el último estilo', menu_sidebar: 'Abrir la barra lateral', menu_help: 'Ayuda',
+    menu_cycle: 'Alternar (MAYÚS > minús > Título)', menu_repeat: 'Repetir el último estilo', menu_sidebar: 'Abrir la barra lateral', menu_help: 'Cómo funciona',
     msg_changed: 'Cambiado a {style}.', msg_nothingToChange: 'No hay nada que cambiar.', msg_nothingSelected: 'No hay nada seleccionado.',
     msg_headerSkipped: 'Se omitió la fila de encabezado.', msg_headersSkipped: 'Se omitieron {n} filas de encabezado.',
-    msg_unknownStyle: 'Estilo desconocido.', msg_wrongHost: 'Abre este complemento desde Google Docs, Sheets o Slides.',
+    msg_unknownStyle: 'Estilo desconocido.', msg_wrongHost: 'Abre este complemento desde Documentos, Hojas de cálculo o Presentaciones de Google.',
     msg_noLast: 'Aún no se ha usado ningún estilo. Elige uno del menú primero.',
     ask_docs: 'No hay nada seleccionado. ¿Cambiar todo el documento?',
     ask_sheets: 'No hay nada seleccionado. ¿Cambiar toda la hoja?',
     ask_slides: 'No hay nada seleccionado. ¿Cambiar toda la presentación?',
-    help: 'Selecciona texto (en Sheets: celdas; en Slides: texto o un cuadro de texto) y elige un estilo en el menú Case Changer o en la barra lateral.\n\nAlternar cambia entre MAYÚSCULAS, minúsculas y Tipo Título. Repetir el último estilo hace justo eso.\nSin nada seleccionado puedes cambiar todo el archivo.\n\nEl formato, como la negrita, los enlaces y los colores, se conserva.\nNada sale de tu archivo: el complemento solo lee el texto seleccionado y lo vuelve a escribir con el nuevo estilo.'
+    help: 'Selecciona texto (en Hojas de cálculo: celdas; en Presentaciones: texto o un cuadro de texto) y elige un estilo en el menú Case Changer o en la barra lateral.\n\nAlternar cambia entre MAYÚSCULAS, minúsculas y Tipo Título. Repetir el último estilo hace justo eso.\nSin nada seleccionado puedes cambiar todo el archivo.\n\nEl formato, como la negrita, los enlaces y los colores, se conserva.\nNada sale de tu archivo: el complemento solo lee el texto seleccionado y lo vuelve a escribir con el nuevo estilo.'
   };
 
   T.fr = {
@@ -191,7 +194,7 @@ var Strings = (function () {
     uiReload: 'Rouvrez la barre latérale pour le voir. Le menu suit la langue de votre compte Google.',
     saved: 'Enregistré', couldNotSave: 'Enregistrement impossible : {error}',
     tip: 'Astuce : les mêmes styles sont dans le menu Extensions > Case Changer, vous pouvez donc fermer cette barre.',
-    menu_cycle: 'Alterner (MAJ > min > Titre)', menu_repeat: 'Répéter le dernier style', menu_sidebar: 'Ouvrir la barre latérale', menu_help: 'Aide',
+    menu_cycle: 'Alterner (MAJ > min > Titre)', menu_repeat: 'Répéter le dernier style', menu_sidebar: 'Ouvrir la barre latérale', menu_help: 'Mode d\'emploi',
     msg_changed: 'Converti en {style}.', msg_nothingToChange: 'Rien à modifier.', msg_nothingSelected: 'Rien n\'est sélectionné.',
     msg_headerSkipped: 'Ligne d\'en-tête ignorée.', msg_headersSkipped: '{n} lignes d\'en-tête ignorées.',
     msg_unknownStyle: 'Style inconnu.', msg_wrongHost: 'Ouvrez ce module complémentaire depuis Google Docs, Sheets ou Slides.',
@@ -204,7 +207,7 @@ var Strings = (function () {
 
   T.de = {
     heading: 'Markierten Text ändern in',
-    hint: 'Text markieren (oder Zellen in Sheets, oder ein Textfeld in Slides), dann auf einen Stil klicken. Fett, Links und Farben bleiben erhalten.',
+    hint: 'Text markieren (oder Zellen in Google Tabellen, oder ein Textfeld in Google Präsentationen), dann auf einen Stil klicken. Fett, Links und Farben bleiben erhalten.',
     cycle: 'Durchwechseln', cycleTip: 'GROSSBUCHSTABEN, dann kleinbuchstaben, dann Titel-Schreibweise',
     preview: 'Vorschau', previewTip: 'Zeigt den markierten Text in jedem Stil',
     favLabel: 'Am häufigsten genutzt', allLabel: 'Alle Stile',
@@ -222,26 +225,26 @@ var Strings = (function () {
     extraLabel: 'Auch diese Wörter klein lassen (durch Leerzeichen trennen)', extraPlaceholder: 'z. B. vs feat',
     protectedLabel: 'Diese Wörter nie ändern (Schreibweise bleibt in jedem Stil)', protectedPlaceholder: 'z. B. iPhone eBay macOS',
     properNouns: 'Satzanfang groß schreibt Länder und Städte groß (Deutschland, Berlin)',
-    skipHeader: 'In Sheets die Kopfzeile auslassen, wenn eine ganze Spalte markiert ist',
+    skipHeader: 'In Google Tabellen die Kopfzeile auslassen, wenn eine ganze Spalte markiert ist',
     darkSidebar: 'Dunkle Seitenleiste',
     uiLanguageLabel: 'Sprache der Seitenleiste', uiAuto: 'Automatisch: {language} (Sprache Ihres Kontos)',
     uiReload: 'Seitenleiste neu öffnen, um es zu sehen. Das Menü folgt der Sprache Ihres Google-Kontos.',
     saved: 'Gespeichert', couldNotSave: 'Speichern nicht möglich: {error}',
     tip: 'Tipp: Dieselben Stile stehen im Menü Erweiterungen > Case Changer, die Seitenleiste kann also geschlossen werden.',
-    menu_cycle: 'Durchwechseln (GROSS > klein > Titel)', menu_repeat: 'Letzten Stil wiederholen', menu_sidebar: 'Seitenleiste öffnen', menu_help: 'Hilfe',
+    menu_cycle: 'Durchwechseln (GROSS > klein > Titel)', menu_repeat: 'Letzten Stil wiederholen', menu_sidebar: 'Seitenleiste öffnen', menu_help: 'So funktioniert es',
     msg_changed: 'Geändert in {style}.', msg_nothingToChange: 'Nichts zu ändern.', msg_nothingSelected: 'Nichts markiert.',
     msg_headerSkipped: 'Kopfzeile ausgelassen.', msg_headersSkipped: '{n} Kopfzeilen ausgelassen.',
-    msg_unknownStyle: 'Unbekannter Stil.', msg_wrongHost: 'Dieses Add-on in Google Docs, Sheets oder Slides öffnen.',
+    msg_unknownStyle: 'Unbekannter Stil.', msg_wrongHost: 'Dieses Add-on in Google Docs, Tabellen oder Präsentationen öffnen.',
     msg_noLast: 'Es wurde noch kein Stil verwendet. Bitte zuerst einen im Menü wählen.',
     ask_docs: 'Nichts markiert. Stattdessen das ganze Dokument ändern?',
     ask_sheets: 'Nichts markiert. Stattdessen das ganze Tabellenblatt ändern?',
     ask_slides: 'Nichts markiert. Stattdessen die ganze Präsentation ändern?',
-    help: 'Text markieren (in Sheets: Zellen; in Slides: Text oder ein Textfeld), dann im Menü Case Changer oder in der Seitenleiste einen Stil wählen.\n\nDurchwechseln schaltet zwischen GROSSBUCHSTABEN, kleinbuchstaben und Titel-Schreibweise. Letzten Stil wiederholen tut genau das.\nOhne Markierung kann die ganze Datei geändert werden.\n\nFormatierungen wie Fett, Links und Farben bleiben erhalten.\nNichts verlässt Ihre Datei: Das Add-on liest nur den markierten Text und schreibt ihn im neuen Stil zurück.'
+    help: 'Text markieren (in Tabellen: Zellen; in Präsentationen: Text oder ein Textfeld), dann im Menü Case Changer oder in der Seitenleiste einen Stil wählen.\n\nDurchwechseln schaltet zwischen GROSSBUCHSTABEN, kleinbuchstaben und Titel-Schreibweise. Letzten Stil wiederholen tut genau das.\nOhne Markierung kann die ganze Datei geändert werden.\n\nFormatierungen wie Fett, Links und Farben bleiben erhalten.\nNichts verlässt Ihre Datei: Das Add-on liest nur den markierten Text und schreibt ihn im neuen Stil zurück.'
   };
 
   T.pt = {
     heading: 'Mudar o texto selecionado para',
-    hint: 'Selecione um texto (ou células no Sheets, ou uma caixa de texto no Slides) e clique em um estilo. Negrito, links e cores são mantidos.',
+    hint: 'Selecione um texto (ou células no Planilhas, ou uma caixa de texto no Slides) e clique em um estilo. Negrito, links e cores são mantidos.',
     cycle: 'Alternar', cycleTip: 'MAIÚSCULAS, depois minúsculas, depois Título',
     preview: 'Prévia', previewTip: 'Mostra como o texto selecionado ficaria em cada estilo',
     favLabel: 'Os que você mais usa', allLabel: 'Todos os estilos',
@@ -259,26 +262,26 @@ var Strings = (function () {
     extraLabel: 'Manter também estas palavras em minúsculas (separe com espaços)', extraPlaceholder: 'ex.: vs feat',
     protectedLabel: 'Nunca alterar estas palavras (a grafia é mantida em todos os estilos)', protectedPlaceholder: 'ex.: iPhone eBay macOS',
     properNouns: 'Primeira letra da frase põe maiúscula em países e cidades (Brasil, Lisboa)',
-    skipHeader: 'No Sheets, não mexer na linha de cabeçalho quando uma coluna inteira estiver selecionada',
+    skipHeader: 'No Planilhas, não mexer na linha de cabeçalho quando uma coluna inteira estiver selecionada',
     darkSidebar: 'Barra lateral escura',
     uiLanguageLabel: 'Idioma da barra lateral', uiAuto: 'Automático: {language} (idioma da sua conta)',
     uiReload: 'Reabra a barra lateral para ver. O menu segue o idioma da sua Conta do Google.',
     saved: 'Salvo', couldNotSave: 'Não foi possível salvar: {error}',
     tip: 'Dica: os mesmos estilos estão no menu Extensões > Case Changer, então você pode fechar esta barra se preferir.',
-    menu_cycle: 'Alternar (MAIÚS > minús > Título)', menu_repeat: 'Repetir o último estilo', menu_sidebar: 'Abrir a barra lateral', menu_help: 'Ajuda',
+    menu_cycle: 'Alternar (MAIÚS > minús > Título)', menu_repeat: 'Repetir o último estilo', menu_sidebar: 'Abrir a barra lateral', menu_help: 'Como funciona',
     msg_changed: 'Alterado para {style}.', msg_nothingToChange: 'Nada para alterar.', msg_nothingSelected: 'Nada selecionado.',
     msg_headerSkipped: 'Linha de cabeçalho ignorada.', msg_headersSkipped: '{n} linhas de cabeçalho ignoradas.',
-    msg_unknownStyle: 'Estilo desconhecido.', msg_wrongHost: 'Abra este complemento no Google Docs, Sheets ou Slides.',
+    msg_unknownStyle: 'Estilo desconhecido.', msg_wrongHost: 'Abra este complemento no Google Docs, Planilhas ou Slides.',
     msg_noLast: 'Nenhum estilo foi usado ainda. Escolha um no menu primeiro.',
     ask_docs: 'Nada selecionado. Mudar o documento inteiro?',
     ask_sheets: 'Nada selecionado. Mudar a planilha inteira?',
     ask_slides: 'Nada selecionado. Mudar a apresentação inteira?',
-    help: 'Selecione um texto (no Sheets: células; no Slides: texto ou uma caixa de texto) e escolha um estilo no menu Case Changer ou na barra lateral.\n\nAlternar passa por MAIÚSCULAS, minúsculas e Formato De Título. Repetir o último estilo faz exatamente isso.\nSem nada selecionado, você pode mudar o arquivo inteiro.\n\nA formatação, como negrito, links e cores, é mantida.\nNada sai do seu arquivo: o complemento só lê o texto selecionado e o escreve de volta no novo estilo.'
+    help: 'Selecione um texto (no Planilhas: células; no Slides: texto ou uma caixa de texto) e escolha um estilo no menu Case Changer ou na barra lateral.\n\nAlternar passa por MAIÚSCULAS, minúsculas e Formato De Título. Repetir o último estilo faz exatamente isso.\nSem nada selecionado, você pode mudar o arquivo inteiro.\n\nA formatação, como negrito, links e cores, é mantida.\nNada sai do seu arquivo: o complemento só lê o texto selecionado e o escreve de volta no novo estilo.'
   };
 
   T.it = {
     heading: 'Cambia il testo selezionato in',
-    hint: 'Seleziona del testo (o delle celle in Sheets, o una casella di testo in Slides), poi fai clic su uno stile. Grassetto, link e colori restano.',
+    hint: 'Seleziona del testo (o delle celle in Fogli, o una casella di testo in Presentazioni), poi fai clic su uno stile. Grassetto, link e colori restano.',
     cycle: 'Alterna', cycleTip: 'MAIUSCOLO, poi minuscolo, poi Stile Titolo',
     preview: 'Anteprima', previewTip: 'Mostra il testo selezionato in ogni stile',
     favLabel: 'I più usati da te', allLabel: 'Tutti gli stili',
@@ -296,31 +299,31 @@ var Strings = (function () {
     extraLabel: 'Lascia minuscole anche queste parole (separate da spazi)', extraPlaceholder: 'es. vs feat',
     protectedLabel: 'Non cambiare mai queste parole (grafia mantenuta in ogni stile)', protectedPlaceholder: 'es. iPhone eBay macOS',
     properNouns: 'Iniziale di frase mette la maiuscola a paesi e città (Italia, Roma)',
-    skipHeader: 'In Sheets, lascia stare la riga di intestazione quando è selezionata un\'intera colonna',
+    skipHeader: 'In Fogli, lascia stare la riga di intestazione quando è selezionata un\'intera colonna',
     darkSidebar: 'Barra laterale scura',
     uiLanguageLabel: 'Lingua della barra laterale', uiAuto: 'Automatica: {language} (lingua del tuo account)',
     uiReload: 'Riapri la barra laterale per vederla. Il menu segue la lingua del tuo account Google.',
     saved: 'Salvato', couldNotSave: 'Impossibile salvare: {error}',
     tip: 'Suggerimento: gli stessi stili sono nel menu Estensioni > Case Changer, quindi puoi chiudere questa barra.',
-    menu_cycle: 'Alterna (MAIUSC > minusc > Titolo)', menu_repeat: 'Ripeti l\'ultimo stile', menu_sidebar: 'Apri la barra laterale', menu_help: 'Guida',
+    menu_cycle: 'Alterna (MAIUSC > minusc > Titolo)', menu_repeat: 'Ripeti l\'ultimo stile', menu_sidebar: 'Apri la barra laterale', menu_help: 'Come funziona',
     msg_changed: 'Cambiato in {style}.', msg_nothingToChange: 'Niente da cambiare.', msg_nothingSelected: 'Nessuna selezione.',
     msg_headerSkipped: 'Riga di intestazione saltata.', msg_headersSkipped: '{n} righe di intestazione saltate.',
-    msg_unknownStyle: 'Stile sconosciuto.', msg_wrongHost: 'Apri questo componente aggiuntivo da Google Docs, Sheets o Slides.',
+    msg_unknownStyle: 'Stile sconosciuto.', msg_wrongHost: 'Apri questo componente aggiuntivo da Documenti, Fogli o Presentazioni Google.',
     msg_noLast: 'Nessuno stile usato finora. Scegline prima uno dal menu.',
     ask_docs: 'Nessuna selezione. Cambiare l\'intero documento?',
     ask_sheets: 'Nessuna selezione. Cambiare l\'intero foglio?',
     ask_slides: 'Nessuna selezione. Cambiare l\'intera presentazione?',
-    help: 'Seleziona del testo (in Sheets: celle; in Slides: testo o una casella di testo), poi scegli uno stile dal menu Case Changer o dalla barra laterale.\n\nAlterna passa da MAIUSCOLO a minuscolo a Stile Titolo. Ripeti l\'ultimo stile fa proprio questo.\nSenza selezione puoi cambiare l\'intero file.\n\nLa formattazione, come grassetto, link e colori, resta.\nNiente esce dal tuo file: il componente legge solo il testo selezionato e lo riscrive nel nuovo stile.'
+    help: 'Seleziona del testo (in Fogli: celle; in Presentazioni: testo o una casella di testo), poi scegli uno stile dal menu Case Changer o dalla barra laterale.\n\nAlterna passa da MAIUSCOLO a minuscolo a Stile Titolo. Ripeti l\'ultimo stile fa proprio questo.\nSenza selezione puoi cambiare l\'intero file.\n\nLa formattazione, come grassetto, link e colori, resta.\nNiente esce dal tuo file: il componente legge solo il testo selezionato e lo riscrive nel nuovo stile.'
   };
 
   T.nl = {
     heading: 'Geselecteerde tekst wijzigen in',
-    hint: 'Selecteer tekst (of cellen in Sheets, of een tekstvak in Slides) en klik op een stijl. Vet, links en kleuren blijven behouden.',
+    hint: 'Selecteer tekst (of cellen in Spreadsheets, of een tekstvak in Presentaties) en klik op een stijl. Vet, links en kleuren blijven behouden.',
     cycle: 'Wisselen', cycleTip: 'HOOFDLETTERS, dan kleine letters, dan Titelstijl',
     preview: 'Voorbeeld', previewTip: 'Toont de geselecteerde tekst in elke stijl',
     favLabel: 'Meest door jou gebruikt', allLabel: 'Alle stijlen',
     style_upper: 'HOOFDLETTERS', style_lower: 'kleine letters', style_sentence: 'Zin met hoofdletter', style_title: 'Titelstijl',
-    style_capitalize: 'Elk Woord Met Hoofdletter', style_inverse: 'oMGEKEERDE lETTERS', style_alternating: 'aFwIsSeLeNdE lEtTeRs',
+    style_capitalize: 'Elk Woord Met Een Hoofdletter', style_inverse: 'oMGEKEERDE lETTERS', style_alternating: 'aFwIsSeLeNdE lEtTeRs',
     working: 'Bezig...', workingWhole: 'Het hele bestand wordt verwerkt...', reading: 'Selectie wordt gelezen...',
     nothingPreview: 'Niets om te tonen. Selecteer eerst tekst.',
     previewDone: 'Voorbeeld van de eerste regel. Klik op een stijl om die toe te passen.',
@@ -333,21 +336,21 @@ var Strings = (function () {
     extraLabel: 'Houd ook deze woorden klein (gescheiden door spaties)', extraPlaceholder: 'bijv. vs feat',
     protectedLabel: 'Deze woorden nooit wijzigen (schrijfwijze blijft in elke stijl)', protectedPlaceholder: 'bijv. iPhone eBay macOS',
     properNouns: 'Zin met hoofdletter geeft landen en steden een hoofdletter (Nederland, Amsterdam)',
-    skipHeader: 'Laat in Sheets de koprij met rust als een hele kolom is geselecteerd',
+    skipHeader: 'Laat in Spreadsheets de koprij met rust als een hele kolom is geselecteerd',
     darkSidebar: 'Donkere zijbalk',
     uiLanguageLabel: 'Taal van de zijbalk', uiAuto: 'Automatisch: {language} (taal van je account)',
     uiReload: 'Open de zijbalk opnieuw om het te zien. Het menu volgt de taal van je Google-account.',
     saved: 'Opgeslagen', couldNotSave: 'Opslaan mislukt: {error}',
     tip: 'Tip: dezelfde stijlen staan in het menu Uitbreidingen > Case Changer, dus je kunt deze zijbalk sluiten.',
-    menu_cycle: 'Wisselen (HOOFD > klein > Titel)', menu_repeat: 'Laatste stijl herhalen', menu_sidebar: 'Zijbalk openen', menu_help: 'Help',
+    menu_cycle: 'Wisselen (HOOFD > klein > Titel)', menu_repeat: 'Laatste stijl herhalen', menu_sidebar: 'Zijbalk openen', menu_help: 'Zo werkt het',
     msg_changed: 'Gewijzigd in {style}.', msg_nothingToChange: 'Niets te wijzigen.', msg_nothingSelected: 'Niets geselecteerd.',
     msg_headerSkipped: 'Koprij overgeslagen.', msg_headersSkipped: '{n} koprijen overgeslagen.',
-    msg_unknownStyle: 'Onbekende stijl.', msg_wrongHost: 'Open deze add-on vanuit Google Docs, Sheets of Slides.',
+    msg_unknownStyle: 'Onbekende stijl.', msg_wrongHost: 'Open deze add-on vanuit Google Documenten, Spreadsheets of Presentaties.',
     msg_noLast: 'Er is nog geen stijl gebruikt. Kies er eerst een in het menu.',
     ask_docs: 'Niets geselecteerd. Het hele document wijzigen?',
     ask_sheets: 'Niets geselecteerd. Het hele blad wijzigen?',
     ask_slides: 'Niets geselecteerd. De hele presentatie wijzigen?',
-    help: 'Selecteer tekst (in Sheets: cellen; in Slides: tekst of een tekstvak) en kies een stijl in het menu Case Changer of in de zijbalk.\n\nWisselen schakelt tussen HOOFDLETTERS, kleine letters en Titelstijl. Laatste stijl herhalen doet precies dat.\nZonder selectie kun je het hele bestand wijzigen.\n\nOpmaak zoals vet, links en kleuren blijft behouden.\nNiets verlaat je bestand: de add-on leest alleen de geselecteerde tekst en schrijft die terug in de nieuwe stijl.'
+    help: 'Selecteer tekst (in Spreadsheets: cellen; in Presentaties: tekst of een tekstvak) en kies een stijl in het menu Case Changer of in de zijbalk.\n\nWisselen schakelt tussen HOOFDLETTERS, kleine letters en Titelstijl. Laatste stijl herhalen doet precies dat.\nZonder selectie kun je het hele bestand wijzigen.\n\nOpmaak zoals vet, links en kleuren blijft behouden.\nNiets verlaat je bestand: de add-on leest alleen de geselecteerde tekst en schrijft die terug in de nieuwe stijl.'
   };
 
   T.tl = {
@@ -376,7 +379,7 @@ var Strings = (function () {
     uiReload: 'Buksan muli ang sidebar para makita. Ang menu ay sumusunod sa wika ng iyong Google account.',
     saved: 'Na-save', couldNotSave: 'Hindi ma-save: {error}',
     tip: 'Tip: ang mga estilong ito ay nasa menu na Extensions > Case Changer, kaya maaari mong isara ang sidebar na ito.',
-    menu_cycle: 'Ikot ng titik (MALAKI > maliit > Pamagat)', menu_repeat: 'Ulitin ang huling estilo', menu_sidebar: 'Buksan ang sidebar', menu_help: 'Tulong',
+    menu_cycle: 'Ikot ng titik (MALAKI > maliit > Pamagat)', menu_repeat: 'Ulitin ang huling estilo', menu_sidebar: 'Buksan ang sidebar', menu_help: 'Paano gamitin',
     msg_changed: 'Binago sa {style}.', msg_nothingToChange: 'Walang binago.', msg_nothingSelected: 'Walang napili.',
     msg_headerSkipped: 'Nilaktawan ang header row.', msg_headersSkipped: 'Nilaktawan ang {n} header row.',
     msg_unknownStyle: 'Hindi kilalang estilo.', msg_wrongHost: 'Buksan ang add-on na ito mula sa Google Docs, Sheets o Slides.',
@@ -389,7 +392,7 @@ var Strings = (function () {
 
   T.tr = {
     heading: 'Seçili metni şuna dönüştür',
-    hint: 'Bir metni seçin (Sheets\'te hücreleri, Slides\'ta bir metin kutusunu) ve bir stile tıklayın. Kalın yazı, bağlantılar ve renkler korunur.',
+    hint: 'Bir metni seçin (E-Tablolar\'da hücreleri, Slaytlar\'da bir metin kutusunu) ve bir stile tıklayın. Kalın yazı, bağlantılar ve renkler korunur.',
     cycle: 'Sırayla değiştir', cycleTip: 'BÜYÜK HARF, sonra küçük harf, sonra Başlık Düzeni',
     preview: 'Önizleme', previewTip: 'Seçili metnin her stilde nasıl görüneceğini gösterir',
     favLabel: 'En çok kullandıklarınız', allLabel: 'Tüm stiller',
@@ -407,26 +410,26 @@ var Strings = (function () {
     extraLabel: 'Bu sözcükleri de küçük bırak (boşlukla ayırın)', extraPlaceholder: 'örn. vs feat',
     protectedLabel: 'Bu sözcükleri asla değiştirme (yazım her stilde korunur)', protectedPlaceholder: 'örn. iPhone eBay macOS',
     properNouns: 'Cümle düzeni ülke ve şehir adlarını büyük harfle başlatır (Türkiye, İstanbul)',
-    skipHeader: 'Sheets\'te tüm sütun seçildiğinde başlık satırına dokunma',
+    skipHeader: 'E-Tablolar\'da tüm sütun seçildiğinde başlık satırına dokunma',
     darkSidebar: 'Koyu kenar çubuğu',
     uiLanguageLabel: 'Kenar çubuğu dili', uiAuto: 'Otomatik: {language} (hesap diliniz)',
     uiReload: 'Görmek için kenar çubuğunu yeniden açın. Menü, Google hesabınızın dilini izler.',
     saved: 'Kaydedildi', couldNotSave: 'Kaydedilemedi: {error}',
     tip: 'İpucu: aynı stiller Uzantılar > Case Changer menüsünde de var, bu yüzden kenar çubuğunu kapatabilirsiniz.',
-    menu_cycle: 'Sırayla değiştir (BÜYÜK > küçük > Başlık)', menu_repeat: 'Son stili yinele', menu_sidebar: 'Kenar çubuğunu aç', menu_help: 'Yardım',
+    menu_cycle: 'Sırayla değiştir (BÜYÜK > küçük > Başlık)', menu_repeat: 'Son stili yinele', menu_sidebar: 'Kenar çubuğunu aç', menu_help: 'Nasıl kullanılır',
     msg_changed: '{style} olarak değiştirildi.', msg_nothingToChange: 'Değiştirilecek bir şey yok.', msg_nothingSelected: 'Hiçbir şey seçilmedi.',
     msg_headerSkipped: 'Başlık satırı atlandı.', msg_headersSkipped: '{n} başlık satırı atlandı.',
-    msg_unknownStyle: 'Bilinmeyen stil.', msg_wrongHost: 'Bu eklentiyi Google Docs, Sheets veya Slides içinden açın.',
+    msg_unknownStyle: 'Bilinmeyen stil.', msg_wrongHost: 'Bu eklentiyi Google Dokümanlar, E-Tablolar veya Slaytlar içinden açın.',
     msg_noLast: 'Henüz bir stil kullanılmadı. Önce menüden birini seçin.',
     ask_docs: 'Hiçbir şey seçilmedi. Tüm belge değiştirilsin mi?',
     ask_sheets: 'Hiçbir şey seçilmedi. Tüm sayfa değiştirilsin mi?',
     ask_slides: 'Hiçbir şey seçilmedi. Tüm sunu değiştirilsin mi?',
-    help: 'Bir metin seçin (Sheets\'te hücreler; Slides\'ta metin veya bir metin kutusu), sonra Case Changer menüsünden ya da kenar çubuğundan bir stil seçin.\n\nSırayla değiştir; BÜYÜK HARF, küçük harf ve Başlık Düzeni arasında geçer. Son stili yinele, son kullanılan stili uygular.\nHiçbir şey seçili değilse tüm dosyayı değiştirebilirsiniz.\n\nKalın yazı, bağlantılar ve renkler gibi biçimlendirme korunur.\nDosyanızdan hiçbir şey çıkmaz: eklenti yalnızca seçtiğiniz metni okur ve yeni stilde geri yazar.'
+    help: 'Bir metin seçin (E-Tablolar\'da hücreler; Slaytlar\'da metin veya bir metin kutusu), sonra Case Changer menüsünden ya da kenar çubuğundan bir stil seçin.\n\nSırayla değiştir; BÜYÜK HARF, küçük harf ve Başlık Düzeni arasında geçer. Son stili yinele, son kullanılan stili uygular.\nHiçbir şey seçili değilse tüm dosyayı değiştirebilirsiniz.\n\nKalın yazı, bağlantılar ve renkler gibi biçimlendirme korunur.\nDosyanızdan hiçbir şey çıkmaz: eklenti yalnızca seçtiğiniz metni okur ve yeni stilde geri yazar.'
   };
 
   T.el = {
     heading: 'Αλλαγή του επιλεγμένου κειμένου σε',
-    hint: 'Επιλέξτε κείμενο (ή κελιά στο Sheets, ή ένα πλαίσιο κειμένου στο Slides) και κάντε κλικ σε ένα στυλ. Η έντονη γραφή, οι σύνδεσμοι και τα χρώματα διατηρούνται.',
+    hint: 'Επιλέξτε κείμενο (ή κελιά στα Υπολογιστικά φύλλα, ή ένα πλαίσιο κειμένου στις Παρουσιάσεις) και κάντε κλικ σε ένα στυλ. Η έντονη γραφή, οι σύνδεσμοι και τα χρώματα διατηρούνται.',
     cycle: 'Εναλλαγή', cycleTip: 'ΚΕΦΑΛΑΙΑ, μετά πεζά, μετά Μορφή Τίτλου',
     preview: 'Προεπισκόπηση', previewTip: 'Δείχνει το επιλεγμένο κείμενο σε κάθε στυλ',
     favLabel: 'Τα πιο συχνά σας', allLabel: 'Όλα τα στυλ',
@@ -444,21 +447,21 @@ var Strings = (function () {
     extraLabel: 'Κρατήστε πεζές και αυτές τις λέξεις (χωρισμένες με κενά)', extraPlaceholder: 'π.χ. vs feat',
     protectedLabel: 'Να μην αλλάζουν ποτέ αυτές οι λέξεις (η γραφή διατηρείται σε κάθε στυλ)', protectedPlaceholder: 'π.χ. iPhone eBay macOS',
     properNouns: 'Η Μορφή πρότασης βάζει κεφαλαίο σε ημέρες, μήνες και τόπους (Δευτέρα, Αθήνα)',
-    skipHeader: 'Στο Sheets, να μένει ανέγγιχτη η γραμμή κεφαλίδας όταν επιλέγεται ολόκληρη στήλη',
+    skipHeader: 'Στα Υπολογιστικά φύλλα, να μένει ανέγγιχτη η γραμμή κεφαλίδας όταν επιλέγεται ολόκληρη στήλη',
     darkSidebar: 'Σκούρα πλαϊνή γραμμή',
     uiLanguageLabel: 'Γλώσσα πλαϊνής γραμμής', uiAuto: 'Αυτόματα: {language} (γλώσσα του λογαριασμού σας)',
     uiReload: 'Ανοίξτε ξανά την πλαϊνή γραμμή για να το δείτε. Το μενού ακολουθεί τη γλώσσα του λογαριασμού σας Google.',
     saved: 'Αποθηκεύτηκε', couldNotSave: 'Δεν αποθηκεύτηκε: {error}',
     tip: 'Συμβουλή: τα ίδια στυλ υπάρχουν στο μενού Επεκτάσεις > Case Changer, άρα μπορείτε να κλείσετε αυτή τη γραμμή.',
-    menu_cycle: 'Εναλλαγή (ΚΕΦΑΛΑΙΑ > πεζά > Τίτλος)', menu_repeat: 'Επανάληψη τελευταίου στυλ', menu_sidebar: 'Άνοιγμα πλαϊνής γραμμής', menu_help: 'Βοήθεια',
+    menu_cycle: 'Εναλλαγή (ΚΕΦΑΛΑΙΑ > πεζά > Τίτλος)', menu_repeat: 'Επανάληψη τελευταίου στυλ', menu_sidebar: 'Άνοιγμα πλαϊνής γραμμής', menu_help: 'Πώς λειτουργεί',
     msg_changed: 'Άλλαξε σε {style}.', msg_nothingToChange: 'Δεν υπάρχει κάτι για αλλαγή.', msg_nothingSelected: 'Δεν έχει επιλεγεί τίποτα.',
     msg_headerSkipped: 'Η γραμμή κεφαλίδας παραλείφθηκε.', msg_headersSkipped: 'Παραλείφθηκαν {n} γραμμές κεφαλίδας.',
-    msg_unknownStyle: 'Άγνωστο στυλ.', msg_wrongHost: 'Ανοίξτε αυτό το πρόσθετο από το Google Docs, Sheets ή Slides.',
+    msg_unknownStyle: 'Άγνωστο στυλ.', msg_wrongHost: 'Ανοίξτε αυτό το πρόσθετο από τα Έγγραφα, τα Υπολογιστικά φύλλα ή τις Παρουσιάσεις Google.',
     msg_noLast: 'Δεν έχει χρησιμοποιηθεί ακόμη κάποιο στυλ. Επιλέξτε πρώτα ένα από το μενού.',
     ask_docs: 'Δεν έχει επιλεγεί τίποτα. Να αλλάξει όλο το έγγραφο;',
     ask_sheets: 'Δεν έχει επιλεγεί τίποτα. Να αλλάξει όλο το φύλλο;',
     ask_slides: 'Δεν έχει επιλεγεί τίποτα. Να αλλάξει όλη η παρουσίαση;',
-    help: 'Επιλέξτε κείμενο (στο Sheets: κελιά· στο Slides: κείμενο ή ένα πλαίσιο κειμένου) και διαλέξτε ένα στυλ από το μενού Case Changer ή την πλαϊνή γραμμή.\n\nΗ Εναλλαγή περνά από ΚΕΦΑΛΑΙΑ σε πεζά και σε Μορφή Τίτλου. Η Επανάληψη τελευταίου στυλ κάνει ακριβώς αυτό.\nΧωρίς επιλογή μπορείτε να αλλάξετε ολόκληρο το αρχείο.\n\nΗ μορφοποίηση, όπως έντονα, σύνδεσμοι και χρώματα, διατηρείται.\nΤίποτα δεν φεύγει από το αρχείο σας: το πρόσθετο διαβάζει μόνο το επιλεγμένο κείμενο και το γράφει ξανά στο νέο στυλ.'
+    help: 'Επιλέξτε κείμενο (στα Υπολογιστικά φύλλα: κελιά· στις Παρουσιάσεις: κείμενο ή ένα πλαίσιο κειμένου) και διαλέξτε ένα στυλ από το μενού Case Changer ή την πλαϊνή γραμμή.\n\nΗ Εναλλαγή περνά από ΚΕΦΑΛΑΙΑ σε πεζά και σε Μορφή Τίτλου. Η Επανάληψη τελευταίου στυλ κάνει ακριβώς αυτό.\nΧωρίς επιλογή μπορείτε να αλλάξετε ολόκληρο το αρχείο.\n\nΗ μορφοποίηση, όπως έντονα, σύνδεσμοι και χρώματα, διατηρείται.\nΤίποτα δεν φεύγει από το αρχείο σας: το πρόσθετο διαβάζει μόνο το επιλεγμένο κείμενο και το γράφει ξανά στο νέο στυλ.'
   };
 
   var NAMES = { en: 'English', ms: 'Bahasa Malaysia', id: 'Bahasa Indonesia', es: 'Español', fr: 'Français', de: 'Deutsch',

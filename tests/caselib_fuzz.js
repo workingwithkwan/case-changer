@@ -178,6 +178,36 @@ eq('cycle from lower', CaseLib.nextCycleMode('hello world'), 'title');
 eq('cycle no letters', CaseLib.nextCycleMode('123 !!'), 'upper');
 eq('cycle full loop', (function () { var t = 'Hello big World', seen = []; for (var i = 0; i < 3; i++) { var m = CaseLib.nextCycleMode(t); seen.push(m); t = C(t, m); } return seen.join('>'); })(), 'upper>lower>title');
 
+// 1e. Words that are a name in one language and an everyday word in another
+eq('lumpur alone is mud', C('jalan itu penuh lumpur selepas hujan', 'sentence', {language:'ms'}), 'Jalan itu penuh lumpur selepas hujan');
+eq('kuala lumpur as a phrase', C('mesyuarat di kuala lumpur dan johor bahru', 'sentence', {language:'ms'}), 'Mesyuarat di Kuala Lumpur dan Johor Bahru');
+eq('phrase needs both words', C('kuala itu jauh dari lumpur', 'sentence', {language:'ms'}), 'Kuala itu jauh dari lumpur');
+eq('phrase not inside a word', C('xkuala lumpurx', 'sentence', {language:'ms'}), 'Xkuala lumpurx');
+eq('perak is silver in malay', C('pingat perak untuk pasukan', 'sentence', {language:'ms'}), 'Pingat perak untuk pasukan');
+eq('perak is a place in english', C('we drove to perak and penang', 'sentence'), 'We drove to Perak and Penang');
+eq('spanish adjectives stay lower', C('me gusta la comida china y la carne argentina con chile', 'sentence', {language:'es'}), 'Me gusta la comida china y la carne argentina con chile');
+eq('spanish countries still work', C('viajamos a españa y méxico', 'sentence', {language:'es'}), 'Viajamos a España y México');
+eq('portuguese porto is a port', C('o navio chegou ao porto de santos', 'sentence', {language:'pt'}), 'O navio chegou ao porto de santos');
+eq('tagalog hapon is afternoon', C('magkita tayo sa hapon ng lunes', 'sentence', {language:'tl'}), 'Magkita tayo sa hapon ng Lunes');
+eq('greek ordinals stay lower', C('η τρίτη φορά ήταν την παρασκευή', 'sentence', {language:'el'}), 'Η τρίτη φορά ήταν την Παρασκευή');
+eq('english multi-word places', C('from new york to hong kong via the united kingdom', 'sentence'), 'From New York to Hong Kong via the United Kingdom');
+eq('new alone stays lower', C('a new plan for york', 'sentence'), 'A new plan for york');
+eq('phrases off with the setting', C('a trip to new york', 'sentence', {properNouns:false}), 'A trip to new york');
+
+// 1f. Never-change words: awkward input
+eq('never-change regex characters', C('we use c++ and a.b daily', 'upper', {protectedWords:'C++ a.B (x) [y] *'}), 'WE USE C++ AND a.B DAILY');
+eq('never-change digits and hyphen', C('lunch at 7-eleven with 3m tape', 'title', {protectedWords:'7-Eleven 3M'}), 'Lunch at 7-Eleven With 3M Tape');
+eq('never-change possessive', C("the iphone's screen", 'upper', {protectedWords:'iPhone'}), "THE iPhone'S SCREEN");
+eq('never-change at both edges', C('ebay and ebay', 'upper', {protectedWords:'eBay'}), 'eBay AND eBay');
+eq('never-change overlapping entries', C('youtube music and youtube', 'upper', {protectedWords:'YouTube Tube you'}), 'YouTube MUSIC AND YouTube');
+eq('never-change duplicates', C('ebay', 'upper', {protectedWords:'eBay eBay EBAY'}), 'EBAY');
+eq('never-change under turkish', C('iphone istanbul', 'upper', {protectedWords:'iPhone', language:'tr'}), 'iPhone İSTANBUL');
+eq('never-change beats acronym rule', C('the NASA and nasa teams', 'sentence', {protectedWords:'Nasa'}), 'The Nasa and Nasa teams');
+eq('never-change unicode', C('café ÉCOLE', 'upper', {protectedWords:'Café école'}), 'Café école');
+eq('never-change ignores symbols only', C('a + b', 'upper', {protectedWords:'+ - 123'}), 'A + B');
+(function () { var words = []; for (var i = 0; i < 200; i++) words.push('Brand' + i + 'X'); var text = ''; for (var j = 0; j < 3000; j++) text += 'brand' + (j % 200) + 'x and more text '; var t0 = Date.now(); var out = C(text, 'upper', {protectedWords: words.join(' ')}); var ms = Date.now() - t0; count++; if (out.length !== text.length || out.indexOf('Brand7X') < 0) fails.push('never-change big input wrong'); count++; if (ms > 4000) fails.push('never-change SLOW: ' + ms + 'ms on ' + text.length + ' chars'); })();
+(function () { var text = 'the quick brown fox and the lazy dog are with you. '.repeat(2000); var t0 = Date.now(); C(text, 'sentence', {language:'auto', fallbackLanguage:'ms'}); var ms = Date.now() - t0; count++; if (ms > 3000) fails.push('auto language SLOW: ' + ms + 'ms'); })();
+
 // 2. Invariants on a corpus + fuzz
 var corpus = ['', 'a', 'A', ' ', 'hello', 'Hello, World!', 'the quick brown fox.', 'ÀÉÎÕÜ àéîõü', 'straße Straße STRASSE',
   'İstanbul ıi', 'ﬁ ligature', 'é combining', '😀 emoji 🇲🇾 flags 👨‍👩‍👧 zwj', '你好，世界', 'مرحبا بالعالم', 'Привет мир',
