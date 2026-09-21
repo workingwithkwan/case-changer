@@ -1,6 +1,6 @@
 # Release 1.5: smarter text, faster workflow, wider coverage
 
-Status 19 September 2026: code written, unit-tested, loaded into the Apps Script project (head, commit 68cee96) and tested through the dry-run deployment in Docs, Sheets and Slides. Not deployed as a version. The Marketplace listing is locked while the rename review runs; release after that review finishes.
+Status 19 September 2026: code written, unit-tested, loaded into the Apps Script project (head, commit 68cee96) and tested through the dry-run deployment in Docs, Sheets and Slides. RELEASED TO REVIEW 21 September 2026 together with 1.4: Apps Script Version 4 ("v1.5.0 twelve-language interface, never-change words, preview, cycle case", 10:50 AM), App Configuration on version 4 for Docs, Sheets and Slides, English listing text updated, five translated listings added, SUBMITTED FOR REVIEW. 1.3 stays live until approval.
 
 ## What changed
 

@@ -1,6 +1,6 @@
 # Release 1.4: the add-on in twelve languages
 
-Status 19 September 2026: code written, tested and loaded into the Apps Script project (head, commit adaa9ab) together with 1.5. Not deployed as a version: the Marketplace listing is locked while the rename review runs. 1.4 and 1.5 ship together as one version.
+Status 19 September 2026: code written, tested and loaded into the Apps Script project (head, commit adaa9ab) together with 1.5. RELEASED TO REVIEW 21 September 2026 as part of Apps Script Version 4, together with 1.5. Translated listings added for Indonesian, Spanish, Portuguese (Brazil), French and German. The Marketplace does not offer Malay as a listing language (29 languages, checked in the Add a Language list), so the Bahasa Malaysia listing text is kept in LISTING_TRANSLATIONS.md but cannot be used; the add-on itself still runs in Bahasa Malaysia.
 
 ## What changed
 

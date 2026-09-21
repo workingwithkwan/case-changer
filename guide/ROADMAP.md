@@ -17,11 +17,11 @@ Each release below needs only a Marketplace listing review (text and screenshots
 - Extra length-preserving styles: snake_case and kebab-case.
 - New logo: the Aa tile with three dots in the Docs, Sheets and Slides colours.
 
-## 1.4 (built and tested 19 September 2026, ships with 1.5)
+## 1.4 (submitted for review 21 September 2026 with 1.5)
 - Sidebar, menu, messages and help text translated into the twelve supported languages, chosen from the account language, with a Sidebar language override in Settings. The menu itself can only follow the account language (platform limit).
-- Marketplace listing translated into six languages: Bahasa Malaysia, Bahasa Indonesia, Spanish, Portuguese (Brazil), French and German. See `LISTING_TRANSLATIONS.md`.
+- Marketplace listing translated into Bahasa Indonesia, Spanish, Portuguese (Brazil), French and German. A Bahasa Malaysia listing was written too, but the Marketplace does not offer Malay as a listing language. See `LISTING_TRANSLATIONS.md`.
 
-## 1.5 (built and tested 19 September 2026, release after the rename review)
+## 1.5 (submitted for review 21 September 2026)
 Smarter text
 - **Never-change words**: a Settings box for words that keep their exact spelling in every style (iPhone, eBay, macOS, PETRONAS, a company name). Remembered per user.
 - **Sentence case knows the basics**: days, months, language names and country names stay capitalised (monday to Monday), and English contractions of "I" are fixed (i'm, i've, i'll to I'm, I've, I'll). Small built-in lists per 1.3 language.
