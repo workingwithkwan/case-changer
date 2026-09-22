@@ -10,6 +10,8 @@ Where people ask "how do I change case in Google Docs / Sheets / Slides", and wh
 
 ## 1. Stack Exchange: "Can Google Docs auto-correct capitalization?"
 
+POSTED 23 September 2026: https://webapps.stackexchange.com/a/182603
+
 https://webapps.stackexchange.com/questions/105213/can-google-docs-auto-correct-capitalization
 (asked 2017, 4,700+ views, one answer from 2017 pointing at an add-on)
 
@@ -24,6 +26,8 @@ For those you still need an add-on. Disclosure: I made one. [Case Changer for Go
 ---
 
 ## 2. Stack Exchange: "Change text case so that first letter of the sentence is capitalized" (Sheets)
+
+POSTED 23 September 2026: https://webapps.stackexchange.com/a/182604
 
 https://webapps.stackexchange.com/questions/116959/change-text-case-so-that-first-letter-of-the-sentence-is-capitalized
 (asked 2018, 700+ views, two formula answers)
@@ -62,6 +66,8 @@ Full disclosure, I built a free add-on for exactly this: Case Changer for Google
 ---
 
 ## Notes
+
+- Posting from a new Stack Exchange account: a CAPTCHA appears on every post (the user ticks it), and there is a two-minute gap between posts.
 
 - Stack Exchange will show a "self-promotion" flag if the disclosure is missing; keep the "Disclosure: I made one" sentence.
 - Do not post the same text twice on Stack Exchange; the two answers above are deliberately different.
