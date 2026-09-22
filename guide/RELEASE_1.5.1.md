@@ -1,6 +1,6 @@
 # Release 1.5.1: language audit fixes
 
-Status 21 September 2026: written, tested, on the Apps Script head (commit 2a63c13). Not deployed: Version 4 (1.4 + 1.5) is in Marketplace review and the listing is locked. Ship as the next version once that review finishes.
+Status 22 September 2026: 1.4 + 1.5 were approved and are live. 1.5.1 is written and tested (commit 9c2d4a3) but NOT yet loaded into the Apps Script project or deployed: the Chrome connection dropped mid-release. Remaining steps are in the checklist below.
 
 ## Why
 
@@ -27,6 +27,17 @@ Listing translations
 - `caselib_fuzz.js`: 10,564 checks, 0 failures. New: 14 ambiguity cases, 10 awkward never-change inputs (regex characters, 7-Eleven, possessives, overlaps, Turkish), and two speed guards (200 protected words over 60,000 characters; Auto language over 100,000 characters).
 - `language_words.js`: 1,892,816 checks, 0 failures. `strings_check.js`: 12 languages, 0 failures.
 - Live in Docs through the dry-run deployment: "The road to Kuala Lumpur was full of lumpur on Monday. We flew to New York with a new plan"; Preview in all nine styles; menu shows "How it works" above Google's Help.
+
+## Also in 1.5.1: rating prompt
+
+After the tenth use (the per-style counts already stored in the user's settings), the sidebar shows one quiet line: "Finding it useful? A short review on the Marketplace helps others find it." with "Rate it" (opens the listing) and "Not now". Either click sets `rateDone` and the line never returns. Translated into all twelve languages. No tracking, nothing leaves the user's account.
+
+## Release checklist
+
+1. Apps Script editor: load Code.gs, Strings.gs, CaseLib.gs, Sidebar.html from commit 9c2d4a3 (fetch by SHA into Monaco), click the save icon, confirm "Saved to Drive".
+2. Dry-run test in a Doc: Sentence case on "the road to kuala lumpur was full of lumpur", menu shows "How it works", sidebar Preview; the rating line appears after ten uses (the test account is already past ten).
+3. Deploy > Manage deployments > Edit > New version "v1.5.1 language audit and rating prompt". App Configuration: version 5 for Docs, Sheets and Slides, Save Draft, confirm after reload.
+4. Store Listing: expand each of the five translated language panels and paste the corrected detailed description from LISTING_TRANSLATIONS.md (menu names). Save Draft, confirm after reload, SUBMIT FOR REVIEW.
 
 ## Not changed, on purpose
 
