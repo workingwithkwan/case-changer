@@ -1,6 +1,6 @@
 # Release 1.5.1: language audit fixes
 
-Status 22 September 2026: 1.4 + 1.5 were approved and are live. 1.5.1 is written and tested (commit 9c2d4a3) but NOT yet loaded into the Apps Script project or deployed: the Chrome connection dropped mid-release. Remaining steps are in the checklist below.
+Status 22 September 2026, 4:30pm: SUBMITTED FOR REVIEW. Commit 9c2d4a3 loaded into the Apps Script project ("Saved to Drive" confirmed), Version 5 "v1.5.1 language audit and rating prompt" deployed, App Configuration on version 5 for Docs, Sheets and Slides (confirmed after reload), the five translated listings (id, es, pt-BR, fr, de) replaced with the corrected text (confirmed after reload), review submitted. Version 4 stays live until Google approves.
 
 ## Why
 
@@ -27,6 +27,7 @@ Listing translations
 - `caselib_fuzz.js`: 10,564 checks, 0 failures. New: 14 ambiguity cases, 10 awkward never-change inputs (regex characters, 7-Eleven, possessives, overlaps, Turkish), and two speed guards (200 protected words over 60,000 characters; Auto language over 100,000 characters).
 - `language_words.js`: 1,892,816 checks, 0 failures. `strings_check.js`: 12 languages, 0 failures.
 - Live in Docs through the dry-run deployment: "The road to Kuala Lumpur was full of lumpur on Monday. We flew to New York with a new plan"; Preview in all nine styles; menu shows "How it works" above Google's Help.
+- Release-day check (22 September, commit 9c2d4a3): Sentence case on "the road to kuala lumpur passes through johor bahru. the NASA team met the ceo of petronas in new york." gave Kuala Lumpur, Johor Bahru and New York; NASA came out lowercase only because the test account has "Keep acronyms" switched off (the engine with the default setting keeps NASA). Sidebar shows the rating line with "Rate it" and "Not now". The browser automation cannot click inside the sidebar frame, so the "Not now" click was not exercised live; the handler is three lines (hide the box, save `rateDone`).
 
 ## Also in 1.5.1: rating prompt
 
