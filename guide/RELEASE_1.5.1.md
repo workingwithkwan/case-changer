@@ -1,6 +1,6 @@
 # Release 1.5.1: language audit fixes
 
-Status 22 September 2026, 4:30pm: SUBMITTED FOR REVIEW. Commit 9c2d4a3 loaded into the Apps Script project ("Saved to Drive" confirmed), Version 5 "v1.5.1 language audit and rating prompt" deployed, App Configuration on version 5 for Docs, Sheets and Slides (confirmed after reload), the five translated listings (id, es, pt-BR, fr, de) replaced with the corrected text (confirmed after reload), review submitted. Version 4 stays live until Google approves.
+Status 22 September 2026, 11:55pm: APPROVED and LIVE (Version 5; public listing shows the corrected translations). Commit 9c2d4a3 loaded into the Apps Script project ("Saved to Drive" confirmed), Version 5 "v1.5.1 language audit and rating prompt" deployed, App Configuration on version 5 for Docs, Sheets and Slides (confirmed after reload), the five translated listings (id, es, pt-BR, fr, de) replaced with the corrected text (confirmed after reload), review submitted. Version 4 stays live until Google approves.
 
 ## Why
 
