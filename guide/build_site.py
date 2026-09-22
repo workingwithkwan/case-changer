@@ -106,6 +106,12 @@ faq = [
   'Select the text or cells and choose snake_case or kebab-case from Extensions > Case Changer. Everything becomes lowercase and each space becomes an underscore or a hyphen, handy for file names, column names and URL slugs.'),
  ('Does it handle Turkish and Greek letters correctly?',
   'Yes. With Turkish chosen, I lowercases to the dotless i and i uppercases to the dotted capital. In Greek, a capital sigma at the end of a word lowercases to the final form.'),
+ ('Can I stop it changing a brand name like iPhone or eBay?',
+  'Yes. Open Settings in the sidebar and type the words into "Never change these words". Every style keeps that exact spelling from then on.'),
+ ('Can I see the result before applying it?',
+  'Yes. Click Preview in the sidebar and the first line of your selection appears under every style button, so you can pick the right one first.'),
+ ('Is the sidebar available in my language?',
+  'The sidebar, menu and messages follow your Google account language: English, Bahasa Malaysia, Bahasa Indonesia, Spanish, French, German, Portuguese, Italian, Dutch, Tagalog, Turkish or Greek. You can also pick a language in Settings.'),
  ('Can I change the case of a whole document, sheet or presentation at once?',
   'Yes. Click a style with nothing selected and the sidebar offers a button to change the entire document, the active sheet or every slide, after a confirmation.'),
 ]
@@ -129,10 +135,13 @@ home = f"""
 <h2>Why Case Changer</h2>
 <ul><li><strong>Keeps formatting.</strong> Only the letters change. Bold, italic, colours, fonts, links and comments are untouched.</li>
 <li><strong>Smart title case.</strong> Short words such as "of", "and" and "the" stay lowercase, the way editors write titles.</li>
-<li><strong>Works on any selection.</strong> A word, a sentence, a whole table, a range of cells, a text box or the entire file.</li>
+<li><strong>Works on any selection.</strong> A word, a sentence, a whole table, a range of cells, a text box or the entire file, including footnotes in Docs and speaker notes in Slides. Select a whole column in Sheets and the header row is left alone.</li>
 <li><strong>One add-on for three editors.</strong> The same menu and sidebar in Google Docs, Google Sheets and Google Slides.</li>
 <li><strong>Keeps acronyms.</strong> Sentence case and Title Case leave NASA, KL or UMNO alone.</li>
-<li><strong>Speaks twelve languages.</strong> Title Case knows the small words to keep lowercase in English, Bahasa Malaysia, Bahasa Indonesia, Spanish, French, German, Portuguese, Italian, Dutch, Tagalog, Turkish and Greek. The language is picked from your Google account, or you choose it, and you can add your own words.</li>
+<li><strong>Speaks twelve languages.</strong> The sidebar, menu and messages appear in English, Bahasa Malaysia, Bahasa Indonesia, Spanish, French, German, Portuguese, Italian, Dutch, Tagalog, Turkish or Greek, following your Google account. Title Case knows the small words to keep lowercase in each, detects the language from the text itself, and you can add your own words.</li>
+<li><strong>Never-change words.</strong> List iPhone, eBay, macOS or your company name once and every style leaves the spelling alone.</li>
+<li><strong>Sentence case knows names.</strong> Days, months, languages and places keep their capitals: Monday, Kuala Lumpur, New York.</li>
+<li><strong>Preview and Cycle.</strong> Preview shows your text in all nine styles before you choose. Cycle case flips between UPPERCASE, lowercase and Title Case in one click. Your most used styles move to the top.</li>
 <li><strong>Gets Turkish and Greek right.</strong> Dotted and dotless i in Turkish, and the final sigma in Greek.</li>
 <li><strong>Private by design.</strong> Access is limited to the open document and nothing is stored. Read the <a href="privacy-policy.html">privacy policy</a>.</li>
 <li><strong>Free.</strong> No account, no sign-up, no ads.</li></ul>
@@ -149,7 +158,7 @@ ld = [{
  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
  "image":SITE+"icon-512.png","screenshot":[SITE+"assets/screenshot-1.png", SITE+"assets/screenshot-2-sheets.png", SITE+"assets/screenshot-3-slides.png"],
  "author":{"@type":"Person","name":"Ikhwan Ariff"},
- "softwareVersion":"1.3.0","featureList":[n for n,_ in styles] + ["Works in Google Docs, Google Sheets and Google Slides", "Keeps bold, links and colours", "Keeps acronyms", "Whole-file mode"]
+ "softwareVersion":"1.5.0","featureList":[n for n,_ in styles] + ["Works in Google Docs, Google Sheets and Google Slides", "Keeps bold, links and colours", "Keeps acronyms", "Never-change words", "Preview", "Cycle case", "Interface in twelve languages", "Whole-file mode"]
 }]
 faq_ld = {"@context":"https://schema.org","@type":"FAQPage",
  "mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in faq]}
