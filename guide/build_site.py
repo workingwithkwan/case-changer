@@ -49,11 +49,14 @@ footer{max-width:860px;margin:0 auto;padding:16px 20px 32px;color:var(--muted);f
 """
 NAV = '<nav><a href="index.html">Home</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms-of-service.html">Terms of Service</a><a href="support.html">Support</a></nav>'
 SITE = 'https://case-changer.app/'
-def page(title, body, path='', description='', extra_head=''):
+FOOTER = 'Case Changer is a free add-on for Google Docs, Sheets and Slides. Google Docs, Google Sheets, Google Slides and Google Workspace are trademarks of Google LLC.'
+def page(title, body, path='', description='', extra_head='', lang='en', nav=NAV, footer=FOOTER, alternates=None):
     url = SITE + path
+    if alternates:
+        extra_head += ''.join(f'<link rel="alternate" hreflang="{hl}" href="{SITE}{p}">' for hl, p in alternates) + '\n'
     desc = html.escape(description or 'Case Changer is a free Google Docs, Sheets and Slides add-on that changes selected text to UPPERCASE, lowercase, Sentence case, Title Case and more while keeping formatting.', quote=True)
     return f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{url}">
@@ -64,9 +67,9 @@ def page(title, body, path='', description='', extra_head=''):
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{html.escape(title, quote=True)}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{SITE}assets/screenshot-1.png">
 <link rel="icon" href="icon-48.png"><link rel="apple-touch-icon" href="icon-128.png"><meta name="theme-color" content="#0b57d0">
 {extra_head}<style>{CSS}</style></head>
-<body><header><div class="in"><img src="icon-128.png" alt="Case Changer logo"><a href="index.html">Case Changer</a>{NAV}</div></header>
+<body><header><div class="in"><img src="icon-128.png" alt="Case Changer logo"><a href="index.html">Case Changer</a>{nav}</div></header>
 <main>{body}</main>
-<footer>Case Changer is a free add-on for Google Docs, Sheets and Slides. Google Docs, Google Sheets, Google Slides and Google Workspace are trademarks of Google LLC. Contact: <a href="mailto:support@case-changer.app">support@case-changer.app</a></footer>
+<footer>{footer} Contact: <a href="mailto:support@case-changer.app">support@case-changer.app</a></footer>
 </body></html>
 """
 
@@ -145,6 +148,8 @@ home = f"""
 <li><strong>Gets Turkish and Greek right.</strong> Dotted and dotless i in Turkish, and the final sigma in Greek.</li>
 <li><strong>Private by design.</strong> Access is limited to the open document and nothing is stored. Read the <a href="privacy-policy.html">privacy policy</a>.</li>
 <li><strong>Free.</strong> No account, no sign-up, no ads.</li></ul>
+<h2>In Your Language</h2>
+<p>How-to guides: [[LANGLINKS]]. The add-on itself follows your Google account language.</p>
 <h2>Get It</h2>
 <p>Case Changer is free on the <a href="https://workspace.google.com/marketplace/app/case_changer/422980989821">Google Workspace Marketplace</a>. Install it there, or open <strong>Extensions &gt; Add-ons &gt; Get add-ons</strong> inside Google Docs, Sheets or Slides and search for "Case Changer".</p>
 <h2>Questions?</h2>
@@ -174,10 +179,48 @@ for src, (dst, title, desc) in pages.items():
     open(f'{OUT}/{dst}', 'w').write(page(title, body, dst, desc, head))
 open(f'{OUT}/index.html','w').write(page('Case Changer for Google Docs™, Sheets™ & Slides™: Free Change Case Add-on', home, '',
     'Free Google Docs, Sheets and Slides add-on to change selected text to UPPERCASE, lowercase, Sentence case, Title Case and more in one click, keeping bold, links and colours.', extra))
+import sys; sys.path.insert(0, SRC); from howto_pages import HOWTO
+ALT = [('en', '')] + [(v['lang'], v['file']) for v in HOWTO.values()]
+ALT_HEAD = ALT + [('x-default', '')]
+langlinks = ', '.join(f'<a href="{v["file"]}" lang="{v["lang"]}" hreflang="{v["lang"]}">{v["langName"]}</a>' for v in HOWTO.values())
+home_html = open(f'{OUT}/index.html').read().replace('[[LANGLINKS]]', langlinks)
+home_html = home_html.replace('<style>', ''.join(f'<link rel="alternate" hreflang="{hl}" href="{SITE}{p}">' for hl, p in ALT_HEAD) + '\n<style>', 1)
+open(f'{OUT}/index.html','w').write(home_html)
+def tiles(st): return ''.join(f'<div><strong>{html.escape(n)}</strong><br><span class="muted">{html.escape(d).replace("_","_<wbr>").replace("-","-<wbr>")}</span></div>' for n,d in st)
+def ol(items): return '<ol>' + ''.join(f'<li>{i}</li>' for i in items) + '</ol>'
+for code, v in HOWTO.items():
+    n = v['nav']
+    others = ' · '.join(f'<a href="{w["file"]}" hreflang="{w["lang"]}">{w["langName"]}</a>' for c, w in HOWTO.items() if c != code)
+    nav = f'<nav><a href="index.html">{n["home"]}</a><a href="privacy-policy.html">{n["privacy"]}</a><a href="terms-of-service.html">{n["terms"]}</a><a href="support.html">{n["support"]}</a></nav>'
+    body = f"""<h1>{v['h1']}</h1><p>{v['lead']}</p>
+<p class="muted">{n['other']}: <a href="index.html" hreflang="en">English</a> · {others}</p>
+<h2>{v['install_h']}</h2>{ol(v['install'])}
+<h2>{v['docs_h']}</h2>{ol(v['docs'])}
+<h2>{v['sheets_h']}</h2>{ol(v['sheets'])}
+<h2>{v['slides_h']}</h2>{ol(v['slides'])}
+<h2>{v['styles_h']}</h2><div class="styles">{tiles(v['styles'])}</div>
+<div class="shots">
+<figure><a href="assets/screenshot-1.png"><img src="assets/screenshot-1.png" width="1280" height="800" loading="lazy" alt="Case Changer, Google Docs"></a></figure>
+<figure><a href="assets/screenshot-2-sheets.png"><img src="assets/screenshot-2-sheets.png" width="1280" height="800" loading="lazy" alt="Case Changer, Google Sheets"></a></figure>
+<figure><a href="assets/screenshot-3-slides.png"><img src="assets/screenshot-3-slides.png" width="1280" height="800" loading="lazy" alt="Case Changer, Google Slides"></a></figure>
+</div>
+<h2>{v['why_h']}</h2><ul>{''.join(f'<li>{w}</li>' for w in v['why'])}</ul>
+<h2 id="faq">FAQ</h2>{''.join(f'<h3>{html.escape(q)}</h3><p>{html.escape(a)}</p>' for q,a in v['faq'])}
+<h2>{v['cta_h']}</h2><p>{v['cta']}</p>"""
+    strip = lambda s: re.sub(r'<[^>]+>', '', s)
+    howto_ld = [{"@context":"https://schema.org","@type":"HowTo","name":v['h1'],"description":v['description'],"inLanguage":v['lang'],
+                 "tool":{"@type":"HowToTool","name":"Case Changer"},
+                 "step":[{"@type":"HowToStep","name":v['docs_h'],"text":' '.join(strip(s) for s in v['docs'])},
+                         {"@type":"HowToStep","name":v['sheets_h'],"text":' '.join(strip(s) for s in v['sheets'])},
+                         {"@type":"HowToStep","name":v['slides_h'],"text":' '.join(strip(s) for s in v['slides'])}]},
+                {"@context":"https://schema.org","@type":"FAQPage","inLanguage":v['lang'],
+                 "mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in v['faq']]}]
+    head = ''.join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>\n' for x in howto_ld)
+    open(f'{OUT}/{v["file"]}','w').write(page(v['title'], body, v['file'], v['description'], head, lang=v['lang'], nav=nav, footer=v['footer'], alternates=ALT_HEAD))
 open(f'{OUT}/robots.txt','w').write('User-agent: *\nAllow: /\nSitemap: https://case-changer.app/sitemap.xml\n')
 import datetime
 today = datetime.date.today().isoformat()
-urls = ['', 'support.html', 'privacy-policy.html', 'terms-of-service.html']
+urls = ['', 'support.html', 'privacy-policy.html', 'terms-of-service.html'] + [v['file'] for v in HOWTO.values()]
 open(f'{OUT}/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{SITE}{u}</loc><lastmod>{today}</lastmod></url>\n' for u in urls) + '</urlset>\n')
 open(f'{OUT}/404.html','w').write(page('Page not found | Case Changer', '<h1>Page Not Found</h1><p>That page does not exist. Try the <a href="index.html">home page</a> or the <a href="support.html">support page</a>.</p>', '404.html', 'Page not found.', '<meta name="robots" content="noindex">'))
 for f in ['icon-48.png','icon-128.png','icon-512.png']:
