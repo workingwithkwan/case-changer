@@ -140,7 +140,8 @@ function fileNoun() {
 /* ---------- Settings (per user, stored by Apps Script, no extra permission) ---------- */
 
 var DEFAULT_SETTINGS = { keepAcronyms: true, language: 'auto', extraSmallWords: '', lastMode: '',
-  protectedWords: '', properNouns: true, skipHeader: true, darkSidebar: false, uiLanguage: 'auto', counts: {} };
+  protectedWords: '', properNouns: true, skipHeader: true, darkSidebar: false, uiLanguage: 'auto', counts: {}, rateDone: false };
+var LISTING_URL = 'https://workspace.google.com/marketplace/app/case_changer/422980989821';
 
 /**
  * The language behind 'auto': the account language of the current user
@@ -171,6 +172,9 @@ function getSettings() {
   if (!out.counts || typeof out.counts !== 'object') out.counts = {};
   out.resolvedLanguage = resolveLanguage(out.language); // for the sidebar's "Auto: English" label
   out.favourites = favouriteModes(out.counts);
+  var total = 0; for (var ck in out.counts) if (out.counts.hasOwnProperty(ck)) total += out.counts[ck];
+  out.askRating = !out.rateDone && total >= 10;   // after ten uses, once, until dismissed
+  out.listingUrl = LISTING_URL;
   out.uiResolved = uiLanguage();
   out.uiAccount = accountUiLanguage();
   return out;
@@ -187,11 +191,14 @@ function saveSettings(patch) {
   if (typeof patch.properNouns === 'boolean') current.properNouns = patch.properNouns;
   if (typeof patch.skipHeader === 'boolean') current.skipHeader = patch.skipHeader;
   if (typeof patch.darkSidebar === 'boolean') current.darkSidebar = patch.darkSidebar;
+  if (patch.rateDone === true) current.rateDone = true;
   if (typeof patch.uiLanguage === 'string' && (patch.uiLanguage === 'auto' || Strings.has(patch.uiLanguage))) current.uiLanguage = patch.uiLanguage;
   if (patch.countMode && CaseLib.MODES[patch.countMode]) current.counts[patch.countMode] = (current.counts[patch.countMode] || 0) + 1;
   delete current.resolvedLanguage;
   delete current.favourites;
   delete current.uiResolved;
+  delete current.askRating;
+  delete current.listingUrl;
   delete current.uiAccount;
   STRINGS_CACHE = null;
   PropertiesService.getUserProperties().setProperty('settings', JSON.stringify(current));
