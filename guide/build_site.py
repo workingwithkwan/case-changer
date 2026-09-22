@@ -43,7 +43,7 @@ header{background:var(--header);color:#fff}header .in{max-width:860px;margin:0 a
 header img{width:36px;height:36px;border-radius:9px}header a{color:#fff;text-decoration:none;font-weight:600}header nav{margin-left:auto;display:flex;gap:16px;flex-wrap:wrap}header nav a{font-weight:400;opacity:.92}
 main{max-width:860px;margin:0 auto;padding:24px 20px 48px}h1{font-size:1.9rem;margin:.4em 0;color:#fff}h2{font-size:1.25rem;margin-top:1.6em;color:#fff}code{background:var(--surface);border:1px solid var(--border);padding:1px 5px;border-radius:4px;font-size:.92em}
 a{color:var(--accent)}strong{color:#fff}.hero{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin:16px 0 28px}.hero img{width:128px;height:128px;border-radius:28px}
-.styles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:16px 0}.muted{color:var(--muted);font-size:.9em}h3{font-size:1.05rem;margin:1.2em 0 .3em;color:#fff}.styles div{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.styles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:16px 0}.muted{color:var(--muted);font-size:.9em}h3{font-size:1.05rem;margin:1.2em 0 .3em;color:#fff}.styles div{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;min-width:0;overflow:hidden;overflow-wrap:anywhere;word-break:break-word}
 .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0}.shots figure{margin:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px}.shots img{width:100%;height:auto;border-radius:6px;display:block}.shots figcaption{margin-top:8px;font-size:.9em;color:var(--muted)}
 footer{max-width:860px;margin:0 auto;padding:16px 20px 32px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border)}
 """
@@ -119,7 +119,7 @@ faq_html = ''.join(f'<h3>{html.escape(q)}</h3><p>{html.escape(a)}</p>' for q,a i
 home = f"""
 <div class="hero"><img src="icon-512.png" alt="Case Changer logo: the letters Aa on a blue tile above three dots in the colours of Docs, Sheets and Slides"><div><h1>Case Changer for Google Docs™, Sheets™ &amp; Slides™</h1>
 <p>A free add-on that changes the case of selected text in one click: UPPERCASE, lowercase, Sentence case, Title Case and more, in a document, a spreadsheet or a presentation. Bold, links and colours stay exactly where they were.</p></div></div>
-<h2>Nine Case Styles</h2><div class="styles">{''.join(f'<div><strong>{html.escape(n)}</strong><br><span class="muted">{html.escape(d)}</span></div>' for n,d in styles)}</div>
+<h2>Nine Case Styles</h2><div class="styles">{''.join(f'<div><strong>{html.escape(n)}</strong><br><span class="muted">{html.escape(d).replace('_','_<wbr>').replace('-','-<wbr>')}</span></div>' for n,d in styles)}</div>
 <h2>See It In Action</h2>
 <div class="shots">
 <figure><a href="assets/screenshot-1.png"><img src="assets/screenshot-1.png" width="1280" height="800" loading="lazy" alt="Case Changer sidebar in Google Docs with the case style buttons next to a document"></a><figcaption>Google Docs: highlight text, click a style in the sidebar.</figcaption></figure>
