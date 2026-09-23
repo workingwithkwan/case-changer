@@ -45,6 +45,7 @@ main{max-width:860px;margin:0 auto;padding:24px 20px 48px}h1{font-size:1.9rem;ma
 a{color:var(--accent)}strong{color:#fff}.hero{display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin:16px 0 28px}.hero img{width:128px;height:128px;border-radius:28px}
 .styles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:16px 0}.muted{color:var(--muted);font-size:.9em}h3{font-size:1.05rem;margin:1.2em 0 .3em;color:#fff}.styles div{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;min-width:0;overflow:hidden;overflow-wrap:anywhere;word-break:break-word}
 .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:16px 0}.shots figure{margin:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px}.shots img{width:100%;height:auto;border-radius:6px;display:block}.shots figcaption{margin-top:8px;font-size:.9em;color:var(--muted)}
+.btn{display:inline-block;background:#0b57d0;color:#fff;font-weight:600;padding:12px 24px;border-radius:8px;text-decoration:none;font-size:1.05rem;box-shadow:0 1px 3px rgba(0,0,0,.4)}.btn:hover{background:#0842a0;text-decoration:none}.cta{margin:14px 0 6px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 footer{max-width:860px;margin:0 auto;padding:16px 20px 32px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border)}
 """
 NAV = '<nav><a href="index.html">Home</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms-of-service.html">Terms of Service</a><a href="support.html">Support</a></nav>'
@@ -121,7 +122,8 @@ faq = [
 faq_html = ''.join(f'<h3>{html.escape(q)}</h3><p>{html.escape(a)}</p>' for q,a in faq)
 home = f"""
 <div class="hero"><img src="icon-512.png" alt="Case Changer logo: the letters Aa on a blue tile above three dots in the colours of Docs, Sheets and Slides"><div><h1>Case Changer for Google Docs™, Sheets™ &amp; Slides™</h1>
-<p>A free add-on that changes the case of selected text in one click: UPPERCASE, lowercase, Sentence case, Title Case and more, in a document, a spreadsheet or a presentation. Bold, links and colours stay exactly where they were.</p></div></div>
+<p>A free add-on that changes the case of selected text in one click: UPPERCASE, lowercase, Sentence case, Title Case and more, in a document, a spreadsheet or a presentation. Bold, links and colours stay exactly where they were.</p>
+<p class="cta"><a class="btn" href="https://workspace.google.com/marketplace/app/case_changer/422980989821">Install Add-on</a><span class="muted">Free. No account, no sign-up.</span></p></div></div>
 <h2>Nine Case Styles</h2><div class="styles">{''.join(f'<div><strong>{html.escape(n)}</strong><br><span class="muted">{html.escape(d).replace('_','_<wbr>').replace('-','-<wbr>')}</span></div>' for n,d in styles)}</div>
 <h2>See It In Action</h2>
 <div class="shots">
@@ -151,6 +153,7 @@ home = f"""
 <h2>In Your Language</h2>
 <p>How-to guides: [[LANGLINKS]]. The add-on itself follows your Google account language.</p>
 <h2>Get It</h2>
+<p class="cta"><a class="btn" href="https://workspace.google.com/marketplace/app/case_changer/422980989821">Install Add-on</a></p>
 <p>Case Changer is free on the <a href="https://workspace.google.com/marketplace/app/case_changer/422980989821">Google Workspace Marketplace</a>. Install it there, or open <strong>Extensions &gt; Add-ons &gt; Get add-ons</strong> inside Google Docs, Sheets or Slides and search for "Case Changer".</p>
 <h2>Questions?</h2>
 <p>Answers to common questions, including how it works in Sheets and Slides, are on the <a href="support.html#faq">support page</a>. Or email <a href="mailto:support@case-changer.app">support@case-changer.app</a>.</p>
@@ -193,6 +196,7 @@ for code, v in HOWTO.items():
     others = ' · '.join(f'<a href="{w["file"]}" hreflang="{w["lang"]}">{w["langName"]}</a>' for c, w in HOWTO.items() if c != code)
     nav = f'<nav><a href="index.html">{n["home"]}</a><a href="privacy-policy.html">{n["privacy"]}</a><a href="terms-of-service.html">{n["terms"]}</a><a href="support.html">{n["support"]}</a></nav>'
     body = f"""<h1>{v['h1']}</h1><p>{v['lead']}</p>
+<p class="cta"><a class="btn" href="https://workspace.google.com/marketplace/app/case_changer/422980989821">{v['install_btn']}</a></p>
 <p class="muted">{n['other']}: <a href="index.html" hreflang="en">English</a> · {others}</p>
 <h2>{v['install_h']}</h2>{ol(v['install'])}
 <h2>{v['docs_h']}</h2>{ol(v['docs'])}
@@ -206,7 +210,7 @@ for code, v in HOWTO.items():
 </div>
 <h2>{v['why_h']}</h2><ul>{''.join(f'<li>{w}</li>' for w in v['why'])}</ul>
 <h2 id="faq">FAQ</h2>{''.join(f'<h3>{html.escape(q)}</h3><p>{html.escape(a)}</p>' for q,a in v['faq'])}
-<h2>{v['cta_h']}</h2><p>{v['cta']}</p>"""
+<h2>{v['cta_h']}</h2><p class="cta"><a class="btn" href="https://workspace.google.com/marketplace/app/case_changer/422980989821">{v['install_btn']}</a></p><p>{v['cta']}</p>"""
     strip = lambda s: re.sub(r'<[^>]+>', '', s)
     howto_ld = [{"@context":"https://schema.org","@type":"HowTo","name":v['h1'],"description":v['description'],"inLanguage":v['lang'],
                  "tool":{"@type":"HowToTool","name":"Case Changer"},

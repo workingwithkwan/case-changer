@@ -2,6 +2,7 @@
 # Product and menu names follow Google's own help pages per language (see Strings.gs header).
 HOWTO = {
  'ms': dict(
+  install_btn='Pasang alat tambah',
   file='cara-tukar-huruf-besar-kecil-google-docs.html', lang='ms', langName='Bahasa Malaysia',
   nav=dict(home='Utama', support='Sokongan', privacy='Dasar Privasi', terms='Syarat Perkhidmatan', other='Bahasa lain'),
   title='Cara Tukar Huruf Besar dan Kecil dalam Google Docs™, Sheets™ dan Slides™ | Case Changer',
@@ -25,6 +26,7 @@ HOWTO = {
   footer='Case Changer ialah alat tambah percuma untuk Google Docs, Sheets dan Slides. Google Docs, Google Sheets, Google Slides dan Google Workspace ialah tanda dagangan Google LLC.',
  ),
  'id': dict(
+  install_btn='Pasang add-on',
   file='cara-mengubah-huruf-besar-kecil-google-docs.html', lang='id', langName='Bahasa Indonesia',
   nav=dict(home='Beranda', support='Dukungan', privacy='Kebijakan Privasi', terms='Ketentuan Layanan', other='Bahasa lain'),
   title='Cara Mengubah Huruf Besar dan Kecil di Google Docs™, Sheets™, dan Slides™ | Case Changer',
@@ -48,6 +50,7 @@ HOWTO = {
   footer='Case Changer adalah add-on gratis untuk Google Docs, Sheets, dan Slides. Google Docs, Google Sheets, Google Slides, dan Google Workspace adalah merek dagang Google LLC.',
  ),
  'es': dict(
+  install_btn='Instalar el complemento',
   file='como-cambiar-mayusculas-minusculas-google-docs.html', lang='es', langName='Español',
   nav=dict(home='Inicio', support='Soporte', privacy='Política de privacidad', terms='Términos del servicio', other='Otros idiomas'),
   title='Cómo cambiar mayúsculas y minúsculas en Google Docs™, Sheets™ y Slides™ | Case Changer',
@@ -71,6 +74,7 @@ HOWTO = {
   footer='Case Changer es un complemento gratuito para Google Docs, Sheets y Slides. Google Docs, Google Sheets, Google Slides y Google Workspace son marcas comerciales de Google LLC.',
  ),
  'pt': dict(
+  install_btn='Instalar o complemento',
   file='como-mudar-maiusculas-minusculas-google-docs.html', lang='pt-BR', langName='Português (Brasil)',
   nav=dict(home='Início', support='Suporte', privacy='Política de privacidade', terms='Termos de serviço', other='Outros idiomas'),
   title='Como mudar maiúsculas e minúsculas no Google Docs™, Sheets™ e Slides™ | Case Changer',
