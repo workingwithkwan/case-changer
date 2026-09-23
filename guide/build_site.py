@@ -123,7 +123,7 @@ faq_html = ''.join(f'<h3>{html.escape(q)}</h3><p>{html.escape(a)}</p>' for q,a i
 home = f"""
 <div class="hero"><img src="icon-512.png" alt="Case Changer logo: the letters Aa on a blue tile above three dots in the colours of Docs, Sheets and Slides"><div><h1>Case Changer for Google Docs™, Sheets™ &amp; Slides™</h1>
 <p>A free add-on that changes the case of selected text in one click: UPPERCASE, lowercase, Sentence case, Title Case and more, in a document, a spreadsheet or a presentation. Bold, links and colours stay exactly where they were.</p>
-<p class="cta"><a class="btn" href="https://workspace.google.com/marketplace/app/case_changer/422980989821">Install Add-on</a><span class="muted">Free. No account, no sign-up.</span></p></div></div>
+<p class="cta"><a class="btn" href="https://workspace.google.com/marketplace/app/case_changer/422980989821">Install Add-on</a><span class="muted">Get it on Google Workspace Marketplace</span></p></div></div>
 <h2>Nine Case Styles</h2><div class="styles">{''.join(f'<div><strong>{html.escape(n)}</strong><br><span class="muted">{html.escape(d).replace('_','_<wbr>').replace('-','-<wbr>')}</span></div>' for n,d in styles)}</div>
 <h2>See It In Action</h2>
 <div class="shots">
