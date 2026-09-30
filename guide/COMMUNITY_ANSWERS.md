@@ -27,7 +27,7 @@ For those you still need an add-on. Disclosure: I made one. [Case Changer for Go
 
 ## 2. Stack Exchange: "Change text case so that first letter of the sentence is capitalized" (Sheets)
 
-POSTED 23 September 2026: https://webapps.stackexchange.com/a/182604
+POSTED 23 September 2026: https://webapps.stackexchange.com/a/182604. Edited 30 September after moderator Rubén pointed out that onEdit does not run while typing; the answer no longer claims "as you type". Lesson: state exactly when a script fires.
 
 https://webapps.stackexchange.com/questions/116959/change-text-case-so-that-first-letter-of-the-sentence-is-capitalized
 (asked 2018, 700+ views, two formula answers)
@@ -38,7 +38,7 @@ Paste as a new answer:
 
 Two things worth adding to the formula answers.
 
-**If you want it to happen as you type**, a formula cannot do that, because a formula has to live in a different cell from the text. A small script can. Open **Extensions > Apps Script**, paste this, save, and go back to the sheet:
+**Nothing in Sheets can change text while you are still typing in the cell**, and a formula cannot do it at all, because a formula has to live in a different cell from the text. The closest thing is a small script that corrects the cell the moment you leave it (press Enter or click elsewhere). Open **Extensions > Apps Script**, paste this, save, and go back to the sheet:
 
 ```javascript
 function onEdit(e) {
@@ -49,7 +49,7 @@ function onEdit(e) {
 }
 ```
 
-It capitalises the first letter of any text you type into a cell and leaves numbers, dates and formulas alone.
+It capitalises the first letter of any text you enter into a cell, once the entry is committed, and leaves numbers, dates and formulas alone.
 
 **If you want to fix text that is already there**, in place rather than in a helper column, use an add-on. Disclosure: I made one. [Case Changer for Google Docs™, Sheets™ & Slides™](https://workspace.google.com/marketplace/app/case_changer/422980989821) is free: select the cells, then **Extensions > Case Changer > Sentence case** (or UPPERCASE, lowercase, Title Case and others). It changes the cell text directly, skips formulas, numbers and dates, and keeps bold or coloured runs inside a cell. It also handles the "i" to "I" and proper-noun cases that the formulas above have to special-case.
 
