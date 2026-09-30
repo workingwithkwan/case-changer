@@ -72,3 +72,7 @@ Full disclosure, I built a free add-on for exactly this: Case Changer for Google
 - Stack Exchange will show a "self-promotion" flag if the disclosure is missing; keep the "Disclosure: I made one" sentence.
 - Do not post the same text twice on Stack Exchange; the two answers above are deliberately different.
 - Vote counts on old questions move slowly. The value is search traffic over the next years, not the first week.
+
+## Weekly check log
+
+- 30 September 2026: four searches run (capitalization, uppercase, sentence case, change case). No new case-related thread since the 23 September check; the only threads updated this week are unrelated. Nothing to answer.
