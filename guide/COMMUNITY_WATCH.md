@@ -8,6 +8,10 @@ Thread IDs already evaluated (locked, unrelated, or already drafted). One per li
 
 455084306 | 2026-09-23 | locked | MS Word Change Case
 447881914 | 2026-09-23 | locked | Docs neither identifying nor fixing random capitalization as you type
+470681817 | 2026-10-01 | unrelated (title) | How do I convert pdf of spreadsheet to excel file?
+470342216 | 2026-10-01 | unrelated (title) | Google Keep not syncing - notes stuck on "loading notes"
+470271542 | 2026-10-01 | unrelated (title) | How do I create a link that forces the viewer to a make a COPY page so they can't edit the original?
+468170032 | 2026-10-01 | unrelated (title) | dynamic formatting of embedded Sheets
 
 ## Drafts awaiting approval
 
@@ -22,3 +26,4 @@ Replies drafted by the daily check. Nothing here is posted until Ikhwan approves
 ## Run log
 
 - 2026-09-30: manual check, nothing new.
+- 2026-10-01: daily check. 4 searches loaded; 4 recent threads screened by title, all unrelated; 0 opened; 0 drafts.
