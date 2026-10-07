@@ -48,7 +48,7 @@ a{color:var(--accent)}strong{color:#fff}.hero{display:flex;gap:24px;align-items:
 .btn{display:inline-block;background:#0b57d0;color:#fff;font-weight:600;padding:12px 24px;border-radius:8px;text-decoration:none;font-size:1.05rem;box-shadow:0 1px 3px rgba(0,0,0,.4)}.btn:hover{background:#0842a0;text-decoration:none}.cta{margin:14px 0 6px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 footer{max-width:860px;margin:0 auto;padding:16px 20px 32px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--border)}
 """
-NAV = '<nav><a href="index.html">Home</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms-of-service.html">Terms of Service</a><a href="support.html">Support</a></nav>'
+NAV = '<nav><a href="/">Home</a><a href="privacy-policy.html">Privacy Policy</a><a href="terms-of-service.html">Terms of Service</a><a href="support.html">Support</a></nav>'
 SITE = 'https://case-changer.app/'
 FOOTER = 'Case Changer is a free add-on for Google Docs, Sheets and Slides. Google Docs, Google Sheets, Google Slides and Google Workspace are trademarks of Google LLC.'
 def page(title, body, path='', description='', extra_head='', lang='en', nav=NAV, footer=FOOTER, alternates=None):
@@ -68,7 +68,7 @@ def page(title, body, path='', description='', extra_head='', lang='en', nav=NAV
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{html.escape(title, quote=True)}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{SITE}assets/screenshot-1.png">
 <link rel="icon" href="icon-48.png"><link rel="apple-touch-icon" href="icon-128.png"><meta name="theme-color" content="#0b57d0">
 {extra_head}<style>{CSS}</style></head>
-<body><header><div class="in"><img src="icon-128.png" alt="Case Changer logo"><a href="index.html">Case Changer</a>{nav}</div></header>
+<body><header><div class="in"><img src="icon-128.png" alt="Case Changer logo"><a href="/">Case Changer</a>{nav}</div></header>
 <main>{body}</main>
 <footer>{footer} Contact: <a href="mailto:support@case-changer.app">support@case-changer.app</a></footer>
 </body></html>
@@ -194,10 +194,10 @@ def ol(items): return '<ol>' + ''.join(f'<li>{i}</li>' for i in items) + '</ol>'
 for code, v in HOWTO.items():
     n = v['nav']
     others = ' · '.join(f'<a href="{w["file"]}" hreflang="{w["lang"]}">{w["langName"]}</a>' for c, w in HOWTO.items() if c != code)
-    nav = f'<nav><a href="index.html">{n["home"]}</a><a href="privacy-policy.html">{n["privacy"]}</a><a href="terms-of-service.html">{n["terms"]}</a><a href="support.html">{n["support"]}</a></nav>'
+    nav = f'<nav><a href="/">{n["home"]}</a><a href="privacy-policy.html">{n["privacy"]}</a><a href="terms-of-service.html">{n["terms"]}</a><a href="support.html">{n["support"]}</a></nav>'
     body = f"""<h1>{v['h1']}</h1><p>{v['lead']}</p>
 <p class="cta"><a class="btn" href="https://workspace.google.com/marketplace/app/case_changer/422980989821">{v['install_btn']}</a></p>
-<p class="muted">{n['other']}: <a href="index.html" hreflang="en">English</a> · {others}</p>
+<p class="muted">{n['other']}: <a href="/" hreflang="en">English</a> · {others}</p>
 <h2>{v['install_h']}</h2>{ol(v['install'])}
 <h2>{v['docs_h']}</h2>{ol(v['docs'])}
 <h2>{v['sheets_h']}</h2>{ol(v['sheets'])}
@@ -226,7 +226,7 @@ import datetime
 today = datetime.date.today().isoformat()
 urls = ['', 'support.html', 'privacy-policy.html', 'terms-of-service.html'] + [v['file'] for v in HOWTO.values()]
 open(f'{OUT}/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'  <url><loc>{SITE}{u}</loc><lastmod>{today}</lastmod></url>\n' for u in urls) + '</urlset>\n')
-open(f'{OUT}/404.html','w').write(page('Page not found | Case Changer', '<h1>Page Not Found</h1><p>That page does not exist. Try the <a href="index.html">home page</a> or the <a href="support.html">support page</a>.</p>', '404.html', 'Page not found.', '<meta name="robots" content="noindex">'))
+open(f'{OUT}/404.html','w').write(page('Page not found | Case Changer', '<h1>Page Not Found</h1><p>That page does not exist. Try the <a href="/">home page</a> or the <a href="support.html">support page</a>.</p>', '404.html', 'Page not found.', '<meta name="robots" content="noindex">'))
 for f in ['icon-48.png','icon-128.png','icon-512.png']:
     os.system(f'cp "{ROOT}/assets/{f}" "{OUT}/{f}"')
 open(f'{OUT}/.nojekyll','w').write('')
