@@ -21,6 +21,7 @@ Thread IDs already evaluated (locked, unrelated, or already drafted). One per li
 471161684 | 2026-10-06 | unrelated (title) | XL FILE PASSWORD FILE NOT OPENING
 466990986 | 2026-10-07 | unrelated (title; weekly plan sheet pages changing together) | every page changes all the others!
 471765212 | 2026-10-08 | unrelated (title) | Forms with File upload question fail with HTTP 400 for all users on my Workspace domain
+471924944 | 2026-10-09 | unrelated (title) | Docs/Sheets Switching Account on its Own
 
 ## Drafts awaiting approval
 
@@ -44,3 +45,4 @@ Replies drafted by the daily check. Nothing here is posted until Ikhwan approves
 - 2026-10-06: second daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-10-07: daily check. 4 searches loaded; 1 new thread evaluated (screened by title), unrelated; 0 drafts.
 - 2026-10-08: daily check. 4 searches loaded; 1 new thread evaluated (screened by title), unrelated; 0 drafts.
+- 2026-10-09: manual check (requested by Ikhwan). 4 searches loaded; 1 new thread evaluated (screened by title), unrelated; 0 drafts.
