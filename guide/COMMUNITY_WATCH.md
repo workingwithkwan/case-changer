@@ -23,6 +23,14 @@ Thread IDs already evaluated (locked, unrelated, or already drafted). One per li
 471765212 | 2026-10-08 | unrelated (title) | Forms with File upload question fail with HTTP 400 for all users on my Workspace domain
 471924944 | 2026-10-09 | unrelated (title) | Docs/Sheets Switching Account on its Own
 470997122 | 2026-10-10 | unrelated (title) | Google Vids AI tools wont show up
+473537596 | 2026-10-19 | unrelated (title) | Google Docs Revision History Missing Several Weeks of Edits
+472339635 | 2026-10-19 | unrelated (title) | Image could not be loaded.
+472955227 | 2026-10-19 | unrelated (title) | Filtering with a wildcard in the search term/range?
+472836448 | 2026-10-19 | unrelated (title) | Several headings will not work in TOC or sidebar to navigate.
+472833457 | 2026-10-19 | unrelated (title) | "Use Google Vids - Reached limit." I have contacted support and here's my Case ID
+472847826 | 2026-10-19 | unrelated (fonts/spacing on paste; soft locked, Product Expert answered) | Google Docs formatting changes when I paste text into a document
+472629817 | 2026-10-19 | unrelated (title) | Gforms title editor restores "Untitled form" during editing
+472655117 | 2026-10-19 | unrelated (title) | Google Forms response copies reach Gmail but not Yahoo Mail or iCloud
 
 ## Drafts awaiting approval
 
@@ -51,3 +59,4 @@ Replies drafted by the daily check. Nothing here is posted until Ikhwan approves
 - 2026-10-10: daily check. 4 searches loaded; 1 new thread evaluated (screened by title), unrelated; 0 drafts.
 - 2026-10-11: daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-10-12: daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
+- 2026-10-19: daily check. 4 searches loaded; 8 new threads evaluated (1 opened, 7 screened by title), all unrelated; 0 drafts.
