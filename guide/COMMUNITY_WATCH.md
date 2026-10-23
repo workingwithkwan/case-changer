@@ -32,6 +32,7 @@ Thread IDs already evaluated (locked, unrelated, or already drafted). One per li
 472629817 | 2026-10-19 | unrelated (title) | Gforms title editor restores "Untitled form" during editing
 472655117 | 2026-10-19 | unrelated (title) | Google Forms response copies reach Gmail but not Yahoo Mail or iCloud
 473614309 | 2026-10-20 | unrelated (title) | Can't delete a page (google docs)
+473881820 | 2026-10-23 | unrelated (Android Sheets Format button moved to bottom toolbar; soft locked, Product Expert answered) | Format button position
 
 ## Drafts awaiting approval
 
@@ -67,3 +68,4 @@ Replies drafted by the daily check. Nothing here is posted until Ikhwan approves
 - 2026-10-21: daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-10-22: daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-10-22: second daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
+- 2026-10-23: daily check. 4 searches loaded; 1 new thread evaluated (opened), unrelated; 0 drafts.
