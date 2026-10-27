@@ -33,6 +33,8 @@ Thread IDs already evaluated (locked, unrelated, or already drafted). One per li
 472655117 | 2026-10-19 | unrelated (title) | Google Forms response copies reach Gmail but not Yahoo Mail or iCloud
 473614309 | 2026-10-20 | unrelated (title) | Can't delete a page (google docs)
 473881820 | 2026-10-23 | unrelated (Android Sheets Format button moved to bottom toolbar; soft locked, Product Expert answered) | Format button position
+473776967 | 2026-10-27 | unrelated (title) | Google Docs offline access not working
+474608124 | 2026-10-27 | unrelated (title) | I am getting a message ' Google Docs is unable to open this document.' If I am the owner, why so ?
 
 ## Drafts awaiting approval
 
@@ -74,3 +76,4 @@ Replies drafted by the daily check. Nothing here is posted until Ikhwan approves
 - 2026-10-26: daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-10-26: second daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-10-26: third daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
+- 2026-10-27: daily check. 4 searches loaded; 2 new threads evaluated (screened by title), unrelated; 0 drafts.
