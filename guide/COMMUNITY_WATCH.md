@@ -35,6 +35,8 @@ Thread IDs already evaluated (locked, unrelated, or already drafted). One per li
 473881820 | 2026-10-23 | unrelated (Android Sheets Format button moved to bottom toolbar; soft locked, Product Expert answered) | Format button position
 473776967 | 2026-10-27 | unrelated (title) | Google Docs offline access not working
 474608124 | 2026-10-27 | unrelated (title) | I am getting a message ' Google Docs is unable to open this document.' If I am the owner, why so ?
+475361314 | 2026-10-30 | unrelated (title; auto-capitalisation after quotation marks while typing) | Won't capitalize after quotation marks
+474956947 | 2026-10-30 | unrelated (title) | Is it possible to disable displaying .md files in Google Docs?
 
 ## Drafts awaiting approval
 
@@ -79,3 +81,4 @@ Replies drafted by the daily check. Nothing here is posted until Ikhwan approves
 - 2026-10-27: daily check. 4 searches loaded; 2 new threads evaluated (screened by title), unrelated; 0 drafts.
 - 2026-10-28: daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-10-29: daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
+- 2026-10-30: daily check. 4 searches loaded; 2 new threads evaluated (screened by title), unrelated; 0 drafts.
