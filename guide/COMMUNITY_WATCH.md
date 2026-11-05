@@ -41,6 +41,8 @@ Thread IDs already evaluated (locked, unrelated, or already drafted). One per li
 475430218 | 2026-10-31 | unrelated (title) | How do you you create a template that does not change when completed by an outside source?
 475859477 | 2026-11-03 | unrelated (title; Google Vids) | Google vids cannot generate from female image
 476089725 | 2026-11-04 | unrelated (title; deleting blank pages) | HI I want to delete some blank pages on my document
+475352991 | 2026-11-05 | unrelated (title; missing pages in an old file) | Old File Missing Pages
+476259811 | 2026-11-05 | unrelated (title; Google Keep feature request) | Feature Request: Hybrid Notes – Combine standard text with interactive checkboxes in a single note.
 
 ## Drafts awaiting approval
 
@@ -91,3 +93,4 @@ Replies drafted by the daily check. Nothing here is posted until Ikhwan approves
 - 2026-11-02: daily check. 4 searches loaded; 0 new threads (no Today/This week groups; all recent ones already seen); 0 drafts.
 - 2026-11-03: daily check. 4 searches loaded; 1 new thread evaluated (screened by title, 'Yesterday' group), unrelated; 0 drafts.
 - 2026-11-04: daily check. 4 searches loaded; 1 new thread evaluated (screened by title, 'Yesterday' group), unrelated; 0 drafts.
+- 2026-11-05: daily check. 4 searches loaded; 2 new threads evaluated (screened by title, 'Yesterday' group), unrelated; 0 drafts.
