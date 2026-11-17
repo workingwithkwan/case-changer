@@ -47,6 +47,9 @@ Thread IDs already evaluated (locked, unrelated, or already drafted). One per li
 476744539 | 2026-11-09 | unrelated (title; essay text disappearing) | My essay was deleting itself.
 477435240 | 2026-11-13 | unrelated (title; colouring a column by text) | Changing the color of column automatically based on text
 477701702 | 2026-11-15 | unrelated (italic formatting reversal; locked) | Making doc on Google docs with std. type-face- changed some to italic - how reverse?
+477866813 | 2026-11-17 | unrelated (title; Tab key behaviour in Sheets) | Bug: recent change in how Tab functions after writing in a Sheets cell
+477632094 | 2026-11-17 | unrelated (title; file upload) | couldn't upload file spreedsheets
+477816908 | 2026-11-17 | unrelated (title; iPhone Sheets crash) | Google Sheets app crashes and closes immediately when opening a large work file on iPhone
 
 ## Drafts awaiting approval
 
@@ -114,3 +117,4 @@ Replies drafted by the daily check. Nothing here is posted until Ikhwan approves
 - 2026-11-14: cloud daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-11-15: cloud daily check. 4 searches loaded; 1 new thread evaluated (opened), unrelated and locked; 0 drafts.
 - 2026-11-16: cloud daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
+- 2026-11-17: cloud daily check. 4 searches loaded; 3 new threads evaluated (screened by title, 'Today'/'Yesterday' groups), all unrelated; 0 drafts.
