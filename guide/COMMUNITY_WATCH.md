@@ -54,6 +54,7 @@ Thread IDs already evaluated (locked, unrelated, or already drafted). One per li
 477874305 | 2026-11-19 | unrelated (title; cannot open doc in mobile app) | Cannot open Google doc in mobile app
 478405901 | 2026-11-21 | unrelated (title; Google Vids) | AI unlimited video generation through google Vids
 478227760 | 2026-11-21 | unrelated (title; text colour) | Why can’t i change the color of the words
+479026644 | 2026-11-26 | unrelated (opened; missing document after writing it) | My doc is not there after i wrote the hole thing
 
 ## Drafts awaiting approval
 
@@ -130,3 +131,4 @@ Replies drafted by the daily check. Nothing here is posted until Ikhwan approves
 - 2026-11-23: cloud daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-11-24: cloud daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-11-25: cloud daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
+- 2026-11-26: cloud daily check. 4 searches loaded; 1 new thread evaluated (opened, 'Today' group), unrelated; 0 drafts.
