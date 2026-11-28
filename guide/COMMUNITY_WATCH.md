@@ -55,6 +55,7 @@ Thread IDs already evaluated (locked, unrelated, or already drafted). One per li
 478405901 | 2026-11-21 | unrelated (title; Google Vids) | AI unlimited video generation through google Vids
 478227760 | 2026-11-21 | unrelated (title; text colour) | Why can’t i change the color of the words
 479026644 | 2026-11-26 | unrelated (opened; missing document after writing it) | My doc is not there after i wrote the hole thing
+479358858 | 2026-11-28 | unrelated (opened; linking comma-separated cells to another tab) | Linking cells with items separated by a comma to separate cells in another tab
 
 ## Drafts awaiting approval
 
@@ -133,3 +134,4 @@ Replies drafted by the daily check. Nothing here is posted until Ikhwan approves
 - 2026-11-25: cloud daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
 - 2026-11-26: cloud daily check. 4 searches loaded; 1 new thread evaluated (opened, 'Today' group), unrelated; 0 drafts.
 - 2026-11-27: cloud daily check. 4 searches loaded; 0 new threads (all recent ones already seen); 0 drafts.
+- 2026-11-28: cloud daily check. 4 searches loaded; 1 new thread evaluated (opened, 'Today' group), unrelated; 0 drafts.
